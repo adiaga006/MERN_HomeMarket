@@ -12,6 +12,8 @@ const categorySchema = new mongoose.Schema(
     },
     cImage: {
       type: String,
+      default: null,
+
     },
     cStatus: {
       type: String,

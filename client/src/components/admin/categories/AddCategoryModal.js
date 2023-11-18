@@ -40,10 +40,10 @@ const AddCategoryModal = (props) => {
     e.preventDefault();
     e.target.reset();
 
-    if (!fData.cImage) {
-      dispatch({ type: "loading", payload: false });
-      return setFdata({ ...fData, error: "Please upload a category image" });
-    }
+    // if (!fData.cImage) {
+    //   dispatch({ type: "loading", payload: false });
+    //   return setFdata({ ...fData, error: "Please upload a category image" });
+    // }
 
     try {
       let responseData = await createCategory(fData);
