@@ -167,7 +167,7 @@ const AddCategoryModal = (props) => {
               />
             </div>
             {/* Image Field & function */}
-            <div className="flex flex-col space-y-1 w-full">
+            {/*<div className="flex flex-col space-y-1 w-full">
               <label htmlFor="name">Category Image</label>
               <input
                 accept=".jpg, .jpeg, .png"
@@ -182,7 +182,7 @@ const AddCategoryModal = (props) => {
                 className="px-4 py-2 border focus:outline-none"
                 type="file"
               />
-            </div>
+              </div>*/}
             <div className="flex flex-col space-y-1 w-full">
               <label htmlFor="status">Category Status</label>
               <select

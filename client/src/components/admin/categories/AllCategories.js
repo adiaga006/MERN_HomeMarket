@@ -79,7 +79,7 @@ const AllCategory = (props) => {
             <tr>
               <th className="px-4 py-2 border">Category</th>
               <th className="px-4 py-2 border">Description</th>
-              <th className="px-4 py-2 border">Image</th>
+            
               <th className="px-4 py-2 border">Status</th>
               <th className="px-4 py-2 border">Created at</th>
               <th className="px-4 py-2 border">Updated at</th>
@@ -135,13 +135,13 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
             ? category.cDescription.slice(0, 30) + "..."
             : category.cDescription}
         </td>
-        <td className="p-2 text-center">
+        {/*<td className="p-2 text-center">
           <img
             className="w-12 h-12 object-cover object-center"
             src={`${apiURL}/uploads/categories/${category.cImage}`}
             alt=""
           />
-        </td>
+          </td>*/}
         <td className="p-2 text-center">
           {category.cStatus === "Active" ? (
             <span className="bg-green-200 rounded-full text-center text-xs px-2 font-semibold">
