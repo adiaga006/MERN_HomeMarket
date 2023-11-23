@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      index: { unique: true },
       match: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
     },
     password: {
@@ -29,7 +30,7 @@ const userSchema = new mongoose.Schema(
       default: "user.png",
     },
     verified: {
-      type: Boolean,
+      type: String,
       default: false,
     },
     secretKey: {
@@ -39,10 +40,6 @@ const userSchema = new mongoose.Schema(
     history: {
       type: Array,
       default: [],
-    },
-    otp: {
-      type: String,
-      default: null,
     },
   },
   { timestamps: true }
