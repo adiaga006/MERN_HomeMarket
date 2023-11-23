@@ -20,7 +20,7 @@ router.get("/all-category", categoryController.getAllCategory);
 router.post(
   "/add-category",
   loginCheck,
-  upload.single("cImage"),
+  //upload.single("cImage"),
   categoryController.postAddCategory
 );
 router.post("/edit-category", loginCheck, categoryController.postEditCategory);
