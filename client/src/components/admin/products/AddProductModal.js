@@ -195,7 +195,7 @@ const AddProductDetail = ({ categories }) => {
             {/* Most Important part for uploading multiple image */}
             <div className="flex flex-col mt-4">
               <label htmlFor="image">Product Images *</label>
-              <span className="text-gray-600 text-xs">Must need 2 images</span>
+              <span className="text-gray-600 text-xs">Must need least 1 image</span>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -274,14 +274,22 @@ const AddProductDetail = ({ categories }) => {
                 <label htmlFor="quantity">Product in Stock *</label>
                 <input
                   value={fData.pQuantity}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    let newQuantity = inputValue;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputValue < 0) {
+                      newQuantity = 0;
+                    }
+
                     setFdata({
                       ...fData,
                       error: false,
                       success: false,
-                      pQuantity: e.target.value,
-                    })
-                  }
+                      pQuantity: newQuantity,
+                    });
+                  }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="quantity"

@@ -66,7 +66,7 @@ class Product {
       });
     }
     // Validate Images
-    else if (images.length !== 2) {
+    else if (images.length < 1) {
       Product.deleteImages(images, "file");
       return res.json({ error: "Must need to provide 2 images" });
     } 
@@ -140,7 +140,7 @@ class Product {
     // Validate Update Images
     else if (editImages && editImages.length == 1) {
       Product.deleteImages(editImages, "file");
-      return res.json({ error: "Must need to provide 2 images" });
+      return res.json({ error: "Must need to provide least 1 image" });
     } else {
       let editData = {
         pName,
