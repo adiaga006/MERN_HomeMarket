@@ -18,12 +18,7 @@ class Category {
     let { cName, cDescription, cStatus } = req.body;
     // let cImage = req.file.filename;
     // const filePath = `../server/public/uploads/categories/${cImage}`;
-
     if (!cName || !cDescription || !cStatus ) {
-      
-        if (err) {
-          console.log(err);
-        }
         return res.json({ error: "All filled must be required" });
      
     } else {
@@ -31,10 +26,6 @@ class Category {
       try {
         let checkCategoryExists = await categoryModel.findOne({ cName: cName });
         if (checkCategoryExists) {
-          
-            if (err) {
-              console.log(err);
-            }
             return res.json({ error: "Category already exists" });
       
         } else {
@@ -87,10 +78,6 @@ class Category {
         let deleteCategory = await categoryModel.findByIdAndDelete(cId);
         if (deleteCategory) {
           // Delete Image from uploads -> categories folder 
-          
-            if (err) {
-              console.log(err);
-            }
             return res.json({ success: "Category deleted successfully" });
          
         }

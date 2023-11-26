@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Home,
+  Shop,
   WishList,
   ProtectedRoute,
   AdminProtectedRoute,
@@ -14,6 +15,7 @@ import { DashboardAdmin, Categories, Products, Orders } from "./admin";
 import { UserProfile, UserOrders, SettingUser } from "./shop/dashboardUser";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ConfirmSignup from "./shop/auth/ConfirmSignup";
 
 /* Routing All page will be here */
 const Routes = (props) => {
@@ -22,7 +24,9 @@ const Routes = (props) => {
       <Switch>
         {/* Shop & Public Routes */}
         <Route exact path="/" component={Home} />
+        <Route exact path="/shop" component={Shop} />
         <Route exact path="/wish-list" component={WishList} />
+       // <Route exact path="/confirm-signup" component={ConfirmSignup} />
         <Route exact path="/products/:id" component={ProductDetails} />
         <Route
           exact

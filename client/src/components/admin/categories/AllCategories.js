@@ -33,7 +33,7 @@ const AllCategory = (props) => {
     if (deleteC.error) {
       console.log(deleteC.error);
     } else if (deleteC.success) {
-      console.log(deleteC.success);
+      alert(deleteC.success);
       fetchData();
     }
   };

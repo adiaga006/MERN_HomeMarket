@@ -19,7 +19,6 @@ const upload = multer({ storage: storage });
 router.get("/all-category", categoryController.getAllCategory);
 router.post(
   "/add-category",
-  loginCheck,
   //upload.single("cImage"),
   categoryController.postAddCategory
 );
