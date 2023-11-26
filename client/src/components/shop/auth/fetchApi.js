@@ -29,4 +29,12 @@ export const signupReq = async ({ name, email, password, cPassword }) => {
   }
 };
 
-
+export const confirmSignupReq = async ({ email, otp }) => {
+  const data = { email, otp };
+  try {
+    let res = await axios.post(`${apiURL}/api/confirm_signup`, data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
