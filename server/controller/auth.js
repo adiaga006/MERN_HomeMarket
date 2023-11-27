@@ -3,7 +3,37 @@ const bcrypt = require("bcryptjs");
 const userModel = require("../models/users");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const { deleteModel } = require("mongoose");
 
+function generateOTP() {
+  return crypto.randomBytes(4).toString('hex').toUpperCase();
+}
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: '20110453@student.hcmute.edu.vn',
+    pass: 'Adiagaseason1411',
+  },
+});
+
+function sendOTPEmail(email, otp) {
+  const mailOptions = {
+    from: 'Home Market',
+    to: email,
+    subject: 'OTP for Signup Verification',
+    text: `Your OTP for signup verification is: ${otp}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
 class Auth {
   async isAdmin(req, res) {
     let { loggedInUserId } = req.body;
@@ -55,51 +85,123 @@ class Auth {
         } else {
           // If Email & Number exists in Database then:
           try {
-            password = bcrypt.hashSync(password, 10);
+            console.log('Before findOne');
             const data = await userModel.findOne({ email: email });
+            console.log('After findOne', data);
+          
             if (data) {
-              error = {
-                ...error,
-                password: "",
-                name: "",
-                email: "Email already exists",
-              };
-              return res.json({ error });
-            } else {
+              if (data.verify) {
+                // User already verified
+                console.log('User already verified');
+                error = {
+                  ...error,
+                  password: "",
+                  name: "",
+                  email: "Email already exists",
+                };
+                return res.json({ error });
+              }
+          
+              // User exists but not verified, delete and recreate
+              console.log('User exists but not verified, deleting and recreating');
+              await userModel.deleteOne({ email: email });
+          
+              const otp = generateOTP();
+              const hashedPassword = bcrypt.hashSync(password, 10);
+          
+              // Create new user with new OTP
               let newUser = new userModel({
                 name,
                 email,
-                password,
-                // ========= Here role 1 for admin signup role 0 for customer signup =========
-                userRole: 0, // Field Name change to userRole from role
+                password: hashedPassword,
+                otp,
+                userRole: 0,
               });
-              newUser
-                .save()
-                .then((data) => {
-                  return res.json({
-                    success: "Account create successfully. Please login",
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
+          
+              try {
+                // Save new user to the database
+                const savedUser = await newUser.save();
+          
+                // Send OTP email
+                sendOTPEmail(email, otp);
+          
+                console.log('Account created successfully. Please confirm OTP to verify account');
+                return res.json({
+                  success: "Account created successfully. Please confirm OTP to verify account",
+                  user: savedUser,
                 });
+              } catch (err) {
+                console.log('Error during user save:', err);
+                return res.json({ error: "An error occurred during signup. Please try again." });
+              }
+            }
+          
+            // User does not exist, create new user
+            console.log('User does not exist, creating new user');
+            const otp = generateOTP();
+            const hashedPassword = bcrypt.hashSync(password, 10);
+          
+            let newUser = new userModel({
+              name,
+              email,
+              password: hashedPassword,
+              otp,
+              userRole: 0,
+            });
+          
+            try {
+              // Save new user to the database
+              const savedUser = await newUser.save();
+          
+              // Send OTP email
+              sendOTPEmail(email, otp);
+          
+              console.log('Account created successfully. Please confirm OTP to verify account');
+              return res.json({
+                success: "Account created successfully. Please confirm OTP to verify account",
+                user: savedUser,
+              });
+            } catch (err) {
+              console.log('Error during user save:', err);
+              return res.json({ error: "An error occurred during signup. Please try again." });
             }
           } catch (err) {
-            console.log(err);
+            console.log('Error during findOne:', err);
+            return res.json({ error: "An error occurred during signup. Please try again." });
           }
         }
-      } else {
-        error = {
-          ...error,
-          password: "",
-          name: "",
-          email: "Email is not valid",
-        };
-        return res.json({ error });
-      }
+      }          
     }
   }
-
+  async confirmSignup(req, res) {
+    const { email, otp } = req.body;
+  
+    try {
+      // Truy xuất thông tin người dùng từ cơ sở dữ liệu bằng email
+      const user = await userModel.findOne({ email });
+  
+      // Kiểm tra xem người dùng có tồn tại và OTP khớp không
+      if (user) {
+        if(user.otp==otp){
+        // Nếu OTP khớp, đặt trạng thái đã xác minh và đặt lại OTP
+        user.verified = true;
+        user.otp = null; // Hoặc bạn có thể xóa OTP khỏi cơ sở dữ liệu
+        await user.save();
+  
+        return res.json({
+          success: 'Tài khoản đã được xác minh và tạo thành công. Vui lòng đăng nhập.',
+        });}
+        else {
+          return res.json({ error: 'OTP không hợp lệ. Vui lòng thử lại.' });
+        }
+      } else {
+        return res.json({ error: 'Không tìm thấy người dùng.' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.json({ error: 'Có lỗi xảy ra trong quá trình xác minh. Vui lòng thử lại.' });
+    }
+  }
   /* User Login/Signin controller  */
   async postSignin(req, res) {
     let { email, password } = req.body;
@@ -114,7 +216,11 @@ class Auth {
         return res.json({
           error: "Invalid email or password",
         });
-      } else {
+      } 
+      if (!data.verified) {
+        return res.json({ error: "Account not verified. Please signup again and check your email for OTP." });
+      }
+      else {
         const login = await bcrypt.compare(password, data.password);
         if (login) {
           const token = jwt.sign(
@@ -123,6 +229,7 @@ class Auth {
           );
           const encode = jwt.verify(token, JWT_SECRET);
           return res.json({
+            success: 'Đăng nhập thành công.',
             token: token,
             user: encode,
           });
@@ -131,6 +238,7 @@ class Auth {
             error: "Invalid email or password",
           });
         }
+
       }
     } catch (err) {
       console.log(err);
