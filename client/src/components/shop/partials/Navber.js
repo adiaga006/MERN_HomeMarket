@@ -35,7 +35,7 @@ const Navber = (props) => {
           <div className="hidden lg:block col-span-1 flex text-gray-600 mt-1">
             <span
               className="hover:bg-gray-200 px-4 py-3 rounded-lg font-light tracking-widest hover:text-gray-800 cursor-pointer"
-              onClick={(e) => history.push("/")}
+              onClick={(e) => history.push("/shop")}
             >
               Shop
             </span>
@@ -368,7 +368,7 @@ const Navber = (props) => {
           <div className="col-span-1 flex flex-col text-gray-600">
             <span
               className="font-medium text-lg tracking-widest hover:text-gray-800 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer"
-              onClick={(e) => history.push("/")}
+              onClick={(e) => history.push("/shop")}
             >
               Shop
             </span>

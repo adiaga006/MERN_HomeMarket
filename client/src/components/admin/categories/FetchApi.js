@@ -27,16 +27,18 @@ export const createCategory = async ({
   cDescription,
   cStatus,
 }) => {
-  let formData = new FormData();
-  formData.append("cName", cName);
-  formData.append("cDescription", cDescription);
-  formData.append("cStatus", cStatus);
-
   try {
     let res = await axios.post(
       `${apiURL}/api/category/add-category`,
-      formData,
-      Headers()
+      {
+        cName,
+        cDescription,
+        cStatus
+      },
+      {
+        ...Headers(),
+        'content-type': 'application/json'
+      }
     );
     return res.data;
   } catch (error) {

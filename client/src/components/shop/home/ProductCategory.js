@@ -4,7 +4,6 @@ import { HomeContext } from "./index";
 
 const ProductCategory = (props) => {
   const { data, dispatch } = useContext(HomeContext);
-
   return (
     <Fragment>
       <div className="flex justify-between font-medium">
