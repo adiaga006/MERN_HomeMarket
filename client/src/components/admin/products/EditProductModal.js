@@ -315,14 +315,22 @@ const EditProductModal = (props) => {
                 <label htmlFor="quantity">Product in Stock *</label>
                 <input
                   value={editformData.pQuantity}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    let newQuantity = inputValue;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputValue < 0) {
+                      newQuantity = 0;
+                    }
+
                     setEditformdata({
                       ...editformData,
                       error: false,
                       success: false,
-                      pQuantity: e.target.value,
-                    })
-                  }
+                      pQuantity: newQuantity,
+                    });
+                  }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="quantity"
@@ -352,7 +360,7 @@ const EditProductModal = (props) => {
                 type="submit"
                 className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
               >
-                Update product
+                Update Product
               </button>
             </div>
           </form>

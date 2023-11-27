@@ -212,7 +212,7 @@ const AddCategoryModal = (props) => {
                 type="submit"
                 className="bg-gray-800 text-gray-100 rounded-full text-lg font-medium py-2"
               >
-                Create category
+                Create Category
               </button>
             </div>
           </form>
