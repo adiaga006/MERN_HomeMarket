@@ -28,3 +28,5 @@ export const signupReq = async ({ name, email, password, cPassword }) => {
     console.log(error);
   }
 };
+
+

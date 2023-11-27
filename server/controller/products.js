@@ -68,8 +68,13 @@ class Product {
     // Validate Images
     else if (images.length < 1) {
       Product.deleteImages(images, "file");
-      return res.json({ error: "Must need to provide least 1 image" });
-    } else {
+      return res.json({ error: "Must need to provide 2 images" });
+    } 
+     // Validate Stock
+    else if (isNaN(pQuantity) || pQuantity < 0) {
+      Product.deleteImages(images, "file");
+      return res.json({ error: "Quantity must be a non-negative number" });
+    }else {
       try {
         let allImages = [];
         for (const img of images) {
@@ -121,6 +126,10 @@ class Product {
       !pStatus
     ) {
       return res.json({ error: "All filled must be required" });
+    }
+    // Validate Stock
+    else if (isNaN(pQuantity) || pQuantity < 0) {
+      return res.json({ error: "Quantity must be a non-negative number" });
     }
     // Validate Name and description
     else if (pName.length > 255 || pDescription.length > 3000) {

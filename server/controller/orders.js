@@ -1,5 +1,5 @@
 const orderModel = require("../models/orders");
-
+const productModel=require("../models/products");
 class Order {
   async getAllOrders(req, res) {
     try {
@@ -57,10 +57,28 @@ class Order {
           address,
           phone,
         });
-        let save = await newOrder.save();
-        if (save) {
-          return res.json({ success: "Order created successfully" });
-        }
+        // let save = await newOrder.save();
+        //if (save) {
+          for (const productInfo of allProduct) {
+            const { id, quantitiy } = productInfo;
+            try {
+              // Tìm sản phẩm theo ID và cập nhật số lượng
+              const updatedProduct = await productModel.findByIdAndUpdate(
+                id,
+                { $inc: { pQuantity: -quantitiy, pSold: quantitiy } },
+                { new: true }
+                );
+              if (!updatedProduct) {
+                return res.json({ error: "Product not found" });
+              }
+            } catch (error) {
+              return res.json({ error: error.message || "Failed to update product quantity" });
+            }
+          }
+          let save = await newOrder.save();
+          if(save){
+          return res.json({ success: "Order created successfully" });}
+       // }
       } catch (err) {
         return res.json({ error: error });
       }
