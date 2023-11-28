@@ -38,3 +38,24 @@ export const confirmSignupReq = async ({ email, otp }) => {
     console.log(error);
   }
 };
+//${apiURL}/api/confirm_signup
+
+export const resetPasswordAfterOtp = async (email, otp, newPassword) => {
+  const data = { email, otp, newPassword };
+
+  try {
+    let res = await axios.post(`${apiURL}/api/ResetPass`, data);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const sendOtpForResetPassword = async (email) => {
+  const data = { email};
+  try {
+    let response = await axios.post(`${apiURL}/api/OtpResetPass`, data);
+      return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

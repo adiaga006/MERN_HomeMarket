@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useContext } from "react";
 import { loginReq } from "./fetchApi";
 import { LayoutContext } from "../index";
+import PasswordReset from "./PasswordReset";
 
 const Login = (props) => {
   const { data: layoutData, dispatch: layoutDispatch } = useContext(
@@ -12,6 +13,7 @@ const Login = (props) => {
     password: "",
     error: false,
     loading: true,
+    showPasswordReset: false,
   });
 
   const alert = (msg) => <div className="text-xs text-red-500">{msg}</div>;
@@ -39,6 +41,13 @@ const Login = (props) => {
       console.log(error);
     }
   };
+  const handleLostPassword = () => {
+    setData({ ...data, showPasswordReset: true });
+  };
+
+  const handleResetSuccess = () => {
+    setData({ ...data, showPasswordReset: false });
+  };
 
   return (
     <Fragment>
@@ -50,6 +59,9 @@ const Login = (props) => {
       ) : (
         ""
       )}
+      {data.showPasswordReset ? (
+        <PasswordReset onResetSuccess={handleResetSuccess} />
+      ) : (
       <form className="space-y-4">
         <div className="flex flex-col">
           <label htmlFor="name">
@@ -99,9 +111,11 @@ const Login = (props) => {
               Remember me<span className="text-sm text-gray-600">*</span>
             </label>
           </div>
-          <a className="block text-gray-600" href="/">
-            Lost your password?
-          </a>
+
+          <button onClick={handleLostPassword} className="block text-gray-600">
+              Lost your password?
+            </button>
+
         </div>
         <div
           onClick={(e) => formSubmit()}
@@ -111,6 +125,7 @@ const Login = (props) => {
           Login
         </div>
       </form>
+      )}
     </Fragment>
   );
 };
