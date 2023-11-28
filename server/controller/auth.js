@@ -77,7 +77,7 @@ class Auth {
         if ((password.length > 255) | (password.length < 8)) {
           error = {
             ...error,
-            password: "Password must be 8 charecter",
+            password: "Password must be greater than 8 characters and less than 255 characters",
             name: "",
             email: "",
           };
@@ -238,10 +238,68 @@ class Auth {
             error: "Invalid email or password",
           });
         }
-
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+  async resetPasswordAfterOtp(req, res) {
+    let { email, otp, newPassword } = req.body;
+    try {
+      // Tìm người dùng trong cơ sở dữ liệu
+      const user = await userModel.findOne({ email });
+  
+      // Kiểm tra xem người dùng tồn tại và mã OTP khớp không
+      if (user && user.verified) {
+        if (user.otp === otp) {
+          // Đặt mật khẩu mới
+          const hashedPassword = bcrypt.hashSync(newPassword, 10);
+          user.password = hashedPassword;
+  
+          // Xóa mã OTP sau khi đã sử dụng
+          user.otp = null;
+  
+          // Lưu người dùng vào cơ sở dữ liệu
+          await user.save();
+  
+          return res.json({ success: 'Password has been reset successfully.' });
+        } else {
+          return res.json({ error: 'Invalid OTP. Please try again.' });
+        }
+      } else {
+        return res.json({ error: 'Email chưa được đăng kí hoặc tài khoản chưa được xác minh.' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.json({ error: 'An error occurred while processing your request. Please try again.' });
+    }
+  }
+  
+  // Hàm để gửi mã OTP để đặt lại mật khẩu
+  async sendOtpForResetPassword(req, res) {
+    let { email } = req.body;
+    try {
+      // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+      const user = await userModel.findOne({ email });
+  
+      if (user) {
+        // Tạo mã OTP mới
+        const otp = generateOTP();
+  
+        // Lưu mã OTP vào cơ sở dữ liệu
+        user.otp = otp;
+        await user.save();
+  
+        // Gửi email chứa mã OTP
+        sendOTPEmail(email, otp);
+  
+        return res.json({ success: 'OTP has been sent to your email. Please check your inbox.' });
+      } else {
+        return res.json({ error: 'Email not found. Please check your email address.' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.json({ error: 'An error occurred while processing your request. Please try again.' });
     }
   }
 }
