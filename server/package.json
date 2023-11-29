@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/adiaga006/MERN_HomeMarket",
   "dependencies": {
+    "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "braintree": "^3.19.0",
     "cookie-parser": "^1.4.5",

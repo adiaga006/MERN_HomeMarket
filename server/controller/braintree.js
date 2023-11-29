@@ -1,6 +1,7 @@
 const braintree = require('braintree');
 require("dotenv").config();
 
+
 const gateway = new braintree.BraintreeGateway({
 	environment: braintree.Environment.Sandbox,
 	merchantId: process.env.BRAINTREE_MERCHANT_ID,
@@ -9,39 +10,45 @@ const gateway = new braintree.BraintreeGateway({
 });
 
 class brainTree {
-  ganerateToken(req, res) {
-    gateway.clientToken.generate({}, (err, response) => {
-      if (err) {
-        return res.json(err);
-      }
+  async ganerateToken(req, res) {
+    try {
+      const response = await gateway.clientToken.generate({});
       return res.json(response);
-    });
+    } catch (err) {
+      return res.json(err);
+    }
   }
 
-  paymentProcess(req, res) {
-    let { amountTotal, paymentMethod } = req.body;
-    gateway.transaction.sale(
-      {
-        amount: amountTotal,
+  async paymentProcess(req, res) {
+    try {
+      const { amountTotal, paymentMethod } = req.body;
+
+      // Get the current exchange rate from USD to VND
+      const usdToVndRate = 24.27;
+
+      // Convert the amount to VND using the dynamic exchange rate
+      const usdAmount = (amountTotal / usdToVndRate).toFixed(2);
+
+      // Make the payment transaction
+      const result = await gateway.transaction.sale({
+        amount: usdAmount,
         paymentMethodNonce: paymentMethod,
         options: {
           submitForSettlement: true,
         },
-      },
-      (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.json(err);
-        }
+      });
 
-        if (result.success) {
-          console.log("Transaction ID: " + result.transaction.id);
-          return res.json(result);
-        } else {
-          console.error(result.message);
-        }
+      if (result.success) {
+        console.log("Transaction ID: " + result.transaction.id);
+        return res.json(result);
+      } else {
+        console.error(result.message);
+        return res.json(result);
       }
-    );
+    } catch (err) {
+      console.error(err);
+      return res.json(err);
+    }
   }
 }
 
