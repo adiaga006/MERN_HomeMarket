@@ -23,6 +23,10 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+//swagger
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDocs = require("swagger-jsdoc");
+
 
 // Import Router
 const authRouter = require("./routes/auth");
@@ -61,6 +65,25 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//swagger route
+const path = require("path");
+const swaggerSpec={
+  definition:{
+    openapi:"3.0.0",
+    infor:{
+        title: "Home Market API",
+        version: "1.0.0"
+    },
+    servers:[
+      {
+      url: "http://localhost:8000" ,
+    }
+  ]
+  },
+  apis: [`${path.join(__dirname,"./routes/*.js")}`],
+};
+app.use("/api-doc",swaggerUI.serve,swaggerUI.setup(swaggerJsDocs(swaggerSpec)));
+
 // Routes
 app.use("/api", authRouter);
 app.use("/api/user", usersRouter);
@@ -73,5 +96,5 @@ app.use("/api/customize", customizeRouter);
 // Run Server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log("Server is running on ", PORT);
+  console.log("Server is running on ", PORT)
 });

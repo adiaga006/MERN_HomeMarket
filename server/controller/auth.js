@@ -170,7 +170,11 @@ class Auth {
             return res.json({ error: "An error occurred during signup. Please try again." });
           }
         }
-      }          
+      }      
+      else if (!validateEmail(email)){
+        error = { ...error, name: "Email is not in correct format"};
+      return res.json({ error });
+      }    
     }
   }
   async confirmSignup(req, res) {
@@ -189,17 +193,17 @@ class Auth {
         await user.save();
   
         return res.json({
-          success: 'Tài khoản đã được xác minh và tạo thành công. Vui lòng đăng nhập.',
+          success: 'The account has been verified and created successfully.Please Login.',
         });}
         else {
-          return res.json({ error: 'OTP không hợp lệ. Vui lòng thử lại.' });
+          return res.json({ error: 'OTP is not valid. Please try again.' });
         }
       } else {
-        return res.json({ error: 'Không tìm thấy người dùng.' });
+        return res.json({ error: 'User not found.' });
       }
     } catch (error) {
       console.error(error);
-      return res.json({ error: 'Có lỗi xảy ra trong quá trình xác minh. Vui lòng thử lại.' });
+      return res.json({ error: 'An error occurred during signup. Please try again.' });
     }
   }
   /* User Login/Signin controller  */
