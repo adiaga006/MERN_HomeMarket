@@ -30,7 +30,6 @@ export const CheckoutComponent = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   if (data.loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -122,6 +121,9 @@ export const CheckoutComponent = (props) => {
                     }}
                     onInstance={(instance) => (state.instance = instance)}
                   />
+                  <div className="font-semibold text-gray-600 text-sm mb-4">
+                    Total Cost: {totalCost()}.000 VND
+                  </div>
                   <div
                     onClick={(e) =>
                       pay(
@@ -131,7 +133,7 @@ export const CheckoutComponent = (props) => {
                         setState,
                         getPaymentProcess,
                         totalCost,
-                        history
+                        history,
                       )
                     }
                     className="w-full px-4 py-2 text-center text-white font-semibold cursor-pointer"
