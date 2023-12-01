@@ -36,7 +36,7 @@ const AdminNavber = (props) => {
         {/*  Large Screen Show  */}
         <div className="hidden lg:block">
           <span
-            onClick={(e) => history.push("/admin/dashboard")}
+            onClick={(e) => history.push("/shop")}
             style={{ letterSpacing: "0rem" }}
             className="flex items-left text-center font-bold uppercase text-gray-800 text-2xl cursor-pointer px-2 text-center"
           >
@@ -61,7 +61,7 @@ const AdminNavber = (props) => {
             />
           </svg>
           <span
-            onClick={(e) => history.push("/admin/dashboard")}
+            onClick={(e) => history.push("/shop")}
             style={{ letterSpacing: "0rem" }}
             className="flex items-left text-center font-bold uppercase text-gray-800 text-2xl cursor-pointer px-2 text-center"
           >
