@@ -46,44 +46,39 @@ class Product {
   
 
   async postAddProduct(req, res) {
-    let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } =
-      req.body;
+    let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
     let images = req.files;
+  
     // Validation
-    if (
-      !pName |
-      !pDescription |
-      !pPrice |
-      !pQuantity |
-      !pCategory |
-      !pOffer |
-      !pStatus
-    ) {
+    if (!pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
       Product.deleteImages(images, "file");
-      return res.json({ error: "All filled must be required" });
-    }
-    // Validate Name and description
-    else if (pName.length > 255 || pDescription.length > 3000) {
+      return res.json({ error: "All fields must be required" });
+    } else if (pName.length > 255 || pDescription.length > 3000) {
       Product.deleteImages(images, "file");
       return res.json({
-        error: "Name 255 & Description must not be 3000 charecter long",
+        error: "Name 255 & Description must not be 3000 characters long",
       });
-    }
-    // Validate Images
-    else if (images.length < 1) {
+    } else if (images.length < 1) {
       Product.deleteImages(images, "file");
       return res.json({ error: "Must need to provide 2 images" });
-    } 
-     // Validate Stock
-    else if (isNaN(pQuantity) || pQuantity < 0) {
+    } else if (isNaN(pQuantity) || pQuantity < 0) {
       Product.deleteImages(images, "file");
       return res.json({ error: "Quantity must be a non-negative number" });
-    }else {
+    } else {
       try {
+        // Kiểm tra trùng tên
+        const existingProduct = await productModel.findOne({
+          pName: { $regex: new RegExp("^" + pName + "$", "i") } });
+        if (existingProduct) {
+          Product.deleteImages(images, "file");
+          return res.json({ error: "Product with the same name already exists" });
+        }
+  
         let allImages = [];
         for (const img of images) {
           allImages.push(img.filename);
         }
+  
         let newProduct = new productModel({
           pImages: allImages,
           pName,
@@ -94,16 +89,18 @@ class Product {
           pOffer,
           pStatus,
         });
+  
         let save = await newProduct.save();
         if (save) {
           return res.json({ success: "Product created successfully" });
         }
       } catch (err) {
         console.log(err);
+        return res.json({ error: "An error occurred while saving the product" });
       }
     }
   }
-
+  
   async postEditProduct(req, res) {
     let {
       pId,
@@ -117,34 +114,19 @@ class Product {
       pImages,
     } = req.body;
     let editImages = req.files;
-
-    // Validate other fileds
-    if (
-      !pId |
-      !pName |
-      !pDescription |
-      !pPrice |
-      !pQuantity |
-      !pCategory |
-      !pOffer |
-      !pStatus
-    ) {
-      return res.json({ error: "All filled must be required" });
-    }
-    // Validate Stock
-    else if (isNaN(pQuantity) || pQuantity < 0) {
+  
+    // Validate other fields
+    if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
+      return res.json({ error: "All fields must be required" });
+    } else if (isNaN(pQuantity) || pQuantity < 0) {
       return res.json({ error: "Quantity must be a non-negative number" });
-    }
-    // Validate Name and description
-    else if (pName.length > 255 || pDescription.length > 3000) {
+    } else if (pName.length > 255 || pDescription.length > 3000) {
       return res.json({
-        error: "Name 255 & Description must not be 3000 charecter long",
+        error: "Name 255 & Description must not be 3000 characters long",
       });
-    }
-    // Validate Update Images
-    else if (editImages && editImages.length == 1) {
+    } else if (editImages && editImages.length == 1) {
       Product.deleteImages(editImages, "file");
-      return res.json({ error: "Must need to provide least 1 image" });
+      return res.json({ error: "Must need to provide at least 1 image" });
     } else {
       let editData = {
         pName,
@@ -155,6 +137,7 @@ class Product {
         pOffer,
         pStatus,
       };
+  
       if (editImages.length == 2) {
         let allEditImages = [];
         for (const img of editImages) {
@@ -163,26 +146,50 @@ class Product {
         editData = { ...editData, pImages: allEditImages };
         Product.deleteImages(pImages.split(","), "string");
       }
+  
       try {
+        // Kiểm tra trùng tên (ngoại trừ sản phẩm đang cập nhật)
+        const existingProduct = await productModel.findOne({ 
+          pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
+        if (existingProduct) {
+          return res.json({ error: "Product with the same name already exists" });
+        }
+  
         let editProduct = productModel.findByIdAndUpdate(pId, editData);
         editProduct.exec((err) => {
           if (err) console.log(err);
-          return res.json({ success: "Product edit successfully" });
+          return res.json({ success: "Product edited successfully" });
         });
       } catch (err) {
         console.log(err);
+        return res.json({ error: "An error occurred while editing the product" });
       }
     }
   }
+  
 
   async getDeleteProduct(req, res) {
     let { pId } = req.body;
     if (!pId) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let deleteProductObj = await productModel.findById(pId);
-        let deleteProduct = await productModel.findByIdAndUpdate(pId, { deleted: true });
+        
+        // Lấy tên sản phẩm
+        let productName = deleteProductObj.pName;
+  
+        // Thực hiện cập nhật xóa mềm và đặt lại tên sản phẩm và quantity
+        let deleteProduct = await productModel.findByIdAndUpdate(
+          pId,
+          { 
+            deleted: true,
+            pName: `${productName} (The product is not available)`,
+            pQuantity: 0
+          },
+          { new: true } // Trả về bản ghi đã được cập nhật
+        );
+  
         if (deleteProduct) {
           // Delete Image from uploads -> products folder
           Product.deleteImages(deleteProductObj.pImages, "string");
@@ -190,9 +197,11 @@ class Product {
         }
       } catch (err) {
         console.log(err);
+        return res.json({ error: "An error occurred while deleting the product" });
       }
     }
   }
+  
 
   async getSingleProduct(req, res) {
     let { pId } = req.body;
