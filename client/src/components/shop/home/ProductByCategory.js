@@ -15,7 +15,7 @@ const Submenu = ({ category }) => {
           <div className="text-sm flex space-x-3">
             <span
               className="hover:text-yellow-700 cursor-pointer"
-              onClick={(e) => history.push("/")}
+              onClick={(e) => history.push("/shop")}
             >
               Shop
             </span>

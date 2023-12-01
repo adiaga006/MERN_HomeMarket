@@ -29,17 +29,21 @@ class Product {
 
   async getAllProduct(req, res) {
     try {
+      // Chỉ hiển thị sản phẩm chưa bị xóa mềm
       let Products = await productModel
-        .find({})
+        .find({ deleted: false })  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
+  
       if (Products) {
         return res.json({ Products });
       }
     } catch (err) {
       console.log(err);
+      return res.json({ error: "An error occurred while fetching products" });
     }
   }
+  
 
   async postAddProduct(req, res) {
     let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } =
@@ -178,7 +182,7 @@ class Product {
     } else {
       try {
         let deleteProductObj = await productModel.findById(pId);
-        let deleteProduct = await productModel.findByIdAndDelete(pId);
+        let deleteProduct = await productModel.findByIdAndUpdate(pId, { deleted: true });
         if (deleteProduct) {
           // Delete Image from uploads -> products folder
           Product.deleteImages(deleteProductObj.pImages, "string");
@@ -216,7 +220,7 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pCategory: catId })
+          .find({ pCategory: catId, deleted: false })
           .populate("pCategory", "cName");
         if (products) {
           return res.json({ Products: products });
@@ -234,7 +238,7 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pPrice: { $lte: price } })
+          .find({ pPrice: { $lte: price } , deleted: false})
           .populate("pCategory", "cName")
           .sort({ pPrice: -1 });
         if (products) {
