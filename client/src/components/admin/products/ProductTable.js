@@ -10,12 +10,21 @@ const AllProduct = (props) => {
   const { products } = data;
 
   const [loading, setLoading] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }, [currentPage]);
+let currentProducts = [];
+if (products) {
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+}
   const fetchData = async () => {
     setLoading(true);
     let responseData = await getAllProduct();
@@ -49,6 +58,8 @@ const AllProduct = (props) => {
       });
     }
   };
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
     return (
@@ -90,31 +101,42 @@ const AllProduct = (props) => {
             </tr>
           </thead>
           <tbody>
-            {products && products.length > 0 ? (
-              products.map((item, key) => {
-                return (
-                  <ProductTable
-                    product={item}
-                    editProduct={(pId, product, type) =>
-                      editProduct(pId, product, type)
-                    }
-                    deleteProduct={(pId) => deleteProductReq(pId)}
-                    key={key}
-                  />
-                );
-              })
-            ) : (
-              <tr>
-                <td
-                  colSpan="10"
-                  className="text-xl text-center font-semibold py-8"
-                >
-                  No product found
-                </td>
-              </tr>
-            )}
+          {currentProducts && currentProducts.length > 0 ? (
+            currentProducts.map((item, key) => (
+              <ProductTable
+                product={item}
+                editProduct={(pId, product, type) =>
+                  editProduct(pId, product, type)
+                }
+                deleteProduct={(pId) => deleteProductReq(pId)}
+                key={key}
+              />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="10" className="text-xl text-center font-semibold py-8">
+                No product found
+              </td>
+            </tr>
+          )}
           </tbody>
         </table>
+        {/* Pagination and total products info */}
+        <div className="flex justify-center mt-4">
+          {Array.from({
+            length: Math.ceil(products?.length / productsPerPage),
+          }).map((_, index) => (
+            <button
+              key={index}
+              className={`mx-1 px-3 py-1 rounded-lg ${
+                currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         <div className="text-sm text-gray-600 mt-2">
           Total {products && products.length} product found
         </div>

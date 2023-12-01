@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect ,useState } from "react";
 import { getAllCategory, deleteCategory } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
@@ -8,11 +8,13 @@ const apiURL = process.env.REACT_APP_API_URL;
 const AllCategory = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
   const { categories, loading } = data;
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoriesPerPage = 10;
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
@@ -49,7 +51,14 @@ const AllCategory = (props) => {
       });
     }
   };
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(
+    indexOfFirstCategory,
+    indexOfLastCategory
+  );
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -73,7 +82,7 @@ const AllCategory = (props) => {
 
   return (
     <Fragment>
-      <div className="col-span-1 overflow-auto bg-white shadow-lg p-4">
+      <div className="col-span-1 custom-width-class overflow-auto bg-white shadow-lg p-4">
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
@@ -87,9 +96,9 @@ const AllCategory = (props) => {
             </tr>
           </thead>
           <tbody>
-            {categories && categories.length > 0 ? (
-              categories.map((item, key) => {
-                return (
+          {currentCategories && currentCategories.length > 0 ? (
+            currentCategories.map((item, key) => {
+              return (
                   <CategoryTable
                     category={item}
                     editCat={(cId, type, des, status) =>
@@ -111,6 +120,18 @@ const AllCategory = (props) => {
               </tr>
             )}
           </tbody>
+          {/* Pagination */}
+      <div className="flex justify-center mt-4">
+      {Array.from({ length: Math.ceil(categories.length / categoriesPerPage) }).map((_, index) => (
+        <button
+          key={index}
+          className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          onClick={() => paginate(index + 1)}
+        >
+          {index + 1}
+        </button>
+      ))}
+    </div>
         </table>
         <div className="text-sm text-gray-600 mt-2">
           Total {categories && categories.length} category found

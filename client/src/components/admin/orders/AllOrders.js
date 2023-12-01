@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect,useState } from "react";
 import moment from "moment";
 
 import { OrderContext } from "./index";
@@ -6,15 +6,27 @@ import { fetchData, editOrderReq, deleteOrderReq } from "./Actions";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
-const AllCategory = (props) => {
+const AllOrders = (props) => {
   const { data, dispatch } = useContext(OrderContext);
   const { orders, loading } = data;
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 6;
   useEffect(() => {
     fetchData(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const deleteOrderReq = async (oId) => {
+    // Your deleteOrderReq function remains the same
+  };
 
+  const editOrderReq = async (oId, type, status) => {
+    // Your editOrderReq function remains the same
+  };
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -55,30 +67,42 @@ const AllCategory = (props) => {
             </tr>
           </thead>
           <tbody>
-            {orders && orders.length > 0 ? (
-              orders.map((item, i) => {
-                return (
-                  <CategoryTable
-                    key={i}
-                    order={item}
-                    editOrder={(oId, type, status) =>
-                      editOrderReq(oId, type, status, dispatch)
-                    }
-                  />
-                );
-              })
-            ) : (
-              <tr>
-                <td
-                  colSpan="12"
-                  className="text-xl text-center font-semibold py-8"
-                >
-                  No order found
-                </td>
-              </tr>
-            )}
+          {currentOrders && currentOrders.length > 0 ? (
+            currentOrders.map((item, i) => {
+              return (
+                <CategoryTable
+                  key={i}
+                  order={item}
+                  editOrder={(oId, type, status) =>
+                    editOrderReq(oId, type, status, dispatch)
+                  }
+                />
+              );
+            })
+          ) : (
+            <tr>
+              <td
+                colSpan="12"
+                className="text-xl text-center font-semibold py-8"
+              >
+                No order found
+              </td>
+            </tr>
+          )}
           </tbody>
         </table>
+         {/* Pagination */}
+         <div className="flex justify-center mt-4">
+         {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }).map((_, index) => (
+           <button
+             key={index}
+             className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+             onClick={() => paginate(index + 1)}
+           >
+             {index + 1}
+           </button>
+         ))}
+       </div>
         <div className="text-sm text-gray-600 mt-2">
           Total {orders && orders.length} order found
         </div>
@@ -198,4 +222,4 @@ const CategoryTable = ({ order, editOrder }) => {
   );
 };
 
-export default AllCategory;
+export default AllOrders;
