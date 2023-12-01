@@ -2,6 +2,7 @@ const productModel = require("../models/products");
 const fs = require("fs");
 const path = require("path");
 
+
 class Product {
   // Delete Image from uploads -> products folder
   static deleteImages(images, mode) {
@@ -66,6 +67,7 @@ class Product {
       return res.json({ error: "Quantity must be a non-negative number" });
     } else {
       try {
+        pName=pName.trimEnd();
         // Kiểm tra trùng tên
         const existingProduct = await productModel.findOne({
           pName: { $regex: new RegExp("^" + pName + "$", "i") } });
@@ -148,6 +150,7 @@ class Product {
       }
   
       try {
+        pName=pName.trimEnd();
         // Kiểm tra trùng tên (ngoại trừ sản phẩm đang cập nhật)
         const existingProduct = await productModel.findOne({ 
           pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
