@@ -69,14 +69,14 @@ const Navber = (props) => {
               />
             </svg>
             <span
-            onClick={(e) => history.push("/shop")}
+            onClick={(e) => history.push("/")}
             className="flex items-left text-center font-bold uppercase text-green-500 text-2xl cursor-pointer px-2 text-center"
           >
             Home Market
           </span>
           </div>
           <div
-            onClick={(e) => history.push("/shop")}
+            onClick={(e) => history.push("/")}
             style={{ letterSpacing: "0rem" }}
             className="hidden lg:block flex items-left col-span-1 text-center text-green-500 font-bold tracking-widest uppercase text-2xl cursor-pointer"
           >
