@@ -23,7 +23,9 @@ export const CheckoutComponent = (props) => {
     clientToken: null,
     instance: {},
   });
+  const [paymentError, setPaymentError] = useState("");
 
+  
   useEffect(() => {
     fetchData(cartListProduct, dispatch);
     fetchbrainTree(getBrainTreeToken, setState);
@@ -32,6 +34,7 @@ export const CheckoutComponent = (props) => {
   }, []);
   if (data.loading) {
     return (
+      
       <div className="flex items-center justify-center h-screen">
         <svg
           className="w-12 h-12 animate-spin text-gray-600"
@@ -124,6 +127,11 @@ export const CheckoutComponent = (props) => {
                   <div className="font-semibold text-gray-600 text-sm mb-4">
                     Total Cost: {totalCost()}.000 VND
                   </div>
+                  {paymentError && (
+                    <div className="bg-red-200 py-2 px-4 rounded mb-4">
+                      {paymentError}
+                    </div>
+                  )}
                   <div
                     onClick={(e) =>
                       pay(

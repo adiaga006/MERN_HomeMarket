@@ -77,20 +77,30 @@ export const pay = async (
                   dispatch({ type: "loading", payload: false });
                   return history.push("/");
                 } else if (resposeData.error) {
+                  alert(resposeData.error); // Thông báo lỗi
                   console.log(resposeData.error);
                 }
               } catch (error) {
+                alert("Failed to create order"); // Thông báo lỗi
+                setState({ ...state, error: "Failed to create order" });
                 console.log(error);
               }
             }
           })
           .catch((err) => {
+            setState({ ...state, error: "Failed to process payment" });
+            alert("Failed to create order"); // Thông báo lỗi
             console.log(err);
+          })
+          .finally(() => {
+            dispatch({ type: "loading", payload: false });
           });
       })
       .catch((error) => {
+        alert(error.message); // Thông báo lỗi
         console.log(error);
         setState({ ...state, error: error.message });
+        dispatch({ type: "loading", payload: false });
       });
   }
 };

@@ -38,17 +38,41 @@ class Order {
 
   async postCreateOrder(req, res) {
     let { allProduct, user, amount, transactionId, address, phone } = req.body;
-    if (
-      !allProduct ||
-      !user ||
-      !amount ||
-      !transactionId ||
-      !address ||
-      !phone
-    ) {
-      return res.json({ message: "All filled must be required" });
+  
+    if (!allProduct || !user || !amount || !transactionId || !address || !phone) {
+      return res.json({ message: "All fields must be required" });
+      
     } else {
       try {
+        const outOfStockProducts = [];
+      
+        // Kiểm tra số lượng sản phẩm trong kho trước khi tạo đơn hàng
+        for (const productInfo of allProduct) {
+          const { id, quantitiy } = productInfo;
+      
+          try {
+            // Lấy thông tin sản phẩm
+            const product = await productModel.findById(id);
+            const name = product.pName;
+      
+            // Kiểm tra số lượng sản phẩm còn đủ hay không
+            if (!product || product.pQuantity < quantitiy) {
+              outOfStockProducts.push(name);
+            }
+          } catch (error) {
+            return res.json({
+              error: error.message || "Failed to check product quantity",
+            });
+          }
+        }
+      
+        // Nếu có sản phẩm hết hàng, trả về thông báo lỗi
+        if (outOfStockProducts.length > 0) {
+          return res.json({
+            error: `Not enough quantity available for the following products: ${outOfStockProducts.join(", ")}. Please remove those products from the cart and purchase other products`,
+          });
+        }
+        // Tạo mới đơn hàng và cập nhật số lượng sản phẩm trong kho
         let newOrder = new orderModel({
           allProduct,
           user,
@@ -57,33 +81,37 @@ class Order {
           address,
           phone,
         });
-        // let save = await newOrder.save();
-        //if (save) {
-          for (const productInfo of allProduct) {
-            const { id, quantitiy } = productInfo;
-            try {
-              // Tìm sản phẩm theo ID và cập nhật số lượng
-              const updatedProduct = await productModel.findByIdAndUpdate(
-                id,
-                { $inc: { pQuantity: -quantitiy, pSold: quantitiy } },
-                { new: true }
-                );
-              if (!updatedProduct) {
-                return res.json({ error: "Product not found" });
-              }
-            } catch (error) {
-              return res.json({ error: error.message || "Failed to update product quantity" });
+  
+        for (const productInfo of allProduct) {
+          const { id, quantitiy } = productInfo;
+  
+          try {
+            // Tìm sản phẩm theo ID và cập nhật số lượng
+            const updatedProduct = await productModel.findByIdAndUpdate(
+              id,
+              { $inc: { pQuantity: -quantitiy, pSold: quantitiy } },
+              { new: true }
+            );
+  
+            if (!updatedProduct) {
+              return res.json({ error: "Product not found" });
             }
+          } catch (error) {
+            return res.json({
+              error: error.message || "Failed to update product quantity",
+            });
           }
-          let save = await newOrder.save();
-          if(save){
-          return res.json({ success: "Order created successfully" });}
-       // }
+        }
+  
+        let save = await newOrder.save();
+        if (save) {
+          return res.json({ success: "Order created successfully" });
+        }
       } catch (err) {
-        return res.json({ error: error });
+        return res.json({ error: err.message || "Failed to create order" });
       }
     }
-  }
+  }  
 
   async postUpdateOrder(req, res) {
     let { oId, status } = req.body;
