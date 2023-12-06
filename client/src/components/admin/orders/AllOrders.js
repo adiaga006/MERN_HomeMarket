@@ -15,13 +15,13 @@ const AllOrders = (props) => {
     fetchData(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const deleteOrderReq = async (oId) => {
-    // Your deleteOrderReq function remains the same
-  };
+  // const deleteOrderReq = async (oId) => {
+  //   // Your deleteOrderReq function remains the same
+  // };
 
-  const editOrderReq = async (oId, type, status) => {
-    // Your editOrderReq function remains the same
-  };
+  // const editOrderReq = async (oId, type, status) => {
+  //   // Your editOrderReq function remains the same
+  // };
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
