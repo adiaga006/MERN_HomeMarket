@@ -205,16 +205,14 @@ const EditProductModal = (props) => {
               <label htmlFor="image">Product Images *</label>
               {editformData.pImages ? (
                 <div className="flex space-x-1">
-                  <img
-                    className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[0]}`}
-                    alt="productImage"
-                  />
-                  <img
-                    className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[1]}`}
-                    alt="productImage"
-                  />
+                  {editformData.pImages.map((image, index) => (
+                    <img
+                      key={index}
+                      className="h-16 w-16 object-cover"
+                      src={image.url}
+                      alt={`productImage${index + 1}`}
+                    />
+                  ))}
                 </div>
               ) : (
                 ""

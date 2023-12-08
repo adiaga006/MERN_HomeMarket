@@ -161,7 +161,7 @@ const ProductTable = ({ product, deleteProduct, editProduct }) => {
         <td className="p-2 text-center">
           <img
             className="w-12 h-12 object-cover object-center"
-            src={`${apiURL}/uploads/products/${product.pImages[0]}`}
+            src={product.pImages[0].url}
             alt="pic"
           />
         </td>

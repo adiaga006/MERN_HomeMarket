@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 try {
-  mongoose.connect("mongodb://0.0.0.0:27017/Ecommerce", {
+  mongoose.connect(process.env.DB_CLOUD, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

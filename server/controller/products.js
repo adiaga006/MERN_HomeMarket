@@ -1,7 +1,7 @@
 const productModel = require("../models/products");
 const fs = require("fs");
 const path = require("path");
-
+const cloudinary = require('cloudinary')
 
 class Product {
   // Delete Image from uploads -> products folder
@@ -78,9 +78,13 @@ class Product {
   
         let allImages = [];
         for (const img of images) {
-          allImages.push(img.filename);
+          const result = await cloudinary.v2.uploader.upload(img.path, { folder: 'products' });
+          allImages.push({
+            public_id: result.public_id,
+            url: result.secure_url
+          });
         }
-  
+
         let newProduct = new productModel({
           pImages: allImages,
           pName,
@@ -91,6 +95,7 @@ class Product {
           pOffer,
           pStatus,
         });
+
   
         let save = await newProduct.save();
         if (save) {
@@ -104,33 +109,56 @@ class Product {
   }
   
   async postEditProduct(req, res) {
-    let {
-      pId,
-      pName,
-      pDescription,
-      pPrice,
-      pQuantity,
-      pCategory,
-      pOffer,
-      pStatus,
-      pImages,
-    } = req.body;
-    let editImages = req.files;
-  
-    // Validate other fields
+    const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
+
     if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
       return res.json({ error: "All fields must be required" });
     } else if (isNaN(pQuantity) || pQuantity < 0) {
       return res.json({ error: "Quantity must be a non-negative number" });
     } else if (pName.length > 255 || pDescription.length > 3000) {
-      return res.json({
-        error: "Name 255 & Description must not be 3000 characters long",
-      });
-    } else if (editImages && editImages.length == 1) {
-      Product.deleteImages(editImages, "file");
-      return res.json({ error: "Must need to provide at least 1 image" });
-    } else {
-      let editData = {
+      return res.json({ error: "Name 255 & Description must not be 3000 characters long" });
+    } 
+    // else if (editImages && editImages.length == 1) {
+    //   Product.deleteImages(editImages, "file");
+    //   return res.json({ error: "Must need to provide at least 1 image" });
+    // } else {
+    const editImages = req.files;
+    const existingImages = [];
+
+    // if (editImages.length == 2) {
+    //   let allEditImages = [];
+    //   for (const img of editImages) {
+    //     allEditImages.push(img.filename);
+    //   }
+    //   editData = { ...editData, pImages: allEditImages };
+    //   Product.deleteImages(pImages.split(","), "string");
+    // }
+
+    try {
+      // pName=pName.trimEnd();
+      // // Kiểm tra trùng tên (ngoại trừ sản phẩm đang cập nhật)
+      // const existingProduct = await productModel.findOne({ 
+      //   pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
+      // if (existingProduct) {
+      //   return res.json({ error: "Product with the same name already exists" });
+      // }
+      
+      const product = await productModel.findById(pId);
+
+      if (editImages) {
+        for (const image of editImages) {
+          const result = await cloudinary.v2.uploader.upload(image.path, { folder: 'products' });
+          existingImages.push({ public_id: result.public_id, url: result.secure_url });
+        }
+      }
+
+      if (product.pImages) {
+        for (let i = 0; i < product.pImages.length; i++) {
+          await cloudinary.v2.uploader.destroy(product.pImages[i].public_id);
+        }
+      }
+
+      const editData = {
         pName,
         pDescription,
         pPrice,
@@ -138,35 +166,18 @@ class Product {
         pCategory,
         pOffer,
         pStatus,
+        pImages: existingImages,
       };
-  
-      if (editImages.length == 2) {
-        let allEditImages = [];
-        for (const img of editImages) {
-          allEditImages.push(img.filename);
-        }
-        editData = { ...editData, pImages: allEditImages };
-        Product.deleteImages(pImages.split(","), "string");
-      }
-  
-      try {
-        pName=pName.trimEnd();
-        // Kiểm tra trùng tên (ngoại trừ sản phẩm đang cập nhật)
-        const existingProduct = await productModel.findOne({ 
-          pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
-        if (existingProduct) {
-          return res.json({ error: "Product with the same name already exists" });
-        }
-  
-        let editProduct = productModel.findByIdAndUpdate(pId, editData);
-        editProduct.exec((err) => {
-          if (err) console.log(err);
-          return res.json({ success: "Product edited successfully" });
-        });
-      } catch (err) {
-        console.log(err);
-        return res.json({ error: "An error occurred while editing the product" });
-      }
+
+      let editProduct = productModel.findByIdAndUpdate(pId, editData);
+      editProduct.exec((err) => {
+        if (err) console.log(err);
+        return res.json({ success: "Product edited successfully" });
+      });
+
+    } catch (err) {
+      console.log(err);
+      return res.json({ error: "An error occurred while editing the product" });
     }
   }
   
