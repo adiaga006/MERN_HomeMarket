@@ -98,11 +98,14 @@ class Category {
     if (!cId) {
       return res.json({ error: "All fields must be required" });
     } else {
+      let deletedObj=await categoryModel.findById(cId);
+      let oldName=deletedObj.cName;
       try {
         // Thay đổi cStatus thành "Disabled" cho category cần xóa mềm
         let deleteCategory = await categoryModel.findByIdAndUpdate(
           cId,
-          { cStatus: "Not available" },
+          { cStatus: "Not available" ,
+            cName: `${oldName} (Category deleted)`,},
           { new: true } // Trả về bản ghi đã được cập nhật
         );
   

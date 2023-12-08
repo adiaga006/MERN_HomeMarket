@@ -225,7 +225,7 @@ class Product {
           pId,
           {
             pStatus: "Not available",
-            pName: `${productName} (The product is not available)`,
+            pName: `${productName} (Category Deleted)`,
             pQuantity: 0,
           },
           { new: true } // Trả về bản ghi đã được cập nhật
