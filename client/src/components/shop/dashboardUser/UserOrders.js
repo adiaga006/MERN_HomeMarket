@@ -34,7 +34,7 @@ const TableBody = ({ order }) => {
               <span className="block flex items-center space-x-2" key={i}>
                 <img
                   className="w-8 h-8 object-cover object-center"
-                  src={product.id.pImages[0].url}
+                  src={`${apiURL}/uploads/products/${product.id.pImages[0]}`}
                   alt="productImage"
                 />
                 <span>{product.id.pName}</span>

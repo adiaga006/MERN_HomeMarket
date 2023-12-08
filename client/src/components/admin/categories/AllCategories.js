@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect ,useState } from "react";
-import { getAllCategory, deleteCategory } from "./FetchApi";
+import { getAllCategory, deleteCategory ,getAllCategory_Admin} from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
@@ -18,7 +18,7 @@ const AllCategory = (props) => {
 
   const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
-    let responseData = await getAllCategory();
+    let responseData = await getAllCategory_Admin();
     setTimeout(() => {
       if (responseData && responseData.Categories) {
         dispatch({

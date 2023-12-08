@@ -21,6 +21,14 @@ export const getAllCategory = async () => {
     console.log(error);
   }
 };
+export const getAllCategory_Admin = async () => {
+  try {
+    let res = await axios.get(`${apiURL}/api/category/all-category-admin`, Headers());
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const createCategory = async ({
   cName,
@@ -46,8 +54,8 @@ export const createCategory = async ({
   }
 };
 
-export const editCategory = async (cId, des, status) => {
-  let data = { cId: cId, cDescription: des, cStatus: status };
+export const editCategory = async (cId,name, des, status) => {
+  let data = { cId: cId, cName:name, cDescription: des, cStatus: status };
   try {
     let res = await axios.post(
       `${apiURL}/api/category/edit-category`,

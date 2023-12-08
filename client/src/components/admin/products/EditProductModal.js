@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { ProductContext } from "./index";
-import { editProduct, getAllProduct } from "./FetchApi";
-import { getAllCategory } from "../categories/FetchApi";
+import { editProduct, getAllProduct ,getAllProduct_Admin} from "./FetchApi";
+import { getAllCategory, getAllCategory_Admin } from "../categories/FetchApi";
 const apiURL = process.env.REACT_APP_API_URL;
 
 const EditProductModal = (props) => {
@@ -54,7 +54,7 @@ const EditProductModal = (props) => {
   }, [data.editProductModal]);
 
   const fetchData = async () => {
-    let responseData = await getAllProduct();
+    let responseData = await getAllProduct_Admin();
     if (responseData && responseData.Products) {
       dispatch({
         type: "fetchProductsAndChangeState",
@@ -205,14 +205,16 @@ const EditProductModal = (props) => {
               <label htmlFor="image">Product Images *</label>
               {editformData.pImages ? (
                 <div className="flex space-x-1">
-                  {editformData.pImages.map((image, index) => (
-                    <img
-                      key={index}
-                      className="h-16 w-16 object-cover"
-                      src={image.url}
-                      alt={`productImage${index + 1}`}
-                    />
-                  ))}
+                  <img
+                    className="h-16 w-16 object-cover"
+                    src={`${apiURL}/uploads/products/${editformData.pImages[0]}`}
+                    alt="productImage"
+                  />
+                  <img
+                    className="h-16 w-16 object-cover"
+                    src={`${apiURL}/uploads/products/${editformData.pImages[1]}`}
+                    alt="productImage"
+                  />
                 </div>
               ) : (
                 ""

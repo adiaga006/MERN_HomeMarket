@@ -9,6 +9,14 @@ export const getAllProduct = async () => {
     console.log(error);
   }
 };
+export const getAllProduct_Admin = async () => {
+  try {
+    let res = await axios.get(`${apiURL}/api/product/all-product-admin`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const createPorductImage = async ({ pImage }) => {
   /* Most important part for uploading multiple image  */

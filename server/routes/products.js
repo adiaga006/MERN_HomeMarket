@@ -15,6 +15,7 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/all-product", productController.getAllProduct);
+router.get("/all-product-admin",productController.getAllProduct_Admin);
 router.post("/product-by-category", productController.getProductByCategory);
 router.post("/product-by-price", productController.getProductByPrice);
 router.post("/wish-product", productController.getWishProduct);

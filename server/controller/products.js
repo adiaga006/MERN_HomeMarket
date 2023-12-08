@@ -1,7 +1,7 @@
 const productModel = require("../models/products");
 const fs = require("fs");
 const path = require("path");
-const cloudinary = require('cloudinary')
+
 
 class Product {
   // Delete Image from uploads -> products folder
@@ -30,9 +30,25 @@ class Product {
 
   async getAllProduct(req, res) {
     try {
-      // Chỉ hiển thị sản phẩm chưa bị xóa mềm
+      // Chỉ hiển thị sản phẩm có pStatus là "Active"
       let Products = await productModel
-        .find()  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
+        .find({ pStatus: "Active" })
+        .populate("pCategory", "_id cName")
+        .sort({ _id: -1 });
+  
+      if (Products) {
+        return res.json({ Products });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.json({ error: "An error occurred while fetching products" });
+    }
+  }
+  async getAllProduct_Admin(req, res) {
+    try {
+      // Hiển thị tất cả sản phẩm có pStatus là "Active" hoặc "Disabled"
+      let Products = await productModel
+        .find({ deleted: false })  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
@@ -61,7 +77,7 @@ class Product {
       });
     } else if (images.length < 1) {
       Product.deleteImages(images, "file");
-      return res.json({ error: "Must need to provide 2 images" });
+      return res.json({ error: "Need at least 1 images" });
     } else if (isNaN(pQuantity) || pQuantity < 0) {
       Product.deleteImages(images, "file");
       return res.json({ error: "Quantity must be a non-negative number" });
@@ -95,7 +111,6 @@ class Product {
           pOffer,
           pStatus,
         });
-
   
         let save = await newProduct.save();
         if (save) {
@@ -182,22 +197,23 @@ class Product {
   }
   
 
-  async getDeleteProduct(req, res) {
+  async  getDeleteProduct(req, res) {
     let { pId } = req.body;
+  
     if (!pId) {
       return res.json({ error: "All fields must be required" });
     } else {
       try {
         let deleteProductObj = await productModel.findById(pId);
-        
+  
         // Lấy tên sản phẩm
         let productName = deleteProductObj.pName;
   
-        // Thực hiện cập nhật xóa mềm và đặt lại tên sản phẩm và quantity
+        // Thực hiện cập nhật trạng thái sản phẩm
         let deleteProduct = await productModel.findByIdAndUpdate(
           pId,
           { 
-            // deleted: true,
+            deleted: true,
             pName: `${productName} (The product is not available)`,
             pQuantity: 0
           },
@@ -206,7 +222,8 @@ class Product {
   
         if (deleteProduct) {
           // Delete Image from uploads -> products folder
-          Product.deleteImages(deleteProductObj.pImages, "string");
+          await deleteCloudinaryImages(deleteProductObj.pImages);
+  
           return res.json({ success: "Product deleted successfully" });
         }
       } catch (err) {
@@ -243,7 +260,7 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pCategory: catId, deleted: false })
+          .find({ pCategory: catId, pStatus: "Active" })
           .populate("pCategory", "cName");
         if (products) {
           return res.json({ Products: products });
@@ -261,9 +278,7 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pPrice: { $lte: price } , 
-            // deleted: false
-          })
+          .find({ pPrice: { $lte: price } , deleted: false})
           .populate("pCategory", "cName")
           .sort({ pPrice: -1 });
         if (products) {
