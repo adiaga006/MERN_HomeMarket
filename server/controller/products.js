@@ -32,7 +32,7 @@ class Product {
     try {
       // Chỉ hiển thị sản phẩm chưa bị xóa mềm
       let Products = await productModel
-        .find({ deleted: false })  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
+        .find()  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
@@ -197,7 +197,7 @@ class Product {
         let deleteProduct = await productModel.findByIdAndUpdate(
           pId,
           { 
-            deleted: true,
+            // deleted: true,
             pName: `${productName} (The product is not available)`,
             pQuantity: 0
           },
@@ -261,7 +261,9 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pPrice: { $lte: price } , deleted: false})
+          .find({ pPrice: { $lte: price } , 
+            // deleted: false
+          })
           .populate("pCategory", "cName")
           .sort({ pPrice: -1 });
         if (products) {
