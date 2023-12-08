@@ -106,32 +106,23 @@ const ProductDetailsSection = (props) => {
       <section className="m-4 md:mx-12 md:my-6">
         <div className="grid grid-cols-2 md:grid-cols-12">
           <div className="hidden md:block md:col-span-1 md:flex md:flex-col md:space-y-4 md:mr-2">
-            <img
-              onClick={(e) =>
-                slideImage("increase", 0, count, setCount, pImages)
-              }
-              className={`${
-                count === 0 ? "" : "opacity-25"
-              } cursor-pointer w-20 h-20 object-cover object-center`}
-              src={`${apiURL}/uploads/products/${sProduct.pImages[0]}`}
-              alt="pic"
-            />
-            <img
-              onClick={(e) =>
-                slideImage("increase", 1, count, setCount, pImages)
-              }
-              className={`${
-                count === 1 ? "" : "opacity-25"
-              } cursor-pointer w-20 h-20 object-cover object-center`}
-              src={`${apiURL}/uploads/products/${sProduct.pImages[1]}`}
-              alt="pic"
-            />
+            {sProduct.pImages.map((image, index) => (
+              <img
+                key={index}
+                onClick={(e) => slideImage("increase", index, count, setCount, pImages)}
+                className={`cursor-pointer w-20 h-20 object-cover object-center ${
+                  index === count ? "" : "opacity-25"
+                }`}
+                src={image.url}
+                alt={`Product Image ${index + 1}`}
+              />
+            ))}
           </div>
           <div className="col-span-2 md:col-span-7">
             <div className="relative">
               <img
                 className="w-full"
-                src={`${apiURL}/uploads/products/${sProduct.pImages[count]}`}
+                src={sProduct.pImages[count].url}
                 alt="Pic"
               />
               <div className="absolute inset-0 flex justify-between items-center mb-4">

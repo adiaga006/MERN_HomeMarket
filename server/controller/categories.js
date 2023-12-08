@@ -1,11 +1,13 @@
 const { toTitleCase } = require("../config/function");
 const categoryModel = require("../models/categories");
 const fs = require("fs");
-
+const productModel=require("../models/products.js");
 class Category {
   async getAllCategory(req, res) {
     try {
-      let Categories = await categoryModel.find({}).sort({ _id: -1 });
+      let Categories = await categoryModel
+      .find({cStatus: "Active"})
+      .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });
       }
@@ -13,7 +15,18 @@ class Category {
       console.log(err);
     }
   }
-
+  async getAllCategory_Admin(req, res) {
+    try {
+      let Categories = await categoryModel
+      .find({ cStatus: { $in: ["Active", "Disabled","Not available"]} })
+      .sort({ _id: -1 });
+      if (Categories) {
+        return res.json({ Categories });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   async postAddCategory(req, res) {
     let { cName, cDescription, cStatus } = req.body;
     // let cImage = req.file.filename;
@@ -47,45 +60,71 @@ class Category {
   }
 
   async postEditCategory(req, res) {
-    let { cId, cDescription, cStatus } = req.body;
-    if (!cId || !cDescription || !cStatus) {
-      return res.json({ error: "All filled must be required" });
+    let { cId, cName, cDescription, cStatus } = req.body;
+    
+    if (!cId || !cName || !cDescription || !cStatus) {
+      return res.json({ error: "All fields must be required" });
     }
+  
+    // Trim trailing spaces from category name
+    cName = cName.trim();
+  
     try {
-      let editCategory = categoryModel.findByIdAndUpdate(cId, {
+      // Check if the new category name is unique
+      const isNameUnique = await categoryModel.findOne({ cName, _id: { $ne: cId } });
+      if (isNameUnique) {
+        return res.json({ error: "Category name must be unique" });
+      }
+  
+      // Update the category
+      let editCategory = await categoryModel.findByIdAndUpdate(cId, {
+        cName,
         cDescription,
         cStatus,
         updatedAt: Date.now(),
       });
-      let edit = await editCategory.exec();
-      if (edit) {
-        return res.json({ success: "Category edit successfully" });
+  
+      if (editCategory) {
+        return res.json({ success: "Category edited successfully" });
       }
     } catch (err) {
       console.log(err);
+      return res.json({ error: "Error editing category" });
     }
   }
-
+  
   async getDeleteCategory(req, res) {
     let { cId } = req.body;
     if (!cId) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
-        let deletedCategoryFile = await categoryModel.findById(cId);
-        // const filePath = `../server/public/uploads/categories/${deletedCategoryFile.cImage}`;
-
-        let deleteCategory = await categoryModel.findByIdAndDelete(cId);
+        // Thay đổi cStatus thành "Disabled" cho category cần xóa mềm
+        let deleteCategory = await categoryModel.findByIdAndUpdate(
+          cId,
+          { cStatus: "Not available" },
+          { new: true } // Trả về bản ghi đã được cập nhật
+        );
+  
         if (deleteCategory) {
-          // Delete Image from uploads -> categories folder 
-            return res.json({ success: "Category deleted successfully" });
-         
+          // Thay đổi pStatus thành "Disabled" cho tất cả các product thuộc category
+          let deleteProducts = await productModel.updateMany(
+            { pCategory: cId },
+            { pStatus: "Not available" }
+          );
+            return res.json({ success: "Category and associated products deleted successfully" });
         }
       } catch (err) {
         console.log(err);
+        return res.json({ error: "An error occurred while deleting the category and associated products" });
       }
     }
   }
+  
+
+
+
+  
 }
 
 const categoryController = new Category();

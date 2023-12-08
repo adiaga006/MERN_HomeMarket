@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { ProductContext } from "./index";
-import { createProduct, getAllProduct } from "./FetchApi";
-import { getAllCategory } from "../categories/FetchApi";
+import { createProduct, getAllProduct,getAllProduct_Admin } from "./FetchApi";
+import { getAllCategory, getAllCategory_Admin } from "../categories/FetchApi";
 
 const AddProductDetail = ({ categories }) => {
   const { data, dispatch } = useContext(ProductContext);
@@ -24,7 +24,7 @@ const AddProductDetail = ({ categories }) => {
   });
 
   const fetchData = async () => {
-    let responseData = await getAllProduct();
+    let responseData = await getAllProduct_Admin();
     setTimeout(() => {
       if (responseData && responseData.Products) {
         dispatch({

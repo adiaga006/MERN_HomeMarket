@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { getAllProduct, deleteProduct } from "./FetchApi";
+import { getAllProduct, deleteProduct,getAllProduct_Admin } from "./FetchApi";
 import moment from "moment";
 import { ProductContext } from "./index";
 
@@ -27,7 +27,7 @@ if (products) {
 }
   const fetchData = async () => {
     setLoading(true);
-    let responseData = await getAllProduct();
+    let responseData = await getAllProduct_Admin();
     setTimeout(() => {
       if (responseData && responseData.Products) {
         dispatch({
@@ -161,7 +161,7 @@ const ProductTable = ({ product, deleteProduct, editProduct }) => {
         <td className="p-2 text-center">
           <img
             className="w-12 h-12 object-cover object-center"
-            src={`${apiURL}/uploads/products/${product.pImages[0]}`}
+            src={product.pImages[0].url}
             alt="pic"
           />
         </td>

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { editCategory, getAllCategory } from "./FetchApi";
+import { editCategory, getAllCategory,getAllCategory_Admin } from "./FetchApi";
 
 const EditCategoryModal = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
@@ -8,17 +8,23 @@ const EditCategoryModal = (props) => {
   const [des, setDes] = useState("");
   const [status, setStatus] = useState("");
   const [cId, setCid] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+
 
   useEffect(() => {
     setDes(data.editCategoryModal.des);
     setStatus(data.editCategoryModal.status);
     setCid(data.editCategoryModal.cId);
+    setName(data.editCategoryModal.cName); // Add this line
+    setError(""); // Clear error when modal is opened
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.editCategoryModal.modal]);
 
   const fetchData = async () => {
-    let responseData = await getAllCategory();
+    let responseData = await getAllCategory_Admin();
     if (responseData.Categories) {
       dispatch({
         type: "fetchCategoryAndChangeState",
@@ -29,10 +35,10 @@ const EditCategoryModal = (props) => {
 
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let edit = await editCategory(cId, des, status);
+    let edit = await editCategory(cId, name, des, status); // Update this line
     if (edit.error) {
-      console.log(edit.error);
-      dispatch({ type: "loading", payload: false });
+      setError(edit.error);      
+      // dispatch({ type: "loading", payload: false });
     } else if (edit.success) {
       console.log(edit.success);
       dispatch({ type: "editCategoryModalClose" });
@@ -87,6 +93,23 @@ const EditCategoryModal = (props) => {
               </svg>
             </span>
           </div>
+          <div className="flex flex-col space-y-1 w-full">
+          <label htmlFor="name">Category Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="px-4 py-2 border focus:outline-none"
+            name="name"
+            id="name"
+          />
+        </div>
+          {/* Display error */}
+          {error && (
+            <div className="text-red-500 text-sm">
+              <span>Error: {error}</span>
+            </div>
+          )}
           <div className="flex flex-col space-y-1 w-full">
             <label htmlFor="description">Category Description</label>
             <textarea
