@@ -202,24 +202,22 @@ const EditProductModal = (props) => {
             </div>
             {/* Most Important part for uploading multiple image */}
             <div className="flex flex-col mt-4">
-              <label htmlFor="image">Product Images *</label>
+            <label htmlFor="image">Product Images *</label>
               {editformData.pImages ? (
                 <div className="flex space-x-1">
-                  <img
-                    className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[0]}`}
-                    alt="productImage"
-                  />
-                  <img
-                    className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[1]}`}
-                    alt="productImage"
-                  />
+                  {editformData.pImages.map((image, index) => (
+                    <img
+                      key={index}
+                      className="h-16 w-16 object-cover"
+                      src={image.url}
+                      alt={`productImage${index + 1}`}
+                    />
+                  ))}
                 </div>
               ) : (
                 ""
               )}
-              <span className="text-gray-600 text-xs">Must need 2 images</span>
+              <span className="text-gray-600 text-xs">Must need least 1 image</span>
               <input
                 onChange={(e) =>
                   setEditformdata({

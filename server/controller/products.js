@@ -1,7 +1,7 @@
 const productModel = require("../models/products");
 const fs = require("fs");
 const path = require("path");
-
+const cloudinary = require('cloudinary')
 
 class Product {
   // Delete Image from uploads -> products folder
@@ -48,7 +48,7 @@ class Product {
     try {
       // Hiển thị tất cả sản phẩm có pStatus là "Active" hoặc "Disabled"
       let Products = await productModel
-        .find({ deleted: false })  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
+        .find()  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
@@ -122,57 +122,46 @@ class Product {
       }
     }
   }
-  
   async postEditProduct(req, res) {
-    const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
 
-    if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
-      return res.json({ error: "All fields must be required" });
-    } else if (isNaN(pQuantity) || pQuantity < 0) {
-      return res.json({ error: "Quantity must be a non-negative number" });
-    } else if (pName.length > 255 || pDescription.length > 3000) {
-      return res.json({ error: "Name 255 & Description must not be 3000 characters long" });
-    } 
-    // else if (editImages && editImages.length == 1) {
-    //   Product.deleteImages(editImages, "file");
-    //   return res.json({ error: "Must need to provide at least 1 image" });
-    // } else {
-    const editImages = req.files;
-    const existingImages = [];
-
-    // if (editImages.length == 2) {
-    //   let allEditImages = [];
-    //   for (const img of editImages) {
-    //     allEditImages.push(img.filename);
-    //   }
-    //   editData = { ...editData, pImages: allEditImages };
-    //   Product.deleteImages(pImages.split(","), "string");
-    // }
-
-    try {
-      // pName=pName.trimEnd();
-      // // Kiểm tra trùng tên (ngoại trừ sản phẩm đang cập nhật)
-      // const existingProduct = await productModel.findOne({ 
-      //   pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
-      // if (existingProduct) {
-      //   return res.json({ error: "Product with the same name already exists" });
-      // }
-      
+      const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
+  
+      if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
+        return res.json({ error: "All fields must be required" });
+      } else if (isNaN(pQuantity) || pQuantity < 0) {
+        return res.json({ error: "Quantity must be a non-negative number" });
+      } else if (pName.length > 255 || pDescription.length > 3000) {
+        return res.json({ error: "Name must be 255 characters long, and Description must not exceed 3000 characters" });
+      // }  else if (images.length < 1) {
+      //   return res.json({ error: "Need at least 1 images" });
+      } else if (isNaN(pQuantity) || pQuantity < 0) {
+        return res.json({ error: "Quantity must be a non-negative number" });
+      } else {
+        try {
+                // Uncomment the following code if you want to check for duplicate product names
+      const existingProduct = await productModel.findOne({ pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
+      if (existingProduct) {
+        return res.json({ error: "Product with the same name already exists" });
+      }
+  
       const product = await productModel.findById(pId);
-
+  
+      const editImages = req.files;
+      const existingImages = [];
+  
       if (editImages) {
         for (const image of editImages) {
           const result = await cloudinary.v2.uploader.upload(image.path, { folder: 'products' });
           existingImages.push({ public_id: result.public_id, url: result.secure_url });
         }
       }
-
+  
       if (product.pImages) {
         for (let i = 0; i < product.pImages.length; i++) {
           await cloudinary.v2.uploader.destroy(product.pImages[i].public_id);
         }
       }
-
+  
       const editData = {
         pName,
         pDescription,
@@ -183,18 +172,18 @@ class Product {
         pStatus,
         pImages: existingImages,
       };
+  
+      const editProduct = await productModel.findByIdAndUpdate(pId, editData);
+  
+      return res.json({ success: "Product edited successfully" });
 
-      let editProduct = productModel.findByIdAndUpdate(pId, editData);
-      editProduct.exec((err) => {
-        if (err) console.log(err);
-        return res.json({ success: "Product edited successfully" });
-      });
 
-    } catch (err) {
-      console.log(err);
-      return res.json({ error: "An error occurred while editing the product" });
+        } catch (err) {
+          console.log(err);
+          return res.json({ error: "An error occurred while saving the product" });
+        }
+      }
     }
-  }
   
 
   async  getDeleteProduct(req, res) {
@@ -213,7 +202,6 @@ class Product {
         let deleteProduct = await productModel.findByIdAndUpdate(
           pId,
           { 
-            deleted: true,
             pName: `${productName} (The product is not available)`,
             pQuantity: 0
           },
@@ -278,7 +266,7 @@ class Product {
     } else {
       try {
         let products = await productModel
-          .find({ pPrice: { $lte: price } , deleted: false})
+          .find({ pPrice: { $lte: price }})
           .populate("pCategory", "cName")
           .sort({ pPrice: -1 });
         if (products) {
@@ -327,77 +315,85 @@ class Product {
   }
 
   async postAddReview(req, res) {
-    let { pId, uId, rating, review } = req.body;
-    if (!pId || !rating || !review || !uId) {
-      return res.json({ error: "All filled must be required" });
-    } else {
-      let checkReviewRatingExists = await productModel.findOne({ _id: pId });
-      if (checkReviewRatingExists.pRatingsReviews.length > 0) {
-        checkReviewRatingExists.pRatingsReviews.map((item) => {
-          if (item.user === uId) {
-            return res.json({ error: "Your already reviewd the product" });
-          } else {
-            try {
-              let newRatingReview = productModel.findByIdAndUpdate(pId, {
-                $push: {
-                  pRatingsReviews: {
-                    review: review,
-                    user: uId,
-                    rating: rating,
-                  },
-                },
-              });
-              newRatingReview.exec((err, result) => {
-                if (err) {
-                  console.log(err);
-                }
-                return res.json({ success: "Thanks for your review" });
-              });
-            } catch (err) {
-              return res.json({ error: "Cart product wrong" });
-            }
-          }
-        });
-      } else {
-        try {
-          let newRatingReview = productModel.findByIdAndUpdate(pId, {
-            $push: {
-              pRatingsReviews: { review: review, user: uId, rating: rating },
-            },
-          });
-          newRatingReview.exec((err, result) => {
-            if (err) {
-              console.log(err);
-            }
-            return res.json({ success: "Thanks for your review" });
-          });
-        } catch (err) {
-          return res.json({ error: "Cart product wrong" });
+    try {
+      const { pId, uId, rating, review } = req.body;
+  
+      if (!pId || !rating || !review || !uId) {
+        return res.json({ error: "All fields must be required" });
+      }
+  
+      const checkReviewRatingExists = await productModel.findOne({ _id: pId });
+  
+      if (checkReviewRatingExists.pRatingsReviews.some((item) => item.user === uId)) {
+        return res.json({ error: "You have already reviewed the product" });
+      }
+  
+      const newRatingReview = await productModel.findByIdAndUpdate(
+        pId,
+        {
+          $push: {
+            pRatingsReviews: { review: review, user: uId, rating: rating },
+          },
+        },
+        { new: true }
+      );
+  
+      if (!newRatingReview) {
+        return res.json({ error: "Failed to add review" });
+      }
+  
+      const avgRating = newRatingReview.pRatingsReviews.reduce((acc, item) => item.rating + acc, 0) / newRatingReview.pRatingsReviews.length;
+  
+      await productModel.findByIdAndUpdate(
+        pId,
+        {
+          $set: {
+            pRatings: avgRating,
+            pNumOfReviews: newRatingReview.pRatingsReviews.length,
+          },
         }
-      }
+      );
+  
+      return res.json({ success: "Thanks for your review" });
+    } catch (err) {
+      console.error(err);
+      return res.json({ error: "Something went wrong" });
     }
   }
-
+  
   async deleteReview(req, res) {
-    let { rId, pId } = req.body;
-    if (!rId) {
-      return res.json({ message: "All filled must be required" });
-    } else {
-      try {
-        let reviewDelete = productModel.findByIdAndUpdate(pId, {
-          $pull: { pRatingsReviews: { _id: rId } },
-        });
-        reviewDelete.exec((err, result) => {
-          if (err) {
-            console.log(err);
-          }
-          return res.json({ success: "Your review is deleted" });
-        });
-      } catch (err) {
-        console.log(err);
+    try {
+      const { rId, pId } = req.body;
+  
+      if (!rId) {
+        return res.json({ message: "All fields must be required" });
       }
+  
+      const reviewDelete = await productModel.findByIdAndUpdate(
+        pId,
+        { $pull: { pRatingsReviews: { _id: rId } } },
+        { new: true }
+      );
+  
+      const avgRating = reviewDelete.pRatingsReviews.reduce((acc, item) => item.rating + acc, 0) / reviewDelete.pRatingsReviews.length;
+  
+      await productModel.findByIdAndUpdate(
+        pId,
+        {
+          $set: {
+            pRatings: avgRating,
+            pNumOfReviews: reviewDelete.pRatingsReviews.length,
+          },
+        }
+      );
+  
+      return res.json({ success: "Your review is deleted" });
+    } catch (err) {
+      console.error(err);
+      return res.json({ error: "Something went wrong" });
     }
   }
+  
 }
 
 const productController = new Product();

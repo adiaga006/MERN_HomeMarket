@@ -4,6 +4,7 @@ import { ProductDetailsContext } from "./index";
 import { LayoutContext } from "../layout";
 import Submenu from "./Submenu";
 import ProductDetailsSectionTwo from "./ProductDetailsSectionTwo";
+import { Carousel } from 'react-bootstrap'
 
 import { getSingleProduct } from "./FetchApi";
 import { cartListProduct } from "../partials/FetchApi";
@@ -120,11 +121,13 @@ const ProductDetailsSection = (props) => {
           </div>
           <div className="col-span-2 md:col-span-7">
             <div className="relative">
-              <img
-                className="w-full"
-                src={sProduct.pImages[count].url}
-                alt="Pic"
-              />
+            <div className="col-12 col-lg-5 img-fluid" id="product_image">
+                <img
+                  className="d-block w-full"
+                  src={sProduct.pImages[count].url}
+                  alt=""
+                />
+            </div>
               <div className="absolute inset-0 flex justify-between items-center mb-4">
                 <svg
                   onClick={(e) =>
@@ -166,14 +169,25 @@ const ProductDetailsSection = (props) => {
           <div className="col-span-2 mt-8 md:mt-0 md:col-span-4 md:ml-6 lg:ml-12">
             <div className="flex flex-col leading-8">
               <div className="text-2xl tracking-wider">{sProduct.pName}</div>
+
+                      <div className="ratings mt-auto">
+                          <div className="rating-outer">
+                              <div
+                                  className="rating-inner"
+                                  style={{ width: `${(sProduct.pRatings / 5) * 100}%` }}
+                              ></div>
+                          </div>
+                          <span id="no_of_reviews">({sProduct.pNumOfReviews} Reviews)</span>
+                      </div>
+              
               <div className="flex justify-between items-center">
                 <span className="text-xl tracking-wider text-yellow-700">
-                  {sProduct.pPrice}.000 VND
+                  {sProduct.pPrice}.000 <span className="card-title"> ₫</span>
                 </span>
                  {/* Hiển thị số lượng sản phẩm đã bán */}
-               <div className="my-4 md:my-6">
+               {/* <div className="my-4 md:my-6">
                <span className="font-semibold">Sold:</span> {sProduct.pSold}
-              </div>
+              </div> */}
                 <span>
                   <svg
                     onClick={(e) => isWishReq(e, sProduct._id, setWlist)}
@@ -210,9 +224,10 @@ const ProductDetailsSection = (props) => {
                 </span>
               </div>
             </div>
-            <div className="my-4 md:my-6 text-gray-600">
+            {/* <div className="my-4 md:my-6 text-gray-600">
               {sProduct.pDescription}
-            </div>
+            </div> */}
+            <p>Status: <span id="stock_status" className={sProduct.pQuantity > 0 ? 'greenColor' : 'redColor'} >{sProduct.pQuantity > 0 ? 'In Stock' : 'Out of Stock'}</span></p>
             <div className="my-4 md:my-6">
               {+quantitiy === +sProduct.pQuantity ? (
                 <span className="text-xs text-red-500">Stock limited</span>
@@ -358,6 +373,32 @@ const ProductDetailsSection = (props) => {
                 {/* Quantity Button End */}
               </div>
               {/* Incart and out of stock button */}
+              {/* <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={sProduct.pQuantity === 0}
+                    onClick={(e) =>
+                      addToCart(
+                        sProduct._id,
+                        quantitiy,
+                        sProduct.pPrice,
+                        layoutDispatch,
+                        setQuantitiy,
+                        setAlertq,
+                        fetchData,
+                        totalCost
+                      )
+                    }>Add to Cart</button>
+              <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4 " disabled={sProduct.pQuantity === 0}
+                    onClick={(e) =>
+                      addToCart(
+                        sProduct._id,
+                        quantitiy,
+                        sProduct.pPrice,
+                        layoutDispatch,
+                        setQuantitiy,
+                        setAlertq,
+                        fetchData,
+                        totalCost
+                      )
+                    }>Buy</button> */}
               {sProduct.pQuantity !== 0 ? (
                 <Fragment>
                   {layoutData.inCart !== null &&
@@ -368,6 +409,7 @@ const ProductDetailsSection = (props) => {
                     >
                       In cart
                     </div>
+
                   ) : (
                     <div
                       onClick={(e) =>
@@ -386,8 +428,7 @@ const ProductDetailsSection = (props) => {
                       className={`px-4 py-2 text-white text-center cursor-pointer uppercase`}
                     >
                       Add to cart
-                    </div>
-                  )}
+                    </div>                  )}
                 </Fragment>
               ) : (
                 <Fragment>

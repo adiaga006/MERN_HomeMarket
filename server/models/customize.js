@@ -3,7 +3,14 @@ const mongoose = require("mongoose");
 const customizeSchema = new mongoose.Schema(
   {
     slideImage: {
-      type: String,
+      url: {
+        type: String,
+        required: true,
+      },
+      public_id: {
+        type: String,
+        required: true,
+      },
     },
     firstShow: {
       type: Number,

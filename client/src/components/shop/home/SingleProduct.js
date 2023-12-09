@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { getAllProduct } from "../../admin/products/FetchApi";
 import { HomeContext } from "./index";
 import { isWishReq, unWishReq, isWish } from "./Mixins";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
@@ -38,7 +39,7 @@ const SingleProduct = (props) => {
 
   if (data.loading) {
     return (
-      <div className="col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-center py-24">
+      <div className="col-span-12 md:col-span-3 lg:col-span-4 flex items-center justify-center py-24">
         <svg
           className="w-12 h-12 animate-spin text-gray-600"
           fill="none"
@@ -62,40 +63,37 @@ const SingleProduct = (props) => {
         products.map((item, index) => {
           return (
             <Fragment key={index}>
-              <div className="relative col-span-1 m-2 border border-gray-300 p-4">
-                <img
-                  onClick={(e) => history.push(`/products/${item._id}`)}
-                  className="w-full object-cover object-center cursor-pointer"
-                  src={item.pImages[0].url}
-                  alt=""
-                />
-                <div className="flex items-center justify-between mt-2">
-                  <div className="text-gray-600 font-light truncate">
-                    {item.pName}
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <span>
-                      <svg
-                        className="w-4 h-4 fill-current text-yellow-700"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+              <div className="col-sm-12 col-md-6 col-lg-12 my-3 p-4">
+                <div className="card p-3 rounded">
+                  <img
+                    onClick={(e) => history.push(`/products/${item._id}`)}
+                    className="card-img-top mx-auto cursor-pointer"
+                    // className="w-full object-cover object-center cursor-pointer"
+                    src={item.pImages[0].url}
+                    alt={item.pName}
+                  />
+                  <div className="card-body d-flex flex-column">
+                      <h5 className="card-title">
+                          <Link>{item.pName}</Link>
+                      </h5>
+                      <div className="ratings mt-auto">
+                          <div className="rating-outer">
+                              <div
+                                  className="rating-inner"
+                                  style={{ width: `${(item.pRatings / 5) * 100}%` }}
+                              ></div>
+                          </div>
+                          <span id="no_of_reviews">({item.pNumOfReviews} Reviews)</span>
+                      </div>
+                      <p className="card-text">{item.pPrice}.000<span className="card-title"> ₫</span></p>
+                      <Link
+                          id="view_btn"
+                          className="btn btn-block"
+                          // onClick={addToCart}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                        />
-                      </svg>
-                    </span>
-                    <span className="text-gray-700">
-                      {item.pRatingsReviews.length}
-                    </span>
+                          Add to Cart
+                      </Link>
                   </div>
-                </div>
-                <div>{item.pPrice}.000 VND</div>
                 {/* WhisList Logic  */}
                 <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">
                   <svg
@@ -132,6 +130,7 @@ const SingleProduct = (props) => {
                   </svg>
                 </div>
                 {/* WhisList Logic End */}
+              </div>
               </div>
             </Fragment>
           );

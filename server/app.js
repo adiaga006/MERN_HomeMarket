@@ -37,7 +37,6 @@ const brainTreeRouter = require("./routes/braintree");
 const orderRouter = require("./routes/orders");
 const usersRouter = require("./routes/users");
 const customizeRouter = require("./routes/customize");
-const cloudinary = require('cloudinary')
 
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
@@ -59,6 +58,12 @@ mongoose
     )
   )
   .catch((err) => console.log("Database Not Connected !!!"));
+
+cloudinary.config({
+    cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
+    api_key : process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 // Middleware
 app.use(morgan("dev"));

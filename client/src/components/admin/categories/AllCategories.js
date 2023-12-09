@@ -121,18 +121,18 @@ const AllCategory = (props) => {
             )}
           </tbody>
           {/* Pagination */}
-      <div className="flex justify-center mt-4">
-      {Array.from({ length: Math.ceil(categories.length / categoriesPerPage) }).map((_, index) => (
-        <button
-          key={index}
-          className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          onClick={() => paginate(index + 1)}
-        >
-          {index + 1}
-        </button>
-      ))}
-    </div>
         </table>
+        <div className="flex justify-center mt-4">
+          {Array.from({ length: Math.ceil(categories.length / categoriesPerPage) }).map((_, index) => (
+            <button
+              key={index}
+              className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         <div className="text-sm text-gray-600 mt-2">
           Total {categories && categories.length} category found
         </div>

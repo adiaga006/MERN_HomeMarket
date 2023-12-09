@@ -4,6 +4,8 @@ const productModel = require("../models/products");
 const orderModel = require("../models/orders");
 const userModel = require("../models/users");
 const customizeModel = require("../models/customize");
+const cloudinary = require('cloudinary')
+
 
 class Customize {
   async getImages(req, res) {
@@ -18,23 +20,34 @@ class Customize {
   }
 
   async uploadSlideImage(req, res) {
-    let image = req.file.filename;
-    if (!image) {
-      return res.json({ error: "All field required" });
-    }
     try {
+      let image = [];
+  
+      if (!req.file || !req.file.filename) {
+        return res.json({ error: "All fields required" });
+      }
+  
+      const result = await cloudinary.v2.uploader.upload(req.file.path, { folder: 'customizes' });
+  
+      // Gán trực tiếp vào slideImage
       let newCustomzie = new customizeModel({
-        slideImage: image,
+        slideImage: {
+          public_id: result.public_id,
+          url: result.secure_url
+        }
       });
+  
       let save = await newCustomzie.save();
+  
       if (save) {
         return res.json({ success: "Image upload successfully" });
       }
     } catch (err) {
       console.log(err);
+      res.json({ error: "Error uploading image" });
     }
   }
-
+  
   async deleteSlideImage(req, res) {
     let { id } = req.body;
     if (!id) {
@@ -42,17 +55,11 @@ class Customize {
     } else {
       try {
         let deletedSlideImage = await customizeModel.findById(id);
-        const filePath = `../server/public/uploads/customize/${deletedSlideImage.slideImage}`;
+        await cloudinary.v2.uploader.destroy(deletedSlideImage.slideImage.public_id);
 
         let deleteImage = await customizeModel.findByIdAndDelete(id);
         if (deleteImage) {
-          // Delete Image from uploads -> customizes folder
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.log(err);
-            }
             return res.json({ success: "Image deleted successfully" });
-          });
         }
       } catch (err) {
         console.log(err);
