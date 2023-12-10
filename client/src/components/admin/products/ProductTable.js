@@ -40,14 +40,22 @@ if (products) {
   };
 
   const deleteProductReq = async (pId) => {
-    let deleteC = await deleteProduct(pId);
-    if (deleteC.error) {
-      console.log(deleteC.error);
-    } else if (deleteC.success) {
-      console.log(deleteC.success);
-      fetchData();
+    try {
+      let deleteC = await deleteProduct(pId);
+      if (deleteC.error) {
+        console.log(deleteC.error);
+      } else if (deleteC.success) {
+        console.log(deleteC.success);
+        // Show alert
+        window.alert("Product deleted successfully!");
+        // Reload the page
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   };
+  
 
   /* This method call the editmodal & dispatch product context */
   const editProduct = (pId, product, type) => {

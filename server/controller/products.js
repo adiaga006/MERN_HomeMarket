@@ -2,7 +2,18 @@ const productModel = require("../models/products");
 const fs = require("fs");
 const path = require("path");
 const cloudinary = require('cloudinary')
-
+async function deleteCloudinaryImages(images) {
+  try {
+    for (const image of images) {
+      // Use the public_id of the image to delete it from Cloudinary
+      await cloudinary.v2.uploader.destroy(image.public_id);
+    }
+    console.log('Images deleted from Cloudinary');
+  } catch (error) {
+    console.error('Error deleting images from Cloudinary:', error);
+    throw error; // Throw the error to handle it in the calling function if needed
+  }
+}
 class Product {
   // Delete Image from uploads -> products folder
   static deleteImages(images, mode) {
@@ -48,7 +59,7 @@ class Product {
     try {
       // Hiển thị tất cả sản phẩm có pStatus là "Active" hoặc "Disabled"
       let Products = await productModel
-        .find()  // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
+        .find({ pStatus: { $in: ["Active", "Disabled","Not available"]} }) // Thêm điều kiện này để lọc sản phẩm chưa bị xóa mềm
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
@@ -202,6 +213,7 @@ class Product {
         let deleteProduct = await productModel.findByIdAndUpdate(
           pId,
           { 
+            pStatus: "Not available",
             pName: `${productName} (The product is not available)`,
             pQuantity: 0
           },
