@@ -184,10 +184,10 @@ const ProductDetailsSection = (props) => {
                 <span className="text-xl tracking-wider text-yellow-700">
                   {sProduct.pPrice}.000 <span className="card-title"> ₫</span>
                 </span>
-                 {/* Hiển thị số lượng sản phẩm đã bán */}
-               {/* <div className="my-4 md:my-6">
+                 { /*Hiển thị số lượng sản phẩm đã bán */}
+               { <div className="my-4 md:my-6">
                <span className="font-semibold">Sold:</span> {sProduct.pSold}
-              </div> */}
+              </div> }
                 <span>
                   <svg
                     onClick={(e) => isWishReq(e, sProduct._id, setWlist)}
