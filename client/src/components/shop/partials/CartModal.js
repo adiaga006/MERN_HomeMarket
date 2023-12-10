@@ -1,7 +1,7 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { LayoutContext } from "../index";
-import { cartListProduct } from "./FetchApi";
+import { cartListProduct, getProductDetail } from "./FetchApi";
 import { isAuthenticate } from "../auth/fetchApi";
 import { cartList } from "../productDetails/Mixins";
 import { subTotal, quantity, totalCost } from "./Mixins";
@@ -10,7 +10,7 @@ const apiURL = process.env.REACT_APP_API_URL;
 
 const CartModal = () => {
   const history = useHistory();
-
+  const [loading, setLoading] = useState(false);
   const { data, dispatch } = useContext(LayoutContext);
   const products = data.cartProduct;
 
@@ -52,6 +52,31 @@ const CartModal = () => {
       dispatch({ type: "inCart", payload: cartList() });
     }
   };
+
+  const changeProductQuantity = (itemId, type) => {
+    if (loading) return;
+    setLoading(true);
+    let carts = JSON.parse(localStorage.getItem("cart"));
+    const item = carts.find(product => product.id === itemId);
+    if (!item || (type === '-' && item.quantitiy === 1)) {
+      setLoading(false);
+      return;
+    }
+    getProductDetail(itemId).then(data => {
+      if (type === '+') {
+        item.quantitiy++;
+        if (item.quantitiy > data.Product.pQuantity) {
+          setLoading(false);
+          alert('Stock limited!');
+          return;
+        }
+      }
+      else if (type === '-') item.quantitiy--;
+      localStorage.setItem('cart', JSON.stringify(carts));
+      fetchData();
+      setLoading(false);
+    });
+  }
 
   return (
     <Fragment>
@@ -108,19 +133,23 @@ const CartModal = () => {
                           <div className="my-2">{item.pName}</div>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center justify-between space-x-2">
-                              <div className="text-sm text-gray-400">
-                                Quantity :
-                              </div>
-                              <div className="flex items-end">
-                                <span className="text-sm text-gray-200">
+                              Quantity:
+                              <div className="flex items-end space-x-2">
+                                <button className="bg-gray-300 px-2 py-1 text-gray-700 rounded ml-2" onClick={() => changeProductQuantity(item._id, '-')}>
+                                  -
+                                </button>
+                                <span className="text-sm text-white-700">
                                   {quantity(item._id)}
                                 </span>
+                                <button className="bg-gray-300 px-2 py-1 text-gray-700 rounded" onClick={() => changeProductQuantity(item._id, '+')}>
+                                  +
+                                </button>
                               </div>
                             </div>
                             <div>
                               {" "}
                               <span className="text-sm text-gray-400">
-                                Subtotoal :
+                                Subtotal :
                               </span>{" "}
                               {subTotal(item._id, item.pPrice)}.000 VND
                             </div>{" "}

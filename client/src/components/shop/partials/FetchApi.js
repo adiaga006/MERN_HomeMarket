@@ -18,3 +18,14 @@ export const cartListProduct = async () => {
     console.log(error);
   }
 };
+
+export const getProductDetail = async (id) => {
+  try {
+    let res = await axios.post(`${apiURL}/api/product/single-product`, {
+      pId: id
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

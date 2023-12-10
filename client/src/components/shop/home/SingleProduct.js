@@ -86,13 +86,11 @@ const SingleProduct = (props) => {
                           <span id="no_of_reviews">({item.pNumOfReviews} Reviews)</span>
                       </div>
                       <p className="card-text">{item.pPrice}.000<span className="card-title"> ₫</span></p>
-                      <Link
-                          id="view_btn"
-                          className="btn btn-block"
-                          // onClick={addToCart}
-                      >
-                          Add to Cart
-                      </Link>
+                      <div>
+                      <span>
+                      Sold: {item.pSold}
+                      </span>
+                      </div>
                   </div>
                 {/* WhisList Logic  */}
                 <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">

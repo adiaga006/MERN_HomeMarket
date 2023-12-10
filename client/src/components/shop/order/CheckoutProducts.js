@@ -204,6 +204,8 @@ const CheckoutProducts = ({ products }) => {
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
                     Quantitiy : {quantity(product._id)}
+                    <button>-</button>
+                    <button>+</button>
                   </div>
                   <div className="font-semibold text-gray-600 text-sm">
                     Subtotal : {subTotal(product._id, product.pPrice)}.000 VND
