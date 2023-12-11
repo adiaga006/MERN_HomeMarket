@@ -4,7 +4,7 @@ import { HomeContext } from "./index";
 import { getAllCategory } from "../../admin/categories/FetchApi";
 import { getAllProduct, productByPrice } from "../../admin/products/FetchApi";
 import "./style.css";
-
+import unorm from "unorm";
 const apiURL = process.env.REACT_APP_API_URL;
 
 const CategoryList = () => {
@@ -143,21 +143,13 @@ const FilterList = () => {
     </div>
   );
 };
-
+const removeDiacritics = (str) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
 const Search = () => {
   const { data, dispatch } = useContext(HomeContext);
   const [search, setSearch] = useState("");
   const [productArray, setPa] = useState(null);
-
-  const searchHandle = (e) => {
-    setSearch(e.target.value);
-    fetchData();
-    dispatch({
-      type: "searchHandleInReducer",
-      payload: e.target.value,
-      productArray: productArray,
-    });
-  };
 
   const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
@@ -168,11 +160,30 @@ const Search = () => {
           setPa(responseData.Products);
           dispatch({ type: "loading", payload: false });
         }
-      }, 700);
+      }, 500);
     } catch (error) {
       console.log(error);
     }
   };
+  const searchHandle = (e) => {
+    setSearch(e.target.value);
+    fetchData();
+  };
+
+  useEffect(() => {
+    const normalizedSearch = removeDiacritics(search).toLocaleLowerCase();
+    const filteredProducts = productArray
+      ? productArray.filter((item) =>
+          removeDiacritics(item.pName).toLocaleLowerCase().includes(normalizedSearch)
+        )
+      : null;
+
+    dispatch({
+      type: "searchHandleInReducer",
+      payload: search,
+      productArray: filteredProducts,
+    });
+  }, [search, productArray, dispatch]);
 
   const closeSearchBar = () => {
     dispatch({ type: "searchDropdown", payload: !data.searchDropdown });
