@@ -5,6 +5,9 @@ import {
   updatePassword,
 } from "./FetchApi";
 
+import axios from "axios";
+const apiURL = process.env.REACT_APP_API_URL;
+
 export const logout = () => {
   localStorage.removeItem("jwt");
   localStorage.removeItem("cart");
@@ -49,12 +52,15 @@ export const fetchOrderByUser = async (dispatch) => {
   }
 };
 
-export const updatePersonalInformationAction = async (dispatch, fData) => {
-  const formData = {
-    uId: fData.id,
-    name: fData.name,
-    phoneNumber: fData.phone,
-  };
+export const updatePersonalInformationAction = async (dispatch, user) => {
+  console.log(user)
+  let formData = new FormData();
+  formData.append("editAvatar",user.editAvatar)
+  console.log(formData.get("editAvatar"));
+  formData.append("uId", user.id);
+  formData.append("name", user.name);
+  formData.append("phoneNumber", user.phone);
+  
   dispatch({ type: "loading", payload: true });
   try {
     let responseData = await updatePersonalInformationFetch(formData);

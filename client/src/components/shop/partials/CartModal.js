@@ -57,26 +57,25 @@ const CartModal = () => {
     if (loading) return;
     setLoading(true);
     let carts = JSON.parse(localStorage.getItem("cart"));
-    const item = carts.find(product => product.id === itemId);
-    if (!item || (type === '-' && item.quantitiy === 1)) {
+    const item = carts.find((product) => product.id === itemId);
+    if (!item || (type === "-" && item.quantitiy === 1)) {
       setLoading(false);
       return;
     }
-    getProductDetail(itemId).then(data => {
-      if (type === '+') {
+    getProductDetail(itemId).then((data) => {
+      if (type === "+") {
         item.quantitiy++;
         if (item.quantitiy > data.Product.pQuantity) {
           setLoading(false);
-          alert('Stock limited!');
+          alert("Stock limited!");
           return;
         }
-      }
-      else if (type === '-') item.quantitiy--;
-      localStorage.setItem('cart', JSON.stringify(carts));
+      } else if (type === "-") item.quantitiy--;
+      localStorage.setItem("cart", JSON.stringify(carts));
       fetchData();
       setLoading(false);
     });
-  }
+  };
 
   return (
     <Fragment>
@@ -135,13 +134,23 @@ const CartModal = () => {
                             <div className="flex items-center justify-between space-x-2">
                               Quantity:
                               <div className="flex items-end space-x-2">
-                                <button className="bg-gray-300 px-2 py-1 text-gray-700 rounded ml-2" onClick={() => changeProductQuantity(item._id, '-')}>
+                                <button
+                                  className="rounded btn-danger minus ml-2"
+                                  onClick={() =>
+                                    changeProductQuantity(item._id, "-")
+                                  }
+                                >
                                   -
                                 </button>
                                 <span className="text-sm text-white-700">
                                   {quantity(item._id)}
                                 </span>
-                                <button className="bg-gray-300 px-2 py-1 text-gray-700 rounded" onClick={() => changeProductQuantity(item._id, '+')}>
+                                <button
+                                  className="rounded btn-primary plus"
+                                  onClick={() =>
+                                    changeProductQuantity(item._id, "+")
+                                  }
+                                >
                                   +
                                 </button>
                               </div>

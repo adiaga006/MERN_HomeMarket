@@ -2,33 +2,41 @@ import React, { Fragment, useContext, useState, useEffect } from "react";
 import Layout from "./Layout";
 import { DashboardUserContext } from "./Layout";
 import { updatePersonalInformationAction } from "./Action";
+import "./style.css";
 
 const ProfileComponent = () => {
   const { data, dispatch } = useContext(DashboardUserContext);
   const userDetails = data.userDetails !== null ? data.userDetails : "";
 
-  const [fData, setFdata] = useState({
+  const [editformData, setEditformdata] = useState({
     id: "",
     name: "",
     email: "",
     phone: "",
+    avatar: null,
+    editAvatar: null,
     success: false,
   });
 
   useEffect(() => {
-    setFdata({
-      ...fData,
+    setEditformdata({
       id: userDetails._id,
       name: userDetails.name,
       email: userDetails.email,
       phone: userDetails.phoneNumber,
+      avatar: userDetails.userImage
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetails]);
 
   const handleSubmit = () => {
-    updatePersonalInformationAction(dispatch, fData);
+    if (!editformData.editAvatar) {
+      console.log("Image Not upload=============", editformData);
+    } else {
+      console.log("Image uploading");
+    }
+    updatePersonalInformationAction(dispatch, editformData);
   };
 
   if (data.loading) {
@@ -60,9 +68,9 @@ const ProfileComponent = () => {
           </div>
           <hr />
           <div className="py-4 px-4 md:px-8 lg:px-16 flex flex-col space-y-4">
-            {fData.success ? (
+            {editformData.success ? (
               <div className="bg-green-200 px-4 py-2 rounded">
-                {fData.success}
+                {editformData.success}
               </div>
             ) : (
               ""
@@ -70,9 +78,9 @@ const ProfileComponent = () => {
             <div className="flex flex-col space-y-2">
               <label htmlFor="name">Name</label>
               <input
-                onChange={(e) => setFdata({ ...fData, name: e.target.value })}
-                value={fData.name}
-                type="text"
+                onChange={(e) => setEditformdata({ ...editformData, name: e.target.value })}
+                value={editformData.name}
+                type="name"
                 id="name"
                 className="border px-4 py-2 w-full focus:outline-none"
               />
@@ -80,7 +88,7 @@ const ProfileComponent = () => {
             <div className="flex flex-col space-y-2">
               <label htmlFor="email">Email</label>
               <input
-                value={fData.email}
+                value={editformData.email}
                 readOnly
                 type="email"
                 id="email"
@@ -93,13 +101,31 @@ const ProfileComponent = () => {
             <div className="flex flex-col space-y-2">
               <label htmlFor="number">Phone Number</label>
               <input
-                onChange={(e) => setFdata({ ...fData, phone: e.target.value })}
-                value={fData.phone}
+                onChange={(e) => setEditformdata({ ...editformData, phone: e.target.value })}
+                value={editformData.phone}
                 type="number"
                 id="number"
                 className="border px-4 py-2 w-full focus:outline-none"
               />
             </div>
+            <div className='flex flex-col space-y-2'>
+              <label htmlFor='avatar_upload'>Avatar</label>
+                <div className='d-flex align-items-center'>
+                   <div className='custom-file'>
+                                    <input
+                                        type='file'
+                                        name='avatar'
+                                        className='custom-file-input'
+                                        id='avatar'
+                                        accept='.jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*'
+                                        onChange={(e) => setEditformdata({ ...editformData, editAvatar: e.target.files[0]})}
+                                    />
+                                    <label className='custom-file-label' htmlFor='customFile'>
+                                        Choose Avatar
+                                </label>
+                                </div>
+                            </div>
+                        </div>
             <div
               onClick={(e) => handleSubmit()}
               style={{ background: "#303031" }}

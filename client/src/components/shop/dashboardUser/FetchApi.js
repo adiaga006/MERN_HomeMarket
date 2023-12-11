@@ -10,9 +10,9 @@ export const getUserById = async (uId) => {
   }
 };
 
-export const updatePersonalInformationFetch = async (userData) => {
+export const updatePersonalInformationFetch = async (formData) => {
   try {
-    let res = await axios.post(`${apiURL}/api/user/edit-user`, userData);
+    let res = await axios.post(`${apiURL}/api/user/edit-user`, formData);
     return res.data;
   } catch (error) {
     console.log(error);
