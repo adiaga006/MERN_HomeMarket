@@ -78,18 +78,18 @@ class Product {
   
     // Validation
     if (!pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
-      Product.deleteImages(images, "file");
+      //Product.deleteImages(images, "file");
       return res.json({ error: "All fields must be required" });
     } else if (pName.length > 255 || pDescription.length > 3000) {
-      Product.deleteImages(images, "file");
+      //Product.deleteImages(images, "file");
       return res.json({
         error: "Name 255 & Description must not be 3000 characters long",
       });
     } else if (images.length < 1) {
-      Product.deleteImages(images, "file");
+      //Product.deleteImages(images, "file");
       return res.json({ error: "Need at least 1 images" });
     } else if (isNaN(pQuantity) || pQuantity < 0) {
-      Product.deleteImages(images, "file");
+      //Product.deleteImages(images, "file");
       return res.json({ error: "Quantity must be a non-negative number" });
     } else {
       try {
@@ -98,7 +98,7 @@ class Product {
         const existingProduct = await productModel.findOne({
           pName: { $regex: new RegExp("^" + pName + "$", "i") } });
         if (existingProduct) {
-          Product.deleteImages(images, "file");
+          //Product.deleteImages(images, "file");
           return res.json({ error: "Product with the same name already exists" });
         }
   
@@ -136,12 +136,17 @@ class Product {
   
   async postEditProduct(req, res) {
     const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 17b69a10593975491ce2aaaa4a42ab030607b51d
     if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
       return res.json({ error: "All fields must be required" });
     } else if (isNaN(pQuantity) || pQuantity < 0) {
       return res.json({ error: "Quantity must be a non-negative number" });
     } else if (pName.length > 255 || pDescription.length > 3000) {
+<<<<<<< HEAD
       return res.json({ error: "Name 255 & Description must not be 3000 characters long" });
     } 
     // else if (editImages && editImages.length == 1) {
@@ -206,6 +211,66 @@ class Product {
       return res.json({ error: "An error occurred while editing the product" });
     }
   }
+=======
+      return res.json({ error: "Name must be 255 characters long, and Description must not exceed 3000 characters" });
+    } else {
+      try {
+        const existingProduct = await productModel.findOne({ pName: { $regex: new RegExp("^" + pName + "$", "i") }, _id: { $ne: pId } });
+        if (existingProduct) {
+          return res.json({ error: "Product with the same name already exists" });
+        }
+  
+        const product = await productModel.findById(pId);
+  
+        const editImages = req.files;
+        let existingImages = [];
+  
+        if (!editImages || editImages.length === 0) {
+          // No new images selected, reuse existing images
+          existingImages = product.pImages || [];
+        } else {
+          // New images selected, upload and store them
+          for (const image of editImages) {
+            const result = await cloudinary.v2.uploader.upload(image.path, { folder: 'products' });
+            existingImages.push({ public_id: result.public_id, url: result.secure_url });
+          }
+        }
+  
+        // Remove images from the cloud that are not present in the updated set
+        if (product.pImages) {
+          const cloudPublicIds = product.pImages.map(img => img.public_id);
+          const updatedPublicIds = existingImages.map(img => img.public_id);
+          const publicIdsToRemove = cloudPublicIds.filter(publicId => !updatedPublicIds.includes(publicId));
+  
+          for (const publicId of publicIdsToRemove) {
+            await cloudinary.v2.uploader.destroy(publicId);
+          }
+        }
+  
+        const editData = {
+          pName,
+          pDescription,
+          pPrice,
+          pQuantity,
+          pCategory,
+          pOffer,
+          pStatus,
+          pImages: existingImages,
+        };
+  
+        const editProduct = await productModel.findByIdAndUpdate(pId, editData);
+  
+        return res.json({ success: "Product edited successfully" });
+  
+      } catch (err) {
+        console.log(err);
+        return res.json({ error: "An error occurred while saving the product" });
+      }
+    }
+  }
+  
+  
+>>>>>>> 17b69a10593975491ce2aaaa4a42ab030607b51d
   
 
   async  getDeleteProduct(req, res) {

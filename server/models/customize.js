@@ -12,10 +12,10 @@ const customizeSchema = new mongoose.Schema(
         required: true,
       },
     },
-    firstShow: {
-      type: Number,
-      default: 0,
-    },
+    // firstShow: {
+    //   type: Number,
+    //   default: 0,
+    // },
   },
   { timestamps: true }
 );

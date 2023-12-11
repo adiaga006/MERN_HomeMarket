@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { logout } from "./Action";
 import { DashboardUserContext } from "./Layout";
+import "./style.css";
 
 const Sidebar = (props) => {
   const { data } = useContext(DashboardUserContext);
@@ -16,25 +17,15 @@ const Sidebar = (props) => {
           style={{ background: "#303031" }}
           className="flex items-center space-x-2 rounded shadow p-2 text-gray-100"
         >
-          <svg
-            className="cursor-pointer w-16 h-16 text-gray-100"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <div className="flex flex-col w-full">
-            <span className="text-sm">Hello,</span>
-            <span className="text-lg">
-              {data.userDetails ? data.userDetails.name : ""}
-            </span>
+          <div className="col-12 col-md-3">
+            <figure className='avatar avatar-profile'>
+              <img className="rounded-circle img-fluid" src={data.userDetails ? data.userDetails.userImage.url : ""} alt={data.userDetails ? data.userDetails.name : ""} />
+            </figure>
+            <div className="flex flex-col w-full">
+              <span className="text-sm">Hello,               <span className="text-lg">
+                {data.userDetails ? data.userDetails.name : ""}
+              </span></span>
+            </div>
           </div>
         </div>
         <div className="shadow hidden md:block w-full flex flex-col">
@@ -93,5 +84,4 @@ const Sidebar = (props) => {
     </Fragment>
   );
 };
-
 export default Sidebar;

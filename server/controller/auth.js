@@ -6,6 +6,7 @@ const { JWT_SECRET } = require("../config/keys");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { deleteModel } = require("mongoose");
+const cloudinary = require('cloudinary')
 
 function generateOTP() {
   return crypto.randomBytes(4).toString('hex').toUpperCase();
@@ -108,11 +109,24 @@ class Auth {
           
               const otp = generateOTP();
               const hashedPassword = bcrypt.hashSync(password, 10);
-          
+
+
+              const imagePath = "../client/src/assets/default_avatar.jpg";
+              const result = await cloudinary.v2.uploader.upload(imagePath, {
+                folder: 'avatars',
+                width: 150,
+                crop: "scale"
+            });
+  
+
               // Create new user with new OTP
               let newUser = new userModel({
                 name,
                 email,
+                userImage:{
+                  public_id: result.public_id,
+                  url: result.secure_url
+                },
                 password: hashedPassword,
                 otp,
                 userRole: 0,
@@ -141,9 +155,17 @@ class Auth {
             const otp = generateOTP();
             const hashedPassword = bcrypt.hashSync(password, 10);
           
+            const imagePath = "../client/src/assets/default_avatar.jpg";
+            const result = await cloudinary.v2.uploader.upload(imagePath, { folder: 'avatars' });
+
+
             let newUser = new userModel({
               name,
               email,
+              userImage:{
+                public_id: result.public_id,
+                url: result.secure_url
+              },
               password: hashedPassword,
               otp,
               userRole: 0,

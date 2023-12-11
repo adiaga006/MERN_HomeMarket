@@ -25,8 +25,12 @@ const userSchema = new mongoose.Schema(
       type: Number,
     },
     userImage: {
-      type: String,
-      default: "user.png",
+      public_id: {
+        type: String
+      },
+      url: {
+        type: String
+      }
     },
     verified: {
       type: Boolean,
@@ -36,10 +40,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    history: {
-      type: Array,
-      default: [],
-    },
+    // history: {
+    //   type: Array,
+    //   default: [],
+    // },
     otp: {
       type: String,
       default: null,
