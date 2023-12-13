@@ -81,13 +81,10 @@ const AllProduct = ({ products }) => {
                           <span id="no_of_reviews">({item.pNumOfReviews} Reviews)</span>
                       </div>
                       <p className="card-text">{item.pPrice}.000<span className="card-title"> ₫</span></p>
-                      <Link
-                          id="view_btn"
-                          className="btn btn-block"
-                          // onClick={addToCart}
-                      >
-                          Add to Cart
-                      </Link>
+                      { /*Hiển thị số lượng sản phẩm đã bán */}
+               { <div className="my-4 md:my-6">
+               <span className="font-semibold">Sold:</span> {item.pSold}
+              </div> }
                   </div>
                   <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">
                     <svg
