@@ -133,7 +133,7 @@ const CartModal = () => {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center justify-between space-x-2">
                               Quantity:
-                              <div className="flex items-end space-x-2">
+                              <div className="stockCounter d-inline space-x-2">
                                 <button
                                   className="rounded btn-danger minus ml-2"
                                   onClick={() =>
@@ -142,9 +142,7 @@ const CartModal = () => {
                                 >
                                   -
                                 </button>
-                                <span className="text-sm text-white-700">
-                                  {quantity(item._id)}
-                                </span>
+                                <input type="number" style={{color:"black"}} className="rounded" value={quantity(item._id)} readOnly />
                                 <button
                                   className="rounded btn-primary plus"
                                   onClick={() =>
@@ -160,7 +158,7 @@ const CartModal = () => {
                               <span className="text-sm text-gray-400">
                                 Subtotal :
                               </span>{" "}
-                              {subTotal(item._id, item.pPrice)}.000 VND
+                              {subTotal(item._id, item.pPrice - (item.pPrice * item.pOffer)/100)}.000 VND
                             </div>{" "}
                             {/* SUbtotal Count */}
                           </div>

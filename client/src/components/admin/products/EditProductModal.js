@@ -167,14 +167,23 @@ const EditProductModal = (props) => {
                 <label htmlFor="price">Product Price *</label>
                 <input
                   value={editformData.pPrice}
-                  onChange={(e) =>
+                  onChange={(e) => {
+
+                    const inputPrice = e.target.value;
+                    let newPrice = inputPrice;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputPrice < 0) {
+                      newPrice = 0;
+                    }
+
                     setEditformdata({
                       ...editformData,
                       error: false,
                       success: false,
-                      pPrice: e.target.value,
+                      pPrice: newPrice,
                     })
-                  }
+                  }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="price"
@@ -338,14 +347,23 @@ const EditProductModal = (props) => {
                 <label htmlFor="offer">Product Offfer (%) *</label>
                 <input
                   value={editformData.pOffer}
-                  onChange={(e) =>
+                  onChange={(e) => {
+
+                    const inputOffer = e.target.value;
+                    let newOffer = inputOffer;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputOffer < 0) {
+                      newOffer = 0;
+                    }
+
                     setEditformdata({
                       ...editformData,
                       error: false,
                       success: false,
-                      pOffer: e.target.value,
+                      pOffer: newOffer,
                     })
-                  }
+                  }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="offer"
