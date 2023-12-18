@@ -7,8 +7,6 @@ class User {
     try {
       let Users = await userModel
         .find({})
-        .populate("allProduct.id", "pName pImages pPrice")
-        .populate("user", "name email")
         .sort({ _id: -1 });
       if (Users) {
         return res.json({ Users });
@@ -66,11 +64,28 @@ class User {
       }
     }
   }
+
+  async postAdminEditUser(req, res) {
+    let { uId, role } = req.body;
+    if (!uId || !role) {
+      return res.json({ message: "All filled must be required" });
+    } else {
+      let currentUser = userModel.findByIdAndUpdate(uId, {
+        userRole: role,
+        updatedAt: Date.now(),
+      });
+      currentUser.exec((err, result) => {
+        if (err) console.log(err);
+        return res.json({ success: "User updated successfully" });
+      });
+    }
+  }
+
   async postEditUser(req, res) {
     try {
       const { uId, name, phoneNumber } = req.body;
 
-      if (!uId || !name || !phoneNumber) {
+      if (!uId || !name) {
         return res.status(400).json({ message: "All fields must be required" });
       }
 
@@ -124,6 +139,22 @@ class User {
         if (err) console.log(err);
         return res.json({ success: "User updated successfully" });
       });
+    }
+  }
+
+  async postDeleteUser(req, res) {
+    let { uId } = req.body;
+    if (!uId) {
+      return res.json({ error: "All filled must be required" });
+    } else {
+      try {
+        let deleteUser = await userModel.findByIdAndDelete(uId);
+        if (deleteUser) {
+          return res.json({ success: "User deleted successfully" });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
