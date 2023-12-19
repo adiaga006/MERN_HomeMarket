@@ -189,5 +189,5 @@ class User {
   }
 }
 
-const ordersController = new User();
-module.exports = ordersController;
+const usersController = new User();
+module.exports = usersController;
