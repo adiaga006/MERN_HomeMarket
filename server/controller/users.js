@@ -6,7 +6,7 @@ class User {
   async getAllUser(req, res) {
     try {
       let Users = await userModel
-        .find({})
+        .find({ verified: "true"  })
         .sort({ _id: -1 });
       if (Users) {
         return res.json({ Users });
