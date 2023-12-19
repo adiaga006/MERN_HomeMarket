@@ -116,6 +116,7 @@ const SingleProduct = (props) => {
                       <Fragment>
                       <div className="flex items-center">
                       <p class="card-home-price-2 original-price">{item.pPrice}.000<span class="card-title"> ₫</span></p>
+                      <span className="space-between"></span>
                       <p class="card-home-price-2 discount rounded">-{item.pOffer}%</p>
                       </div>
                       </Fragment>

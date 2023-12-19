@@ -178,3 +178,7 @@ d-inline{display:inline!important}
     font-size: 10px;
   }
 }
+/* Add this to your CSS stylesheet */
+.space-between {
+  margin-right: 8px; /* Adjust the value to your preference */
+}
