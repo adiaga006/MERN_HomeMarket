@@ -32,9 +32,10 @@ const ProductDetailsSection = (props) => {
   const [wList, setWlist] = useState(
     JSON.parse(localStorage.getItem("wishList"))
   ); // Wishlist State Control
-
+  
   useEffect(() => {
     fetchData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -181,14 +182,22 @@ const ProductDetailsSection = (props) => {
                       </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-xl tracking-wider text-yellow-700">
-                  {sProduct.pPrice}.000 <span className="card-title"> ₫</span>
+                <span className="font-bold card-product-price">
+                  {sProduct.pPrice - (sProduct.pPrice * sProduct.pOffer) / 100}.000 <span className="card-title"> ₫</span>
                 </span>
+                {sProduct.pOffer !==0 ? (
+                  <Fragment>
+                    <p class="card-product-price2 original-price">{sProduct.pPrice}.000<span class="card-title"> ₫</span></p>
+                    <p class="card-product-price2 discount rounded">-{sProduct.pOffer}%</p>
+                    </Fragment>
+                ) : (
+                  <div/>
+                )}
                  { /*Hiển thị số lượng sản phẩm đã bán */}
                { <div className="my-4 md:my-6">
                <span className="font-semibold">Sold:</span> {sProduct.pSold}
               </div> }
-                <span>
+                <span >
                   <svg
                     onClick={(e) => isWishReq(e, sProduct._id, setWlist)}
                     className={`${
@@ -373,32 +382,6 @@ const ProductDetailsSection = (props) => {
                 {/* Quantity Button End */}
               </div>
               {/* Incart and out of stock button */}
-              {/* <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={sProduct.pQuantity === 0}
-                    onClick={(e) =>
-                      addToCart(
-                        sProduct._id,
-                        quantitiy,
-                        sProduct.pPrice,
-                        layoutDispatch,
-                        setQuantitiy,
-                        setAlertq,
-                        fetchData,
-                        totalCost
-                      )
-                    }>Add to Cart</button>
-              <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4 " disabled={sProduct.pQuantity === 0}
-                    onClick={(e) =>
-                      addToCart(
-                        sProduct._id,
-                        quantitiy,
-                        sProduct.pPrice,
-                        layoutDispatch,
-                        setQuantitiy,
-                        setAlertq,
-                        fetchData,
-                        totalCost
-                      )
-                    }>Buy</button> */}
               {sProduct.pQuantity !== 0 ? (
                 <Fragment>
                   {layoutData.inCart !== null &&
@@ -416,7 +399,7 @@ const ProductDetailsSection = (props) => {
                         addToCart(
                           sProduct._id,
                           quantitiy,
-                          sProduct.pPrice,
+                          sProduct.pPrice - ((sProduct.pPrice * sProduct.pOffer) / 100),
                           layoutDispatch,
                           setQuantitiy,
                           setAlertq,

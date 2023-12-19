@@ -65,8 +65,14 @@ const Product = () => {
                 </div>
                 <div className="md:w-1/2 md:flex md:items-center md:justify-around">
                   <div className="font-semibold text-gray-600">
-                    {product.pPrice}.000 VND
+                    {product.pPrice - (product.pPrice * product.pOffer)/100}.000 VND
                   </div>
+                  <p className="card-text">
+                      {product.pPrice}.000<span className="card-title"> ₫</span>
+                    </p>
+                    <p className="card-text">
+                      -{product.pOffer}%
+                    </p>
                   {product.pQuantity > 0 ? (
                     <div className="text-green-500 my-1 md:my-0">In Stock</div>
                   ) : (

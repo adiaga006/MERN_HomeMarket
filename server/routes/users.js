@@ -19,7 +19,8 @@ router.post("/signle-user", usersController.getSingleUser);
 
 router.post("/add-user", usersController.postAddUser);
 router.post("/edit-user",upload.single("editAvatar"), usersController.postEditUser);
-router.post("/delete-user", usersController.getDeleteUser);
+router.post("/admin-edit-user", usersController.postAdminEditUser);
+router.post("/delete-user", usersController.postDeleteUser);
 
 router.post("/change-password", usersController.changePassword);
 
