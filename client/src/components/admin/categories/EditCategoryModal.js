@@ -16,7 +16,7 @@ const EditCategoryModal = (props) => {
     setDes(data.editCategoryModal.des);
     setStatus(data.editCategoryModal.status);
     setCid(data.editCategoryModal.cId);
-    setName(data.editCategoryModal.cName); // Add this line
+    setName(data.editCategoryModal.name); // Add this line
     setError(""); // Clear error when modal is opened
 
 
