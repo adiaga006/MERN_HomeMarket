@@ -288,7 +288,7 @@ const EditProductModal = (props) => {
                     Select a category
                   </option>
                   {categories && categories.length > 0
-                    ? categories.map(function (elem) {
+                    ? categories.map((elem) => {
                         return (
                           <Fragment key={elem._id}>
                             {editformData.pCategory._id && editformData.pCategory._id &&
