@@ -16,7 +16,7 @@ const AdminNavber = (props) => {
       <nav className="sticky z-10 flex items-center shadow-md justify-between px-4 py-4 md:px-8 top-0 w-full bg-white">
         {/*  Large Screen Show  */}
         <div className="hidden lg:block lg:flex lg:items-center lg:space-x-4 mr-32">
-          <span>
+          {/* <span>
             <svg
               className="w-8 h-8 cursor-pointer text-gray-600"
               fill="none"
@@ -31,7 +31,7 @@ const AdminNavber = (props) => {
                 d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
-          </span>
+          </span> */}
         </div>
         {/*  Large Screen Show  */}
         <div className="hidden lg:block">
@@ -70,7 +70,7 @@ const AdminNavber = (props) => {
         </div>
         {/* Both Screen show */}
         <div className="flex items-center">
-          <div className="hover:bg-gray-200 rounded-lg p-2" title="Search">
+          {/* <div className="hover:bg-gray-200 rounded-lg p-2" title="Search">
             <svg
               className="cursor-pointer w-8 h-8 text-gray-600 hover:text-gray-800"
               fill="none"
@@ -85,8 +85,8 @@ const AdminNavber = (props) => {
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
               />
             </svg>
-          </div>
-          <div className="hover:bg-gray-200 rounded-lg p-2" title="Search">
+          </div> */}
+          {/* <div className="hover:bg-gray-200 rounded-lg p-2" title="Search">
             <svg
               className="cursor-pointer w-8 h-8 text-gray-600 hover:text-gray-800"
               fill="none"
@@ -101,7 +101,7 @@ const AdminNavber = (props) => {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-          </div>
+          </div> */}
           {/* Logout Button Dropdown */}
           <div
             className="userDropdownBtn hover:bg-gray-200 px-2 py-2 rounded-lg relative"
@@ -145,7 +145,7 @@ const AdminNavber = (props) => {
                   </span>
                   <span>Shop</span>
                 </span>
-                <span className="flex space-x-1 py-2 px-8 hover:bg-gray-400 cursor-pointer">
+                {/* <span className="flex space-x-1 py-2 px-8 hover:bg-gray-400 cursor-pointer">
                   <span>
                     <svg
                       className="w-6 h-6"
@@ -169,7 +169,7 @@ const AdminNavber = (props) => {
                     </svg>
                   </span>
                   <span>Setting</span>
-                </span>
+                </span> */}
                 <span
                   onClick={(e) => logout()}
                   className="flex space-x-1 py-2 px-8 hover:bg-gray-400 cursor-pointer"

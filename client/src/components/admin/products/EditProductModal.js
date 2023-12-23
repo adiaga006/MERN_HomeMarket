@@ -288,10 +288,10 @@ const EditProductModal = (props) => {
                     Select a category
                   </option>
                   {categories && categories.length > 0
-                    ? categories.map((elem) => {
+                    ? categories.map(function (elem) {
                         return (
                           <Fragment key={elem._id}>
-                            {editformData.pCategory._id &&
+                            {editformData.pCategory._id && editformData.pCategory._id &&
                             editformData.pCategory._id === elem._id ? (
                               <option
                                 name="status"

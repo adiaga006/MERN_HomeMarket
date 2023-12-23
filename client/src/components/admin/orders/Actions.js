@@ -104,7 +104,6 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) =
         // If start or end date is not provided, return all orders
         filteredOrders = responseData.Orders;
       }
-
       dispatch({
         type: "fetchOrderAndChangeState",
         payload: filteredOrders,

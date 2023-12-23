@@ -111,7 +111,7 @@ const SingleProduct = (props) => {
                         ({item.pNumOfReviews} Reviews)
                       </span>
                     </div>
-                    <p class="card-home-price">{item.pPrice - (item.pPrice * item.pOffer)/100}.000<span class="card-title"> ₫</span></p>
+                    <p class="card-home-price">{Math.round(item.pPrice - (item.pPrice * item.pOffer)/100)}.000<span class="card-title"> ₫</span></p>
                     {item.pOffer !==0 ? (
                       <Fragment>
                       <div className="flex items-center">

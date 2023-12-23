@@ -59,6 +59,38 @@ export const createProduct = async ({
   }
 };
 
+// export const createProduct = async ({
+//   pName,
+//   pDescription,
+//   pImage,
+//   pStatus,
+//   pCategory,
+//   pQuantity,
+//   pPrice,
+//   pOffer,
+// }) => {
+//   /* Most important part for uploading multiple image  */
+//   let formData = new FormData();
+//   for (const file of pImage) {
+//     formData.append("pImage", file);
+//   }
+//   /* Most important part for uploading multiple image  */
+//   formData.append("pName", pName);
+//   formData.append("pDescription", pDescription);
+//   formData.append("pStatus", pStatus);
+//   formData.append("pCategory", pCategory);
+//   formData.append("pQuantity", pQuantity);
+//   formData.append("pPrice", pPrice);
+//   formData.append("pOffer", pOffer);
+
+//   try {
+//     let res = await axios.post(`${apiURL}/api/product/add-product`, formData);
+//     return res.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const editProduct = async (product) => {
   console.log(product);
   /* Most important part for updating multiple image  */

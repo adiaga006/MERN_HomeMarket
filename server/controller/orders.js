@@ -5,7 +5,7 @@ class Order {
     try {
       let Orders = await orderModel
         .find({})
-        .populate("allProduct.id", "pName pImages pPrice")
+        .populate("allProduct.id", "pName pImages pPrice pOffer pQuantity")
         .populate("user", "name email")
         .sort({ _id: -1 });
       if (Orders) {
