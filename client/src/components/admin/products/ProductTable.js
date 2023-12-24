@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { getAllProduct, deleteProduct,getAllProduct_Admin } from "./FetchApi";
 import moment from "moment";
 import { ProductContext } from "./index";
+import { fetchData} from "./Actions";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
@@ -13,7 +14,7 @@ const AllProduct = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
   useEffect(() => {
-    fetchData();
+    fetchData(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 let currentProducts = [];
@@ -25,20 +26,6 @@ if (products) {
     indexOfLastProduct
   );
 }
-  const fetchData = async () => {
-    setLoading(true);
-    let responseData = await getAllProduct_Admin();
-    setTimeout(() => {
-      if (responseData && responseData.Products) {
-        dispatch({
-          type: "fetchProductsAndChangeState",
-          payload: responseData.Products,
-        });
-        setLoading(false);
-      }
-    }, 1000);
-  };
-
   const deleteProductReq = async (pId) => {
     try {
       let deleteC = await deleteProduct(pId);

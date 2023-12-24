@@ -59,8 +59,8 @@ export const filterOrder = async (
       );
       dispatch({ type: "fetchOrderAndChangeState", payload: newData });
       setDropdown(!dropdown);
-    } else if (type === "Shipped") {
-      newData = responseData.Orders.filter((item) => item.status === "Shipped");
+    } else if (type === "Shipping") {
+      newData = responseData.Orders.filter((item) => item.status === "Shipping");
       dispatch({ type: "fetchOrderAndChangeState", payload: newData });
       setDropdown(!dropdown);
     } else if (type === "Delivered") {

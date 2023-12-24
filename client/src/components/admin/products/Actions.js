@@ -26,7 +26,7 @@ export const fetchOrdersByProductName = async (productName, dispatch, setError) 
 
         // Filter orders based on timestamps (createdAt) between start and end dates
         filteredOrders = responseData.Products.filter(
-          (item) => removeDiacritics(item.pName.toLowerCase()).includes(productNameLower)
+          (item) => item.pName.toLowerCase().includes(productNameLower)
         );
       } else {
         // If start or end date is not provided, return all orders
@@ -42,7 +42,3 @@ export const fetchOrdersByProductName = async (productName, dispatch, setError) 
     console.error(error);
   }
 };
-
-function removeDiacritics(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}

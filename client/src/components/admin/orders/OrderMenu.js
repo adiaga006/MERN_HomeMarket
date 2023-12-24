@@ -85,10 +85,10 @@ const OrderMenu = (props) => {
                   Processing
                 </span>
                 <span
-                  onClick={(e) => handleStatusClick("Shipped")}
+                  onClick={(e) => handleStatusClick("Shipping")}
                   className="px-4 py-2 hover:bg-black text-center cursor-pointer"
                 >
-                  Shipped
+                  Shipping
                 </span>
                 <span
                   onClick={(e) => handleStatusClick("Delivered")}

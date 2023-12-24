@@ -97,8 +97,8 @@ const UpdateOrderModal = (props) => {
               <option name="status" value="Processing">
                 Processing
               </option>
-              <option name="status" value="Shipped">
-                Shipped
+              <option name="status" value="Shipping">
+                Shipping
               </option>
               <option name="status" value="Delivered">
                 Delivered

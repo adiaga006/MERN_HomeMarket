@@ -9,7 +9,7 @@ export const fetchData = async (dispatch) => {
     setTimeout(async () => {
       if (responseData && responseData.Orders) {
         // let filteredOrders = responseData.Orders
-        let filteredOrders = responseData.Orders.filter(order => order.status === "Delivered");
+        let filteredOrders = responseData.Orders.filter(order => order.status !== "Cancelled");
 
         const userTotalAmount = [];
         // Loop through the list of orders to calculate the total amount for each user
@@ -74,7 +74,7 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) =
     if (startDate && endDate) {
       // Filter orders based on timestamps (createdAt) between start and end dates
       filteredOrders = responseData.Orders.filter(
-        (item) => item.status === "Delivered" &&
+        (item) => item.status !== "Cancelled" &&
           new Date(item.createdAt).setHours(0, 0, 0, 0) >=
             new Date(startDate).setHours(0, 0, 0, 0) &&
           new Date(item.createdAt).setHours(23, 59, 59, 999) <=
@@ -82,7 +82,7 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) =
       );
     } else {
       // If start or end date is not provided, return all orders
-      filteredOrders = responseData.Orders.filter(order => order.status === "Delivered");
+      filteredOrders = responseData.Orders.filter(order => order.status !== "Cancelled");
     }
     const userTotalAmount = [];
         // Loop through the list of orders to calculate the total amount for each user

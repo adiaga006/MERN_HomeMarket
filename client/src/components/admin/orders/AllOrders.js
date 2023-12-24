@@ -144,7 +144,7 @@ const CategoryTable = ({ order, editOrder }) => {
               {order.status}
             </span>
           )}
-          {order.status === "Shipped" && (
+          {order.status === "Shipping" && (
             <span className="block text-blue-600 rounded-full text-center text-xs px-2 font-semibold">
               {order.status}
             </span>
