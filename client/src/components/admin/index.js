@@ -4,7 +4,7 @@ import Products from "./products";
 import Orders from "./orders";
 import Users from "./users";
 import UserStatistics from "./userStatistics";
-import ProductStatistics from "./orderStatistics";
+import ProductStatistics from "./productStatistics";
 
 
 export { DashboardAdmin, Categories, Products, Orders, Users, ProductStatistics, UserStatistics};
