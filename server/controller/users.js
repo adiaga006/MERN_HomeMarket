@@ -34,37 +34,6 @@ class User {
     }
   }
 
-  async postAddUser(req, res) {
-    let { allProduct, user, amount, transactionId, address, phone } = req.body;
-    if (
-      !allProduct ||
-      !user ||
-      !amount ||
-      !transactionId ||
-      !address ||
-      !phone
-    ) {
-      return res.json({ message: "All filled must be required" });
-    } else {
-      try {
-        let newUser = new userModel({
-          allProduct,
-          user,
-          amount,
-          transactionId,
-          address,
-          phone,
-        });
-        let save = await newUser.save();
-        if (save) {
-          return res.json({ success: "User created successfully" });
-        }
-      } catch (err) {
-        return res.json({ error: error });
-      }
-    }
-  }
-
   async postAdminEditUser(req, res) {
     let { uId, role } = req.body;
     if (!uId || !role) {

@@ -91,7 +91,7 @@ class Auth {
             console.log('After findOne', data);
           
             if (data) {
-              if (data.verify) {
+              if (data.verified) {
                 // User already verified
                 console.log('User already verified');
                 error = {
@@ -293,7 +293,7 @@ class Auth {
           return res.json({ error: 'Invalid OTP. Please try again.' });
         }
       } else {
-        return res.json({ error: 'Email chưa được đăng kí hoặc tài khoản chưa được xác minh.' });
+        return res.json({ error: 'Email not exist or not verified.' });
       }
     } catch (error) {
       console.error(error);
@@ -308,7 +308,7 @@ class Auth {
       // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
       const user = await userModel.findOne({ email });
   
-      if (user) {
+      if (user && user.verified) {
         // Tạo mã OTP mới
         const otp = generateOTP();
   
@@ -321,7 +321,7 @@ class Auth {
   
         return res.json({ success: 'OTP has been sent to your email. Please check your inbox.' });
       } else {
-        return res.json({ error: 'Email not found. Please check your email address.' });
+        return res.json({ error: 'Email not found or not verified. Please check your email address.' });
       }
     } catch (error) {
       console.error(error);
