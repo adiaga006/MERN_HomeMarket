@@ -291,7 +291,7 @@ const EditProductModal = (props) => {
                     ? categories.map((elem) => {
                         return (
                           <Fragment key={elem._id}>
-                            {editformData.pCategory._id &&
+                            {editformData.pCategory._id && editformData.pCategory._id &&
                             editformData.pCategory._id === elem._id ? (
                               <option
                                 name="status"

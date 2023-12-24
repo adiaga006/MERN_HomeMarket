@@ -64,13 +64,13 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="md:w-1/2 md:flex md:items-center md:justify-around">
-                  <div className="font-semibold text-gray-600">
-                    {product.pPrice - (product.pPrice * product.pOffer)/100}.000 VND
+                  <div className="card-home-price">
+                    {Math.round(product.pPrice - (product.pPrice * product.pOffer)/100)}.000 VND
                   </div>
-                  <p className="card-text">
+                  <p className="card-home-price-2 original-price">
                       {product.pPrice}.000<span className="card-title"> ₫</span>
                     </p>
-                    <p className="card-text">
+                    <p className="card-home-price-2 discount rounded">
                       -{product.pOffer}%
                     </p>
                   {product.pQuantity > 0 ? (

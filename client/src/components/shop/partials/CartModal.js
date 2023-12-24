@@ -158,7 +158,7 @@ const CartModal = () => {
                               <span className="text-sm text-gray-400">
                                 Subtotal :
                               </span>{" "}
-                              {subTotal(item._id, item.pPrice - (item.pPrice * item.pOffer)/100)}.000 VND
+                              {subTotal(item._id, Math.round(item.pPrice - (item.pPrice * item.pOffer)/100))}.000 VND
                             </div>{" "}
                             {/* SUbtotal Count */}
                           </div>

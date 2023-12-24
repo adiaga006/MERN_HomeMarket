@@ -104,7 +104,34 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) =
         // If start or end date is not provided, return all orders
         filteredOrders = responseData.Orders;
       }
+      dispatch({
+        type: "fetchOrderAndChangeState",
+        payload: filteredOrders,
+      });
+    }
+  } catch (error) {
+    setError("An error occurred while fetching orders");
+    console.error(error);
+  }
+};
 
+
+export const fetchOrdersByTransactionId = async (transactionId, dispatch, setError) => {
+  try {
+
+    let responseData = await getAllOrder();
+    if (responseData && responseData.Orders) {
+      let filteredOrders;
+
+      if (transactionId) {
+        // Filter orders based on timestamps (createdAt) between start and end dates
+        filteredOrders = responseData.Orders.filter(
+          (item) => item.transactionId.startsWith(transactionId)
+        );
+      } else {
+        // If start or end date is not provided, return all orders
+        filteredOrders = responseData.Orders;
+      }
       dispatch({
         type: "fetchOrderAndChangeState",
         payload: filteredOrders,

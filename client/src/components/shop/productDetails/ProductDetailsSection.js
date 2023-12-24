@@ -183,7 +183,7 @@ const ProductDetailsSection = (props) => {
               
               <div className="flex justify-between items-center">
                 <span className="font-bold card-product-price">
-                  {sProduct.pPrice - (sProduct.pPrice * sProduct.pOffer) / 100}.000 <span className="card-title"> ₫</span>
+                  {Math.round(sProduct.pPrice - (sProduct.pPrice * sProduct.pOffer) / 100)}.000 <span className="card-title"> ₫</span>
                 </span>
                 {sProduct.pOffer !==0 ? (
                   <Fragment>
@@ -399,7 +399,7 @@ const ProductDetailsSection = (props) => {
                         addToCart(
                           sProduct._id,
                           quantitiy,
-                          sProduct.pPrice - ((sProduct.pPrice * sProduct.pOffer) / 100),
+                          Math.round(sProduct.pPrice - ((sProduct.pPrice * sProduct.pOffer) / 100)),
                           layoutDispatch,
                           setQuantitiy,
                           setAlertq,

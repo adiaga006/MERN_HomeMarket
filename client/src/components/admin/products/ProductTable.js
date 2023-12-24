@@ -159,9 +159,7 @@ const ProductTable = ({ product, deleteProduct, editProduct }) => {
     <Fragment>
       <tr>
         <td className="p-2 text-left">
-          {product.pName.length > 15
-            ? product.pDescription.substring(1, 15) + "..."
-            : product.pName}
+          {product.pName}
         </td>
         <td className="p-2 text-left">
           {product.pDescription.slice(0, 15)}...

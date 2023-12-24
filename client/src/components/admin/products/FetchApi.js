@@ -59,6 +59,7 @@ export const createProduct = async ({
   }
 };
 
+
 export const editProduct = async (product) => {
   console.log(product);
   /* Most important part for updating multiple image  */
@@ -69,11 +70,13 @@ export const editProduct = async (product) => {
     }
   }
   /* Most important part for updating multiple image  */
+  const pCategory = typeof product.pCategory === 'object' ? product.pCategory._id : product.pCategory;
+
   formData.append("pId", product.pId);
   formData.append("pName", product.pName);
   formData.append("pDescription", product.pDescription);
   formData.append("pStatus", product.pStatus);
-  formData.append("pCategory", product.pCategory);
+  formData.append("pCategory", pCategory);
   formData.append("pQuantity", product.pQuantity);
   formData.append("pPrice", product.pPrice);
   formData.append("pOffer", product.pOffer);
