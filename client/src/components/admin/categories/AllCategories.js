@@ -41,11 +41,12 @@ const AllCategory = (props) => {
   };
 
   /* This method call the editmodal & dispatch category context */
-  const editCategory = (cId, type, des, status) => {
+  const editCategory = (cId, name, type, des, status) => {
     if (type) {
       dispatch({
         type: "editCategoryModalOpen",
         cId: cId,
+        name: name,
         des: des,
         status: status,
       });
@@ -101,8 +102,8 @@ const AllCategory = (props) => {
               return (
                   <CategoryTable
                     category={item}
-                    editCat={(cId, type, des, status) =>
-                      editCategory(cId, type, des, status)
+                    editCat={(cId,name, type, des, status) =>
+                      editCategory(cId,name, type, des, status)
                     }
                     deleteCat={(cId) => deleteCategoryReq(cId)}
                     key={key}
@@ -185,6 +186,7 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
             onClick={(e) =>
               editCat(
                 category._id,
+                category.cName,
                 true,
                 category.cDescription,
                 category.cStatus

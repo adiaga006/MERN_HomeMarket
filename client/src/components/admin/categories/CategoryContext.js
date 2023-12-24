@@ -4,6 +4,7 @@ export const categoryState = {
   editCategoryModal: {
     modal: false,
     cId: null,
+    name: "",
     des: "",
     status: "",
   },
@@ -31,6 +32,7 @@ export const categoryReducer = (state, action) => {
         editCategoryModal: {
           modal: true,
           cId: action.cId,
+          name: action.name,
           des: action.des,
           status: action.status,
         },
@@ -41,6 +43,7 @@ export const categoryReducer = (state, action) => {
         editCategoryModal: {
           modal: false,
           cId: null,
+          name: "",
           des: "",
           status: "",
         },
