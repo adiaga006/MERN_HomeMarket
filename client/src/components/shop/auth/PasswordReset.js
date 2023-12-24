@@ -6,6 +6,7 @@ import "./style.css";
 const PasswordResetForm = ({ email }) => {
   const [otp, setOtp] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -15,10 +16,16 @@ const PasswordResetForm = ({ email }) => {
         setError("The new password must be between 8 and 255 characters long");
         return;
       }
+
+      // Check if the new password and confirm password match
+      if (newPassword !== confirmPassword) {
+        setError("The new password and confirm password do not match");
+        return;
+      }
+
       const response = await resetPasswordAfterOtp(email, otp, newPassword);
 
       if (response.success) {
-        //setSuccessMessage(response.success);
         window.alert("Change Password successfully. Please Login");
         // Reload the page after successful password reset
         window.location.reload();
@@ -55,6 +62,17 @@ const PasswordResetForm = ({ email }) => {
         onChange={(e) => setNewPassword(e.target.value)}
       />
 
+      <label htmlFor="confirmPassword">
+        Confirm new password<span>*</span>
+      </label>
+      <input
+        type="password"
+        id="confirmPassword"
+        key="confirmPassword"
+        defaultValue={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+
       {error && <div className="error">{error}</div>}
       {successMessage && <div className="success">{successMessage}</div>}
 
@@ -62,6 +80,9 @@ const PasswordResetForm = ({ email }) => {
     </div>
   );
 };
+
+// ... (rest of the code remains the same)
+
 
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
