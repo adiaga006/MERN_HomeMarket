@@ -18,7 +18,7 @@ class Category {
   async getAllCategory_Admin(req, res) {
     try {
       let Categories = await categoryModel
-      .find({ cStatus: { $in: ["Active", "Disabled","Not available"]} })
+      .find({ cStatus: { $in: ["Active", "Disabled"]} })
       .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });

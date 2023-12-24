@@ -58,7 +58,7 @@ class Product {
     try {
       // Hiển thị tất cả sản phẩm có pStatus là "Active" hoặc "Disabled"
       let Products = await productModel
-        .find({ pStatus: { $in: ["Active", "Disabled","Not available"] } })
+        .find({ pStatus: { $in: ["Active", "Disabled"] } })
         .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
