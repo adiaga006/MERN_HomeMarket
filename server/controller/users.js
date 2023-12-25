@@ -58,30 +58,37 @@ class User {
         return res.status(400).json({ message: "All fields must be required" });
       }
       
-      const deleteUserImage = await userModel.findById(uId);
 
-      if (deleteUserImage && deleteUserImage.userImage) {
-        await cloudinary.v2.uploader.destroy(deleteUserImage.userImage.public_id);
-      }
+      if (!req.file || !req.file.path) {
+        const currentUser = await userModel.findByIdAndUpdate(uId, {
+          name: name,
+          phoneNumber: phoneNumber,
+          updatedAt: Date.now(),
+        });
 
-      const result = await cloudinary.v2.uploader.upload(req.file.path, {
-        folder: 'avatars',
-        width: 150,
-        crop: "scale"
-      });
+      } else {
 
-      const currentUser = await userModel.findByIdAndUpdate(uId, {
-        name: name,
-        phoneNumber: phoneNumber,
-        userImage: {
-          public_id: result.public_id,
-          url: result.secure_url
-        },
-        updatedAt: Date.now(),
-      });
+        const deleteUserImage = await userModel.findById(uId);
 
-      if (!currentUser) {
-        return res.status(404).json({ error: "User not found" });
+        if (deleteUserImage && deleteUserImage.userImage) {
+          await cloudinary.v2.uploader.destroy(deleteUserImage.userImage.public_id);
+        }
+  
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          folder: 'avatars',
+          width: 150,
+          crop: "scale"
+        });
+  
+        const currentUser = await userModel.findByIdAndUpdate(uId, {
+          name: name,
+          phoneNumber: phoneNumber,
+          userImage: {
+            public_id: result.public_id,
+            url: result.secure_url
+          },
+          updatedAt: Date.now(),
+        });
       }
 
       return res.json({ success: "User updated successfully" });
