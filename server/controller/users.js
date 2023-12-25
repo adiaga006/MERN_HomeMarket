@@ -57,11 +57,7 @@ class User {
       if (!uId || !name) {
         return res.status(400).json({ message: "All fields must be required" });
       }
-
-      // if (!req.file) {
-      //   return res.status(400).json({ error: "Missing file in the request" });
-      // }
-
+      
       const deleteUserImage = await userModel.findById(uId);
 
       if (deleteUserImage && deleteUserImage.userImage) {

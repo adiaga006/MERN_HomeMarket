@@ -53,12 +53,13 @@ export const fetchOrderByUser = async (dispatch) => {
 };
 
 export const updatePersonalInformationAction = async (dispatch, user) => {
-  console.log(user)
   let formData = new FormData();
   formData.append("editAvatar",user.editAvatar)
-  console.log(formData.get("editAvatar"));
   formData.append("uId", user.id);
   formData.append("name", user.name);
+  if(!user.phone) {
+    user.phone = "";
+  }
   formData.append("phoneNumber", user.phone);
   
   dispatch({ type: "loading", payload: true });
