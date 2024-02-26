@@ -142,7 +142,7 @@ class Auth {
                 console.log('Account created successfully. Please confirm OTP to verify account');
                 return res.json({
                   success: "Account created successfully. Please confirm OTP to verify account",
-                  user: savedUser,
+                  //user: savedUser,
                 });
               } catch (err) {
                 console.log('Error during user save:', err);

@@ -140,7 +140,7 @@ const OrdersComponent = () => {
                       colSpan="8"
                       className="text-xl text-center font-semibold py-8"
                     >
-                      No order found
+                      No user found
                     </td>
                   </tr>
                 )}

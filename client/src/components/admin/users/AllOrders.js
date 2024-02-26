@@ -100,7 +100,7 @@ const AllOrders = (props) => {
          ))}
        </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {orders && orders.length} order found
+          Total {orders && orders.length} user found
         </div>
       </div>
     </Fragment>
