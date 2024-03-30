@@ -28,7 +28,7 @@ const CategoryList = () => {
   };
 
   return (
-    <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4`}>
+    <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4 dropdown-content`}>
       <hr />
       <div>
         {categories && categories.length > 0 ? (
