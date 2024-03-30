@@ -13,11 +13,14 @@ function generateOTP() {
 }
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: '20110453@student.hcmute.edu.vn',
-    pass: 'Adiagaseason1411',
+   user: 'duyvivoo@gmail.com',
+   pass: 'dryn axhv jabw tyxc',
   },
-});
+ });
 
 function sendOTPEmail(email, otp) {
   const mailOptions = {
