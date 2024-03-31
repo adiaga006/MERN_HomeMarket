@@ -9,31 +9,47 @@ const apiURL = process.env.REACT_APP_API_URL;
 const Slider = (props) => {
   const { data, dispatch } = useContext(HomeContext);
   const [slide, setSlide] = useState(0);
+  const [autoSlide, setAutoSlide] = useState(true);
 
   useEffect(() => {
     sliderImages(dispatch);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
+  // Tự động chuyển slide
+  useEffect(() => {
+    let interval;
+    if (autoSlide && data?.sliderImages?.length > 1) {
+      interval = setInterval(() => {
+        nextSlide(data.sliderImages.length, slide, setSlide);
+      }, 3000); // Thay đổi slide mỗi 3 giây
+    }
+    return () => clearInterval(interval); // Hủy khi component unmount
+  }, [autoSlide, data?.sliderImages?.length, slide]);
+
+  const slideStyle = {
+    transform: `translateX(-${slide * 100}%)`,
+  };
 
   return (
     <Fragment>
-      <div className="relative mt-16 bg-gray-100 border-2">
-        {data.sliderImages.length > 0 ? (
-          <img
-            className="w-full"
-            src={data.sliderImages[slide].slideImage.url}
-            alt="sliderImage"
-          />
-        ) : (
-          ""
-        )}
-
+    <div className="slider-container mt-16 bg-gray-100 border-2"style={{ height: '650px', width: 'fit-content' }}>
+    <div className="slider-wrapper" style={slideStyle}>
+    {data.sliderImages.length > 0 &&
+      data.sliderImages.map((image, index) => (
+        <img
+          key={index}
+          className="slider-image"
+          src={image.slideImage.url}
+          alt="sliderImage"
+        />
+      ))}
+  </div>
         {data?.sliderImages?.length > 0 ? (
           <>
             <svg
-              onClick={(e) =>
+              onClick={(e) =>{
                 prevSlide(data.sliderImages.length, slide, setSlide)
-              }
+                setAutoSlide(false); // Tạm dừng tự động chuyển slide khi người dùng tương tác
+              }}
               className={`z-10 absolute top-0 left-0 mt-64 flex justify-end items-center box-border flex justify-center w-12 h-12 text-gray-700  cursor-pointer hover:text-yellow-700`}
               fill="none"
               stroke="currentColor"
@@ -48,9 +64,10 @@ const Slider = (props) => {
               />
             </svg>
             <svg
-              onClick={(e) =>
+              onClick={(e) =>{
                 nextSlide(data.sliderImages.length, slide, setSlide)
-              }
+                setAutoSlide(false); 
+              }}
               className={`z-10 absolute top-0 right-0 mt-64 flex justify-start items-center box-border flex justify-center w-12 h-12 text-gray-700 cursor-pointer hover:text-yellow-700`}
               fill="none"
               stroke="currentColor"
