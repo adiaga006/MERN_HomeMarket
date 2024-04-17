@@ -36,4 +36,4 @@ npm run start
 
 Truy cập website tại http://localhost:3000/
 
-`Build by Nguyễn Đình Duy, Võ Quang Hưng, Nguyễn Minh Tuấn`
+`Build by Nguyễn Đình Duy, Nguyễn Minh Tuấn`
