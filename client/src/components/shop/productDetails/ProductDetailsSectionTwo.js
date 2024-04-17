@@ -64,9 +64,13 @@ const ProductDetailsSectionTwo = (props) => {
     setSingleproduct(
       layoutData.singleProductDetail ? layoutData.singleProductDetail : ""
     );
+  }, [layoutData.singleProductDetail]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Add this effect to scroll to top when the menu changes
+  useEffect(() => {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+  }, [data.menu]); // This effect runs when data.menu changes
 
   return (
     <Fragment>
