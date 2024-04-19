@@ -31,6 +31,14 @@ const productSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    pBranches:{
+      type:String,
+      required:true
+    },
+    pOutofDate:{
+      type: Date,
+      required: true
+    },
     pOffer: {
       type: Number,
       default: 0,
