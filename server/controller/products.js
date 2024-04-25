@@ -70,14 +70,13 @@ class Product {
       return res.json({ error: "An error occurred while fetching products" });
     }
   }
-  
 
   async postAddProduct(req, res) {
-    let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
+    let { pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus, pBrand } = req.body;
     let images = req.files;
   
     // Validation
-    if (!pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
+    if (!pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus||!pBrand) {
       //Product.deleteImages(images, "file");
       return res.json({ error: "All fields must be required" });
     } else if (pName.length > 255 || pDescription.length > 3000) {
@@ -120,6 +119,7 @@ class Product {
           pCategory,
           pOffer,
           pStatus,
+          pBrand,
         });
   
   
@@ -135,9 +135,9 @@ class Product {
   }
   
   async postEditProduct(req, res) {
-    const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus } = req.body;
+    const { pId, pName, pDescription, pPrice, pQuantity, pCategory, pOffer, pStatus,pBrand } = req.body;
     
-    if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus) {
+    if (!pId || !pName || !pDescription || !pPrice || !pQuantity || !pCategory || !pOffer || !pStatus||!pBrand) {
       return res.json({ error: "All fields must be required" });
     } else if (isNaN(pQuantity) || pQuantity < 0) {
       return res.json({ error: "Quantity must be a non-negative number" });
@@ -185,6 +185,7 @@ class Product {
           pCategory,
           pOffer,
           pStatus,
+          pBrand,
           pImages: existingImages,
         };
   
@@ -408,7 +409,49 @@ class Product {
     }
   }
   
+  async getFilteredProducts(req, res) {
+    const {
+      category,
+      brand,
+      priceSort,
+      offerSort,
+      soldSort,
+    } = req.query;
+  
+    let query = {pStatus: "Active"};
+  
+    if (category) {
+      query.pCategory = category;
+    }
+    
+    if (brand) {
+      query.pBrand = brand;
+    }
+  
+    let sortQuery = {};
+  
+    if (priceSort) {
+      sortQuery.pPrice = priceSort === 'desc' ? -1 : 1;
+    }
+    
+    if (offerSort) {
+      sortQuery.pOffer = offerSort === 'desc' ? -1 : 1;
+    }
+    
+    if (soldSort) {
+      sortQuery.pSold = soldSort === 'desc' ? -1 : 1;
+    }
+  
+    try {
+      const products = await productModel.find(query).sort(sortQuery);
+      res.json({ Products: products });
+    } catch (error) {
+      console.error('Error fetching filtered products:', error);
+      res.status(500).json({ error: 'An error occurred while fetching the filtered products' });
+    }
+  }
 }
+
 
 const productController = new Product();
 module.exports = productController;

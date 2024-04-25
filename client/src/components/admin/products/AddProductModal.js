@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useState, useEffect } from "react";
 import { ProductContext } from "./index";
 import { createProduct, getAllProduct,getAllProduct_Admin } from "./FetchApi";
 import { getAllCategory, getAllCategory_Admin } from "../categories/FetchApi";
-
+const Brand = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 const AddProductDetail = ({ categories }) => {
   const { data, dispatch } = useContext(ProductContext);
 
@@ -18,6 +18,7 @@ const AddProductDetail = ({ categories }) => {
     pCategory: "",
     pPrice: "",
     pOffer: 0,
+    pBrand: "",
     pQuantity: "",
     success: false,
     error: false,
@@ -60,6 +61,7 @@ const AddProductDetail = ({ categories }) => {
           pPrice: "",
           pQuantity: "",
           pOffer: 0,
+          pBrand:"",
           success: responseData.success,
           error: false,
         });
@@ -74,6 +76,7 @@ const AddProductDetail = ({ categories }) => {
             pPrice: "",
             pQuantity: "",
             pOffer: 0,
+            pBrand:"",
             success: false,
             error: false,
           });
@@ -329,6 +332,27 @@ const AddProductDetail = ({ categories }) => {
                   id="offer"
                 />
               </div>
+              <div className="flex flex-col space-y-2">
+              <label htmlFor="Brand">Brand *</label>
+              <select
+                value={fData.pBrand}
+                onChange={(e) =>
+                  setFdata({
+                    ...fData,
+                    error: false,
+                    success: false,
+                    pBrand: e.target.value,
+                  })
+                }
+                className="px-4 py-2 border focus:outline-none"
+                id="Brand"
+              >
+                <option value="">Select a branch</option>
+                {Brand.map(branch => (
+                  <option key={branch} value={branch}>{branch}</option>
+                ))}
+              </select>
+            </div>
             </div>
             <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6 mt-4">
               <button

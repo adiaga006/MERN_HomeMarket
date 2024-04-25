@@ -170,7 +170,7 @@ const ProductDetailsSection = (props) => {
           <div className="col-span-2 mt-8 md:mt-0 md:col-span-4 md:ml-6 lg:ml-12">
             <div className="flex flex-col leading-8">
               <div className="text-2xl tracking-wider">{sProduct.pName}</div>
-
+              <div className="text-md my-1">Brand: {sProduct.pBrand || 'No brand specified'}</div>
                       <div className="ratings mt-auto">
                           <div className="rating-outer">
                               <div

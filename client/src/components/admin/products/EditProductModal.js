@@ -8,6 +8,7 @@ const EditProductModal = (props) => {
   const { data, dispatch } = useContext(ProductContext);
 
   const [categories, setCategories] = useState(null);
+  const Brand = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 
   const alert = (msg, type) => (
     <div className={`bg-${type}-200 py-2 px-4 w-full`}>{msg}</div>
@@ -24,6 +25,7 @@ const EditProductModal = (props) => {
     pQuantity: "",
     pPrice: "",
     pOffer: "",
+    pBrand: "",
     error: false,
     success: false,
   });
@@ -50,6 +52,7 @@ const EditProductModal = (props) => {
       pQuantity: data.editProductModal.pQuantity,
       pPrice: data.editProductModal.pPrice,
       pOffer: data.editProductModal.pOffer,
+      pBrand: data.editProductModal.pBranches || "",
     });
   }, [data.editProductModal]);
 
@@ -369,6 +372,27 @@ const EditProductModal = (props) => {
                   id="offer"
                 />
               </div>
+              <div className="flex flex-col space-y-2">
+              <label htmlFor="Brand">Brand *</label>
+              <select
+                value={editformData.pBrand}
+                onChange={(e) =>
+                    setEditformdata({
+                      ...editformData,
+                      error: false,
+                      success: false,
+                      pBrand: e.target.value,
+                    })
+                  }
+                className="px-4 py-2 border focus:outline-none"
+                id="Brand"
+              >
+                    <option disabled value="">Select a Brand</option>
+                {Brand.map(branch => (
+                  <option key={branch} value={branch}>{branch}</option>
+                ))}
+              </select>
+            </div>
             </div>
             <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6 mt-4">
               <button

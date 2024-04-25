@@ -1,23 +1,26 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import ProductCategoryDropdown from "./ProductCategoryDropdown";
 import { HomeContext } from "./index";
+import FilterForm from './FilterForm';
 
 const ProductCategory = (props) => {
   const { data, dispatch } = useContext(HomeContext);
+  const [showFilterForm, setShowFilterForm] = useState(false);
+  const toggleFilterForm = () => {
+    setShowFilterForm(!showFilterForm);  // Toggle visibility of filter form
+  };
   return (
     <Fragment>
       <div className="flex justify-between font-medium">
         <div
-          onClick={(e) =>
-            dispatch({
-              type: "categoryListDropdown",
-              payload: !data.categoryListDropdown,
-            })
-          }
-          className={`flex items-center space-x-1 cursor-pointer ${
-            data.categoryListDropdown ? "text-yellow-700" : ""
-          }`}
-        >
+        onClick={() => !showFilterForm && dispatch({
+          type: "categoryListDropdown",
+          payload: !data.categoryListDropdown,
+        })}
+        className={`flex items-center space-x-1 cursor-pointer ${
+          data.categoryListDropdown && !showFilterForm ? "text-yellow-700" : ""
+        } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+      >
           <span className="text-md md:text-lg hover:text-yellow-700">
             Categories
           </span>
@@ -37,17 +40,20 @@ const ProductCategory = (props) => {
           </svg>
         </div>
         <div className="flex space-x-2">
+        {/* Toggle Filter Form Button */}
+         <div onClick={toggleFilterForm} className="flex items-center space-x-2 cursor-pointer">
+        <span className="text-md md:text-lg hover:text-yellow-700">{showFilterForm ? 'Hide Advance Filters' : 'Show Advance Filters'}</span>
+        <span>/</span>
+      </div>
           <div
-            onClick={(e) =>
-              dispatch({
-                type: "filterListDropdown",
-                payload: !data.filterListDropdown,
-              })
-            }
-            className={`flex items-center space-x-1 cursor-pointer ${
-              data.filterListDropdown ? "text-yellow-700" : ""
-            }`}
-          >
+          onClick={() => !showFilterForm && dispatch({
+            type: "filterListDropdown",
+            payload: !data.filterListDropdown,
+          })}
+          className={`flex items-center space-x-1 cursor-pointer ${
+            data.filterListDropdown && !showFilterForm ? "text-yellow-700" : ""
+          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+        >
             <span className="text-md md:text-lg">Filter</span>
             <span>
               <svg
@@ -68,16 +74,14 @@ const ProductCategory = (props) => {
           </div>
           <span>/</span>
           <div
-            onClick={(e) =>
-              dispatch({
-                type: "searchDropdown",
-                payload: !data.searchDropdown,
-              })
-            }
-            className={`flex items-center space-x-1 cursor-pointer ${
-              data.searchDropdown ? "text-yellow-700" : ""
-            }`}
-          >
+          onClick={() => !showFilterForm && dispatch({
+            type: "searchDropdown",
+            payload: !data.searchDropdown,
+          })}
+          className={`flex items-center space-x-1 cursor-pointer ${
+            data.searchDropdown && !showFilterForm ? "text-yellow-700" : ""
+          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+        >
             <span className="text-md md:text-lg">Search</span>
             <span>
               <svg
@@ -98,6 +102,7 @@ const ProductCategory = (props) => {
           </div>
         </div>
       </div>
+      {showFilterForm && <FilterForm />}
       <ProductCategoryDropdown />
     </Fragment>
   );

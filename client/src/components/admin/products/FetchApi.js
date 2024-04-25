@@ -26,7 +26,6 @@ export const createPorductImage = async ({ pImage }) => {
   }
   /* Most important part for uploading multiple image  */
 };
-
 export const createProduct = async ({
   pName,
   pDescription,
@@ -36,6 +35,7 @@ export const createProduct = async ({
   pQuantity,
   pPrice,
   pOffer,
+  pBrand,
 }) => {
   /* Most important part for uploading multiple image  */
   let formData = new FormData();
@@ -50,7 +50,7 @@ export const createProduct = async ({
   formData.append("pQuantity", pQuantity);
   formData.append("pPrice", pPrice);
   formData.append("pOffer", pOffer);
-
+  formData.append("pBrand", pBrand);
   try {
     let res = await axios.post(`${apiURL}/api/product/add-product`, formData);
     return res.data;
@@ -81,7 +81,7 @@ export const editProduct = async (product) => {
   formData.append("pPrice", product.pPrice);
   formData.append("pOffer", product.pOffer);
   formData.append("pImages", product.pImages);
-
+  formData.append("pBrand",product.pBrand);
   try {
     let res = await axios.post(`${apiURL}/api/product/edit-product`, formData);
     return res.data;

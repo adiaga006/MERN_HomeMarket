@@ -59,6 +59,12 @@ export const homeReducer = (state, action) => {
         ...state,
         sliderImages: action.payload,
       };
+      case "SET_PRODUCTS":
+  return {
+    ...state,
+    products: action.payload,
+    filterListDropdown: false // Optionally close the filter dropdown
+  };
     default:
       return state;
   }

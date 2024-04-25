@@ -84,7 +84,7 @@ if (products) {
           <thead>
             <tr>
               <th className="px-4 py-2 border">Product</th>
-              <th className="px-4 py-2 border">Description</th>
+              <th className="px-4 py-2 border">Brand</th> 
               <th className="px-4 py-2 border">Image</th>
               <th className="px-4 py-2 border">Status</th>
               <th className="px-4 py-2 border">Stock</th>
@@ -149,8 +149,8 @@ const ProductTable = ({ product, deleteProduct, editProduct }) => {
           {product.pName}
         </td>
         <td className="p-2 text-left">
-          {product.pDescription.slice(0, 15)}...
-        </td>
+        {product.pBrand || "No Brand"} {/* Display brand, or 'No Brand' if none */}
+      </td>
         <td className="p-2 text-center">
           <img
             className="w-12 h-12 object-cover object-center"

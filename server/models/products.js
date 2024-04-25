@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
-
 const productSchema = new mongoose.Schema(
   {
     pName: {
@@ -31,13 +30,8 @@ const productSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    pBranches:{
+    pBrand:{
       type:String,
-      required:true
-    },
-    pOutofDate:{
-      type: Date,
-      required: true
     },
     pOffer: {
       type: Number,
