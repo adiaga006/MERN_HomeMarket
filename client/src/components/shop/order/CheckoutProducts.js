@@ -25,7 +25,7 @@ export const CheckoutComponent = (props) => {
   });
   const [paymentError, setPaymentError] = useState("");
 
-  
+
   useEffect(() => {
     fetchData(cartListProduct, dispatch);
     fetchbrainTree(getBrainTreeToken, setState);
@@ -34,7 +34,7 @@ export const CheckoutComponent = (props) => {
   }, []);
   if (data.loading) {
     return (
-      
+
       <div className="flex items-center justify-center h-screen">
         <svg
           className="w-12 h-12 animate-spin text-gray-600"
@@ -200,13 +200,13 @@ const CheckoutProducts = ({ products }) => {
                     {product.pName}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
-                    Price : {Math.round(product.pPrice - (product.pPrice * product.pOffer)/100)}.000 VND{" "}
+                    Price : {product.pPrice} .000 VND{" "}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
                     Quantitiy : {quantity(product._id)}
                   </div>
                   <div className="font-semibold text-gray-600 text-sm">
-                    Subtotal : {subTotal(product._id, Math.round(product.pPrice - (product.pPrice * product.pOffer)/100))}.000 VND
+                    Subtotal : {subTotal(product._id, Math.round(product.pPrice - (product.pPrice * product.pOffer) / 100))}.000 VND
                   </div>
                 </div>
               </div>

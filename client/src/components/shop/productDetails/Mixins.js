@@ -63,7 +63,10 @@ export const inCart = (id) => {
 
 export const addToCart = (
   id,
+  category,
   quantitiy,
+  offer,
+  oldPrice,
   price,
   layoutDispatch,
   setQuantitiy,
@@ -82,11 +85,11 @@ export const addToCart = (
       }
     });
     if (!isObj) {
-      cart.push({ id, quantitiy, price });
+      cart.push({ id, category, quantitiy, offer, oldPrice, price });
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   } else {
-    cart.push({ id, quantitiy, price });
+    cart.push({ id, category, quantitiy, offer, oldPrice, price });
     localStorage.setItem("cart", JSON.stringify(cart));
   }
   layoutDispatch({ type: "inCart", payload: cartList() });

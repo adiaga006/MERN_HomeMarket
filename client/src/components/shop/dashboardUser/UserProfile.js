@@ -110,22 +110,22 @@ const ProfileComponent = () => {
             </div>
             <div className='flex flex-col space-y-2'>
               <label htmlFor='avatar_upload'>Avatar</label>
-                <div className='d-flex align-items-center'>
-                   <div className='custom-file'>
-                                    <input
-                                        type='file'
-                                        name='avatar'
-                                        className='custom-file-input'
-                                        id='avatar'
-                                        accept='.jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*'
-                                        onChange={(e) => setEditformdata({ ...editformData, editAvatar: e.target.files[0]})}
-                                    />
-                                    <label className='custom-file-label' htmlFor='customFile'>
-                                        Choose Avatar
-                                </label>
-                                </div>
-                            </div>
-                        </div>
+              <div className='d-flex align-items-center'>
+                <div className='custom-file'>
+                  <input
+                    type='file'
+                    name='avatar'
+                    className='custom-file-input'
+                    id='avatar'
+                    accept='.jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*'
+                    onChange={(e) => setEditformdata({ ...editformData, editAvatar: e.target.files[0] })}
+                  />
+                  <label className='custom-file-label' htmlFor='customFile'>
+                    Choose Avatar
+                  </label>
+                </div>
+              </div>
+            </div>
             <div
               onClick={(e) => handleSubmit()}
               style={{ background: "#303031" }}

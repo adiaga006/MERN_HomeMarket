@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { OrderContext } from "./index";
 import UpdateOrderModal from "./UpdateOrderModal";
-import {fetchOrdersByDate } from "./Actions";
+import { fetchOrdersByDate } from "./Actions";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const OrderMenu = (props) => {
   const { data, dispatch } = useContext(OrderContext);
-  const { orders, loading } = data;
+  const { orders } = data;
   const [dropdown, setDropdown] = useState(false);
 
   const totalOrderAmount = orders.reduce((acc, order) => acc + order.total, 0);
@@ -67,14 +67,14 @@ const OrderMenu = (props) => {
             </div>
 
             <div>
-            <span style={{color:"black" }} >Total User Amount</span>
-            <div className="rounded-full flex items-center justify-between overflow-hidden">
-            <input
-              className="py-2 px-2 focus:outline-none rounded-r-full w-full"
-              value={`${totalOrderAmount}.000 VND`}
-              readOnly
-            />
-            </div>
+              <span style={{ color: "black" }} >Total User Amount</span>
+              <div className="rounded-full flex items-center justify-between overflow-hidden">
+                <input
+                  className="py-2 px-2 focus:outline-none rounded-r-full w-full"
+                  value={`${totalOrderAmount}.000 VND`}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
           {/*<AddCategoryModal/>*/}

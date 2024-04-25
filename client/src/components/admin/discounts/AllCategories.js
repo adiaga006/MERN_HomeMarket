@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useEffect ,useState } from "react";
-import { getAllDiscount, deleteCategory ,getAllDiscount_Admin} from "./FetchApi";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { deleteCategory, getAllDiscount_Admin } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
@@ -104,13 +104,13 @@ const AllCategory = (props) => {
             </tr>
           </thead>
           <tbody>
-          {currentCategories && currentCategories.length > 0 ? (
-            currentCategories.map((item, key) => {
-              return (
+            {currentCategories && currentCategories.length > 0 ? (
+              currentCategories.map((item, key) => {
+                return (
                   <CategoryTable
                     category={item}
-                    editCat={(dId,name, type, method, amount, percent, category, apply, status) =>
-                      editCategory(dId,name, type, method, amount, percent, category, apply, status)
+                    editCat={(dId, name, type, method, amount, percent, category, apply, status) =>
+                      editCategory(dId, name, type, method, amount, percent, category, apply, status)
                     }
                     deleteCat={(dId) => deleteCategoryReq(dId)}
                     key={key}

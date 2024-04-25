@@ -101,8 +101,8 @@ const AllReviews = (props) => {
                         })}
                       </div>
                       {item.user &&
-                      isAuthenticate() &&
-                      item.user._id === isAuthenticate().user._id ? (
+                        isAuthenticate() &&
+                        item.user._id === isAuthenticate().user._id ? (
                         <div className="flex justify-center my-2">
                           <span
                             onClick={(e) =>

@@ -32,7 +32,7 @@ const ProductDetailsSection = (props) => {
   const [wList, setWlist] = useState(
     JSON.parse(localStorage.getItem("wishList"))
   ); // Wishlist State Control
-  
+
   useEffect(() => {
     fetchData();
 
@@ -112,9 +112,8 @@ const ProductDetailsSection = (props) => {
               <img
                 key={index}
                 onClick={(e) => slideImage("increase", index, count, setCount, pImages)}
-                className={`cursor-pointer w-20 h-20 object-cover object-center ${
-                  index === count ? "" : "opacity-25"
-                }`}
+                className={`cursor-pointer w-20 h-20 object-cover object-center ${index === count ? "" : "opacity-25"
+                  }`}
                 src={image.url}
                 alt={`Product Image ${index + 1}`}
               />
@@ -122,13 +121,13 @@ const ProductDetailsSection = (props) => {
           </div>
           <div className="col-span-2 md:col-span-7">
             <div className="relative">
-            <div className="col-12 col-lg-5 img-fluid" id="product_image">
+              <div className="col-12 col-lg-5 img-fluid" id="product_image">
                 <img
                   className="d-block w-full"
                   src={sProduct.pImages[count].url}
                   alt=""
                 />
-            </div>
+              </div>
               <div className="absolute inset-0 flex justify-between items-center mb-4">
                 <svg
                   onClick={(e) =>
@@ -171,38 +170,37 @@ const ProductDetailsSection = (props) => {
             <div className="flex flex-col leading-8">
               <div className="text-2xl tracking-wider">{sProduct.pName}</div>
 
-                      <div className="ratings mt-auto">
-                          <div className="rating-outer">
-                              <div
-                                  className="rating-inner"
-                                  style={{ width: `${(sProduct.pRatings / 5) * 100}%` }}
-                              ></div>
-                          </div>
-                          <span id="no_of_reviews">({sProduct.pNumOfReviews} Reviews)</span>
-                      </div>
-              
+              <div className="ratings mt-auto">
+                <div className="rating-outer">
+                  <div
+                    className="rating-inner"
+                    style={{ width: `${(sProduct.pRatings / 5) * 100}%` }}
+                  ></div>
+                </div>
+                <span id="no_of_reviews">({sProduct.pNumOfReviews} Reviews)</span>
+              </div>
+
               <div className="flex justify-between items-center">
                 <span className="font-bold card-product-price">
                   {Math.round(sProduct.pPrice - (sProduct.pPrice * sProduct.pOffer) / 100)}.000 <span className="card-title"> ₫</span>
                 </span>
-                {sProduct.pOffer !==0 ? (
+                {sProduct.pOffer !== 0 ? (
                   <Fragment>
                     <p class="card-product-price2 original-price">{sProduct.pPrice}.000<span class="card-title"> ₫</span></p>
                     <p class="card-product-price2 discount rounded">-{sProduct.pOffer}%</p>
-                    </Fragment>
+                  </Fragment>
                 ) : (
-                  <div/>
+                  <div />
                 )}
-                 { /*Hiển thị số lượng sản phẩm đã bán */}
-               { <div className="my-4 md:my-6">
-               <span className="font-semibold">Sold:</span> {sProduct.pSold}
-              </div> }
+                { /*Hiển thị số lượng sản phẩm đã bán */}
+                {<div className="my-4 md:my-6">
+                  <span className="font-semibold">Sold:</span> {sProduct.pSold}
+                </div>}
                 <span >
                   <svg
                     onClick={(e) => isWishReq(e, sProduct._id, setWlist)}
-                    className={`${
-                      isWish(sProduct._id, wList) && "hidden"
-                    } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700`}
+                    className={`${isWish(sProduct._id, wList) && "hidden"
+                      } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -217,9 +215,8 @@ const ProductDetailsSection = (props) => {
                   </svg>
                   <svg
                     onClick={(e) => unWishReq(e, sProduct._id, setWlist)}
-                    className={`${
-                      !isWish(sProduct._id, wList) && "hidden"
-                    } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700`}
+                    className={`${!isWish(sProduct._id, wList) && "hidden"
+                      } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -244,14 +241,12 @@ const ProductDetailsSection = (props) => {
                 ""
               )}
               <div
-                className={`flex justify-between items-center px-4 py-2 border ${
-                  +quantitiy === +sProduct.pQuantity && "border-red-500"
-                }`}
+                className={`flex justify-between items-center px-4 py-2 border ${+quantitiy === +sProduct.pQuantity && "border-red-500"
+                  }`}
               >
                 <div
-                  className={`${
-                    quantitiy === sProduct.pQuantity && "text-red-500"
-                  }`}
+                  className={`${quantitiy === sProduct.pQuantity && "text-red-500"
+                    }`}
                 >
                   Quantity
                 </div>
@@ -259,8 +254,8 @@ const ProductDetailsSection = (props) => {
                 {sProduct.pQuantity !== 0 ? (
                   <Fragment>
                     {layoutData.inCart == null ||
-                    (layoutData.inCart !== null &&
-                      layoutData.inCart.includes(sProduct._id) === false) ? (
+                      (layoutData.inCart !== null &&
+                        layoutData.inCart.includes(sProduct._id) === false) ? (
                       <div className="flex items-center space-x-2">
                         <span
                           onClick={(e) =>
@@ -385,7 +380,7 @@ const ProductDetailsSection = (props) => {
               {sProduct.pQuantity !== 0 ? (
                 <Fragment>
                   {layoutData.inCart !== null &&
-                  layoutData.inCart.includes(sProduct._id) === true ? (
+                    layoutData.inCart.includes(sProduct._id) === true ? (
                     <div
                       style={{ background: "#303031" }}
                       className={`px-4 py-2 text-white text-center cursor-not-allowed uppercase opacity-75`}
@@ -398,8 +393,11 @@ const ProductDetailsSection = (props) => {
                       onClick={(e) =>
                         addToCart(
                           sProduct._id,
+                          sProduct.pCategory,
                           quantitiy,
-                          Math.round(sProduct.pPrice - ((sProduct.pPrice * sProduct.pOffer) / 100)),
+                          sProduct.pOffer,
+                          sProduct.pPrice,
+                          Math.round(sProduct.pPrice * ( 1 - (sProduct.pOffer / 100))),
                           layoutDispatch,
                           setQuantitiy,
                           setAlertq,
@@ -411,12 +409,12 @@ const ProductDetailsSection = (props) => {
                       className={`px-4 py-2 text-white text-center cursor-pointer uppercase`}
                     >
                       Add to cart
-                    </div>                  )}
+                    </div>)}
                 </Fragment>
               ) : (
                 <Fragment>
                   {layoutData.inCart !== null &&
-                  layoutData.inCart.includes(sProduct._id) === true ? (
+                    layoutData.inCart.includes(sProduct._id) === true ? (
                     <div
                       style={{ background: "#303031" }}
                       className={`px-4 py-2 text-white text-center cursor-not-allowed uppercase opacity-75`}

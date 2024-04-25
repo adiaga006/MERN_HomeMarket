@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { editCategory, getAllCategory,getAllCategory_Admin } from "./FetchApi";
+import { editCategory, getAllCategory_Admin } from "./FetchApi";
 
 const EditCategoryModal = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
@@ -37,7 +37,7 @@ const EditCategoryModal = (props) => {
     dispatch({ type: "loading", payload: true });
     let edit = await editCategory(cId, name, des, status); // Update this line
     if (edit.error) {
-      setError(edit.error);      
+      setError(edit.error);
       // dispatch({ type: "loading", payload: false });
     } else if (edit.success) {
       console.log(edit.success);
@@ -54,17 +54,15 @@ const EditCategoryModal = (props) => {
       {/* Black Overlay */}
       <div
         onClick={(e) => dispatch({ type: "editCategoryModalClose" })}
-        className={`${
-          data.editCategoryModal.modal ? "" : "hidden"
-        } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
+        className={`${data.editCategoryModal.modal ? "" : "hidden"
+          } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
       />
       {/* End Black Overlay */}
 
       {/* Modal Start */}
       <div
-        className={`${
-          data.editCategoryModal.modal ? "" : "hidden"
-        } fixed inset-0 m-4  flex items-center z-30 justify-center`}
+        className={`${data.editCategoryModal.modal ? "" : "hidden"
+          } fixed inset-0 m-4  flex items-center z-30 justify-center`}
       >
         <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
@@ -94,16 +92,16 @@ const EditCategoryModal = (props) => {
             </span>
           </div>
           <div className="flex flex-col space-y-1 w-full">
-          <label htmlFor="name">Category Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="px-4 py-2 border focus:outline-none"
-            name="name"
-            id="name"
-          />
-        </div>
+            <label htmlFor="name">Category Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="px-4 py-2 border focus:outline-none"
+              name="name"
+              id="name"
+            />
+          </div>
           {/* Display error */}
           {error && (
             <div className="text-red-500 text-sm">

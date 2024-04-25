@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import { OrderContext } from "./index";
 import UpdateOrderModal from "./UpdateOrderModal";
 import SearchFilter from "./SearchFilter";
-import {fetchOrdersByDate } from "./Actions";
+import { fetchOrdersByDate } from "./Actions";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -68,14 +68,14 @@ const OrderMenu = (props) => {
             </div>
 
             <div>
-            <span style={{color:"black" }} >Total Order Amount</span>
-            <div className="rounded-full flex items-center justify-between overflow-hidden">
-            <input
-              className="py-2 px-2 focus:outline-none rounded-r-full w-full"
-              value={`${totalOrderAmount}.000 VND`}
-              readOnly
-            />
-            </div>
+              <span style={{ color: "black" }} >Total Order Amount</span>
+              <div className="rounded-full flex items-center justify-between overflow-hidden">
+                <input
+                  className="py-2 px-2 focus:outline-none rounded-r-full w-full"
+                  value={`${totalOrderAmount}.000 VND`}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
           {/*<AddCategoryModal/>*/}

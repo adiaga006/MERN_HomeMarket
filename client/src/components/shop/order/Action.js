@@ -61,15 +61,18 @@ export const pay = async (
               let orderData = {
                 allProduct: JSON.parse(localStorage.getItem("cart")),
                 user: JSON.parse(localStorage.getItem("jwt")).user._id,
-                amount: (res.transaction.amount*24.27).toFixed(0),
+                amount: (res.transaction.amount * 24.27).toFixed(0),
                 transactionId: res.transaction.id,
                 address: state.address,
                 phone: state.phone,
+                allDiscount: JSON.parse(localStorage.getItem("discount")),
               };
               try {
                 let resposeData = await createOrder(orderData);
                 if (resposeData.success) {
                   localStorage.setItem("cart", JSON.stringify([]));
+                  localStorage.setItem("discount", JSON.stringify([]));
+                  localStorage.setItem("category", JSON.stringify([]));
                   dispatch({ type: "cartProduct", payload: null });
                   dispatch({ type: "cartTotalCost", payload: null });
                   dispatch({ type: "orderSuccess", payload: true });

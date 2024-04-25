@@ -1,11 +1,13 @@
 const orderModel = require("../models/orders");
 const productModel=require("../models/products");
+const discountModel=require("../models/discounts");
 class Order {
   async getAllOrders(req, res) {
     try {
       let Orders = await orderModel
         .find({})
         .populate("allProduct.id", "pName pImages pPrice pOffer pQuantity")
+        .populate("allDiscount.id", "_id dName dMethod dAmount dPercent dApply dCategory")
         .populate("user", "name email")
         .sort({ _id: -1 });
       if (Orders) {
@@ -37,15 +39,14 @@ class Order {
   }
 
   async postCreateOrder(req, res) {
-    let { allProduct, user, amount, transactionId, address, phone } = req.body;
+    let { allProduct, user, amount, transactionId, address, phone, allDiscount} = req.body;
   
-    if (!allProduct || !user || !amount || !transactionId || !address || !phone) {
+    if (!allProduct || !user || !amount || !transactionId || !address || !phone || !allDiscount) {
       return res.json({ message: "All fields must be required" });
       
     } else {
       try {
         const outOfStockProducts = [];
-      
         // Kiểm tra số lượng sản phẩm trong kho trước khi tạo đơn hàng
         for (const productInfo of allProduct) {
           const { id, quantitiy } = productInfo;
@@ -80,6 +81,7 @@ class Order {
           transactionId,
           address,
           phone,
+          allDiscount
         });
   
         for (const productInfo of allProduct) {

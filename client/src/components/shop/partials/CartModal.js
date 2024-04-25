@@ -1,17 +1,25 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { LayoutContext } from "../index";
+import { addDiscount } from "./Action";
 import { cartListProduct, getProductDetail } from "./FetchApi";
 import { isAuthenticate } from "../auth/fetchApi";
 import { cartList } from "../productDetails/Mixins";
 import { subTotal, quantity, totalCost } from "./Mixins";
 
-const apiURL = process.env.REACT_APP_API_URL;
 
 const CartModal = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const { data, dispatch } = useContext(LayoutContext);
+  const [error, setError] = useState(null);
+
+  const [fData, setFdata] = useState({
+    dName: "",
+    success: false,
+    error: false,
+  });
+
   const products = data.cartProduct;
 
   const cartModalOpen = () =>
@@ -22,6 +30,11 @@ const CartModal = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const clearError = () => {
+    setError(null);
+  };
+
+  
 
   const fetchData = async () => {
     try {
@@ -77,19 +90,74 @@ const CartModal = () => {
     });
   };
 
+  const submitForm = async (e) => {
+    dispatch({ type: "loading", payload: true });
+    // Reset and prevent the form
+    e.preventDefault();
+    e.target.reset();
+
+    try {
+      let responseData = await addDiscount({ dName: fData.dName, setError });
+      if (responseData) {
+        fetchData();
+        setFdata({
+          ...fData,
+          dName: "",
+          success: responseData.success,
+          error: false,
+        });
+        dispatch({ type: "loading", payload: false });
+        setTimeout(() => {
+          setFdata({
+            ...fData,
+            dName: "",
+            success: false,
+            error: false,
+          });
+        }, 2000);
+      } else if (!responseData) {
+        fetchData();
+        setFdata({
+          ...fData,
+          dName: "",
+          success: responseData.success,
+          error: false,
+        });
+        dispatch({ type: "loading", payload: false });
+        setTimeout(() => {
+          setFdata({
+            ...fData,
+            dName: "",
+            success: false,
+            error: false,
+          });
+        }, 2000);
+        setTimeout(() => {
+          clearError();
+        }, 5000);
+      }else if (responseData.error) {
+        setFdata({ ...fData, success: false, error: responseData.error });
+        dispatch({ type: "loading", payload: false });
+        setTimeout(() => {
+          return setFdata({ ...fData, error: false, success: false });
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Fragment>
       {/* Black Overlay */}
       <div
-        className={`${
-          !data.cartModal ? "hidden" : ""
-        } fixed top-0 z-30 w-full h-full bg-black opacity-50`}
+        className={`${!data.cartModal ? "hidden" : ""
+          } fixed top-0 z-30 w-full h-full bg-black opacity-50`}
       />
       {/* Cart Modal Start */}
       <section
-        className={`${
-          !data.cartModal ? "hidden" : ""
-        } fixed z-40 inset-0 flex items-start justify-end`}
+        className={`${!data.cartModal ? "hidden" : ""
+          } fixed z-40 inset-0 flex items-start justify-end`}
       >
         <div
           style={{ background: "#303031" }}
@@ -142,7 +210,7 @@ const CartModal = () => {
                                 >
                                   -
                                 </button>
-                                <input type="number" style={{color:"black"}} className="rounded" value={quantity(item._id)} readOnly />
+                                <input type="number" style={{ color: "black" }} className="rounded" value={quantity(item._id)} readOnly />
                                 <button
                                   className="rounded btn-primary plus"
                                   onClick={() =>
@@ -158,7 +226,7 @@ const CartModal = () => {
                               <span className="text-sm text-gray-400">
                                 Subtotal :
                               </span>{" "}
-                              {subTotal(item._id, Math.round(item.pPrice - (item.pPrice * item.pOffer)/100))}.000 VND
+                              {subTotal(item._id, Math.round(item.pPrice - (item.pPrice * item.pOffer) / 100))}.000 VND
                             </div>{" "}
                             {/* SUbtotal Count */}
                           </div>
@@ -195,12 +263,39 @@ const CartModal = () => {
             </div>
           </div>
           <div className="m-4 space-y-4">
-            <div
+          {error && <div style={{ color: "red" }}>{error}</div>}
+            <form className="w-full" onSubmit={(e) => submitForm(e)}>
+              <div className="flex space-x-1 py-4">
+                <input
+                  placeholder="Discount code"
+                  onChange={(e) =>
+                    setFdata({
+                      ...fData,
+                      success: false,
+                      error: false,
+                      dName: e.target.value,
+                    })
+                  }
+                  value={fData.dName}
+                  className="w-2/3 flex flex-col space-y-1"
+                  type="text"
+                />
+                <button
+                  style={{ background: "#303031" }}
+                  type="submit"
+                  className="w-1/3 flex flex-col space-y-1"
+                >
+                  Confirm
+                </button>
+              </div>
+            </form>
+
+            {/* <div
               onClick={(e) => cartModalOpen()}
               className="cursor-pointer px-4 py-2 border border-gray-400 text-white text-center cursor-pointer"
             >
               Continue shopping
-            </div>
+            </div> */}
             {data.cartTotalCost ? (
               <Fragment>
                 {isAuthenticate() ? (

@@ -35,20 +35,20 @@ export const homeReducer = (state, action) => {
         ...state,
         products: action.payload,
       };
-      case "searchHandleInReducer":
-  return {
-    ...state,
-    products:
-      action.productArray &&
-      action.productArray.filter((item) => {
-        const productName = item.pName.toUpperCase();
-        const searchTerm = action.payload.toUpperCase();
-        if (searchTerm.length === 0 || productName.indexOf(searchTerm) !== -1) {
-          return item;
-        }
-        return null;
-      }),
-  };
+    case "searchHandleInReducer":
+      return {
+        ...state,
+        products:
+          action.productArray &&
+          action.productArray.filter((item) => {
+            const productName = item.pName.toUpperCase();
+            const searchTerm = action.payload.toUpperCase();
+            if (searchTerm.length === 0 || productName.indexOf(searchTerm) !== -1) {
+              return item;
+            }
+            return null;
+          }),
+      };
     case "loading":
       return {
         ...state,

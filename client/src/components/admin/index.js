@@ -8,4 +8,4 @@ import UserStatistics from "./userStatistics";
 import ProductStatistics from "./productStatistics";
 
 
-export { DashboardAdmin, Categories, Products, Orders, Users, Discounts, ProductStatistics, UserStatistics};
+export { DashboardAdmin, Categories, Products, Orders, Users, Discounts, ProductStatistics, UserStatistics };

@@ -69,18 +69,18 @@ const Navber = (props) => {
               />
             </svg>
             <span
-            onClick={(e) => history.push("/")}
-            className="flex items-left text-center font-bold uppercase text-green-500 text-2xl cursor-pointer px-2 text-center"
-          >
-            Home Market
-          </span>
+              onClick={(e) => history.push("/")}
+              className="flex items-left text-center font-bold uppercase text-green-500 text-2xl cursor-pointer px-2 text-center"
+            >
+              Home Market
+            </span>
           </div>
           <div
             onClick={(e) => history.push("/")}
             style={{ letterSpacing: "0rem" }}
             className="hidden lg:block flex items-left col-span-1 text-center text-green-500 font-bold tracking-widest uppercase text-2xl cursor-pointer"
           >
-             Home Market
+            Home Market
           </div>
           <div className="flex items-right col-span-2 lg:col-span-1 flex justify-end">
             {/*  WishList Page Button */}
@@ -90,11 +90,10 @@ const Navber = (props) => {
               title="Wishlist"
             >
               <svg
-                className={`${
-                  location.pathname === "/wish-list"
+                className={`${location.pathname === "/wish-list"
                     ? "fill-current text-gray-800"
                     : ""
-                } w-8 h-8 text-gray-600 cursor-pointer`}
+                  } w-8 h-8 text-gray-600 cursor-pointer`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

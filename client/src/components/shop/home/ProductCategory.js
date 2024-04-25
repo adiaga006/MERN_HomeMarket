@@ -14,9 +14,8 @@ const ProductCategory = (props) => {
               payload: !data.categoryListDropdown,
             })
           }
-          className={`flex items-center space-x-1 cursor-pointer ${
-            data.categoryListDropdown ? "text-yellow-700" : ""
-          }`}
+          className={`flex items-center space-x-1 cursor-pointer ${data.categoryListDropdown ? "text-yellow-700" : ""
+            }`}
         >
           <span className="text-md md:text-lg hover:text-yellow-700">
             Categories
@@ -44,9 +43,8 @@ const ProductCategory = (props) => {
                 payload: !data.filterListDropdown,
               })
             }
-            className={`flex items-center space-x-1 cursor-pointer ${
-              data.filterListDropdown ? "text-yellow-700" : ""
-            }`}
+            className={`flex items-center space-x-1 cursor-pointer ${data.filterListDropdown ? "text-yellow-700" : ""
+              }`}
           >
             <span className="text-md md:text-lg">Filter</span>
             <span>
@@ -74,9 +72,8 @@ const ProductCategory = (props) => {
                 payload: !data.searchDropdown,
               })
             }
-            className={`flex items-center space-x-1 cursor-pointer ${
-              data.searchDropdown ? "text-yellow-700" : ""
-            }`}
+            className={`flex items-center space-x-1 cursor-pointer ${data.searchDropdown ? "text-yellow-700" : ""
+              }`}
           >
             <span className="text-md md:text-lg">Search</span>
             <span>

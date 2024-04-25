@@ -32,12 +32,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     pBranches:{
-      type:String,
-      required:true
-    },
-    pOutofDate:{
-      type: Date,
-      required: true
+      type: String
     },
     pOffer: {
       type: Number,

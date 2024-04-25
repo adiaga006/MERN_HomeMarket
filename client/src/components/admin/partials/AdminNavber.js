@@ -65,7 +65,7 @@ const AdminNavber = (props) => {
             style={{ letterSpacing: "0rem" }}
             className="flex items-left text-center font-bold uppercase text-gray-800 text-2xl cursor-pointer px-2 text-center"
           >
-          Home Market
+            Home Market
           </span>
         </div>
         {/* Both Screen show */}
