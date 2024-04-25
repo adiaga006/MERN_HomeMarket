@@ -75,9 +75,8 @@ const Login = (props) => {
               value={data.email}
               type="text"
               id="name"
-              className={`${
-                !data.error ? "" : "border-red-500"
-              } px-4 py-2 focus:outline-none border`}
+              className={`${!data.error ? "" : "border-red-500"
+                } px-4 py-2 focus:outline-none border`}
             />
             {!data.error ? "" : alert(data.error)}
           </div>
@@ -93,9 +92,8 @@ const Login = (props) => {
               value={data.password}
               type="password"
               id="password"
-              className={`${
-                !data.error ? "" : "border-red-500"
-              } px-4 py-2 focus:outline-none border`}
+              className={`${!data.error ? "" : "border-red-500"
+                } px-4 py-2 focus:outline-none border`}
             />
             {!data.error ? "" : alert(data.error)}
           </div>

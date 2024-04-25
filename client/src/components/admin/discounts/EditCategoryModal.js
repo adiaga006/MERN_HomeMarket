@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { editCategory, getAllDiscount, getAllDiscount_Admin } from "./FetchApi";
-import { getAllCategory, getAllCategory_Admin } from "../categories/FetchApi";
+import { editCategory, getAllDiscount_Admin } from "./FetchApi";
+import { getAllCategory } from "../categories/FetchApi";
 
 const EditCategoryModal = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
@@ -123,148 +123,172 @@ const EditCategoryModal = (props) => {
               </svg>
             </span>
           </div>
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="name">Discount Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              name="name"
-              id="name"
-            />
-          </div>
           {/* Display error */}
           {error && (
             <div className="text-red-500 text-sm">
               <span>Error: {error}</span>
             </div>
           )}
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="method">Discount Method</label>
-            <select
-              value={method}
-              name="method"
-              onChange={handleMethodChange}
-              className="px-4 py-2 border focus:outline-none"
-              id="method"
-            >
-              <option name="method" value="Amount">
-                Amount
-              </option>
-              <option name="method" value="Percent">
-                Percent
-              </option>
-            </select>
-          </div>
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="amount">Discount Amount</label>
-            <input
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              name="amount"
-              id="amount"
-              disabled={method === "Percent"}
-            />
-          </div>
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="percent">Discount Percent</label>
-            <input
-              type="text"
-              value={percent}
-              onChange={(e) => setPercent(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              name="percent"
-              id="percent"
-              disabled={method === "Amount"}
-            />
-          </div>
-          <div className="w-1/2 flex flex-col space-y-1">
-            <label htmlFor="discount">Discount Category *</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              name="discount"
-              className="px-4 py-2 border focus:outline-none"
-              id="discount"
-            >
-              <option disabled value="">
-                Select a category
-              </option>
-              {categories && categories.length > 0
-                ? categories.map((elem) => {
-                  return (
-                    <Fragment key={elem._id}>
-                      {category._id && category._id &&
-                        category._id === elem._id ? (
-                        <option
-                          name="status"
-                          value={elem._id}
-                          key={elem._id}
-                          selected
-                        >
-                          {elem.cName}
-                        </option>
-                      ) : (
-                        <option
-                          name="status"
-                          value={elem._id}
-                          key={elem._id}
-                        >
-                          {elem.cName}
-                        </option>
-                      )}
-                    </Fragment>
-                  );
-                })
-                : ""}
-            </select>
-          </div>
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="apply">Apply Discount</label>
-            <select
-              value={apply}
-              name="apply"
-              onChange={(e) => setApply(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              id="apply"
-            >
-              <option name="apply" value="Yes">
-                Yes
-              </option>
-              <option name="apply" value="No">
-                No
-              </option>
-            </select>
-          </div>
-          <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="status">Discount Status</label>
-            <select
-              value={status}
-              name="status"
-              onChange={(e) => setStatus(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              id="status"
-            >
-              <option name="status" value="Active">
-                Active
-              </option>
-              <option name="status" value="Disabled">
-                Disabled
-              </option>
-            </select>
-          </div>
-          <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">
-            <button
-              style={{ background: "#303031" }}
-              onClick={(e) => submitForm()}
-              className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
-            >
-              Update Discount
-            </button>
-          </div>
+          <form className="w-full">
+            <div className="flex flex-col space-y-1 w-full">
+              <label htmlFor="name">Discount Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="px-4 py-2 border focus:outline-none"
+                name="name"
+                id="name"
+              />
+            </div>
+            <div className="flex flex-col space-y-1 w-full">
+              <label htmlFor="method">Discount Method</label>
+              <select
+                value={method}
+                name="method"
+                onChange={handleMethodChange}
+                className="px-4 py-2 border focus:outline-none"
+                id="method"
+              >
+                <option name="method" value="Amount">
+                  Amount
+                </option>
+                <option name="method" value="Percent">
+                  Percent
+                </option>
+              </select>
+            </div>
+            <div className="flex space-x-1 py-4">
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
+                <label htmlFor="amount">Discount Amount</label>
+                <input
+                  type="text"
+                  value={amount}
+                  onChange={(e) => {
+                    const inputAmount = e.target.value;
+                    let newAmount = inputAmount;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputAmount < 0) {
+                      newAmount = 0;
+                    }
+
+                    setAmount(newAmount)
+                  }}
+                  className="px-4 py-2 border focus:outline-none"
+                  name="amount"
+                  id="amount"
+                  disabled={method === "Percent"}
+                />
+              </div>
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
+                <label htmlFor="percent">Discount Percent</label>
+                <input
+                  type="text"
+                  value={percent}
+                  onChange={(e) => {
+                    const inputPercent = e.target.value;
+                    let newPercent = inputPercent;
+
+                    // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
+                    if (inputPercent < 0 || inputPercent > 100) {
+                      newPercent = 0;
+                    }
+                    setPercent(newPercent)
+                  }}
+                  className="px-4 py-2 border focus:outline-none"
+                  name="percent"
+                  id="percent"
+                  disabled={method === "Amount"}
+                />
+              </div>
+            </div>
+            <div className="flex space-x-1 py-4">
+              <div className="w-1/2 flex flex-col space-y-1">
+                <label htmlFor="discount">Discount Category *</label>
+                <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  name="discount"
+                  className="px-4 py-2 border focus:outline-none"
+                  id="discount"
+                >
+                  <option disabled value="">
+                    Select a category
+                  </option>
+                  {categories && categories.length > 0
+                    ? categories.map((elem) => {
+                      return (
+                        <Fragment key={elem._id}>
+                          {category._id && category._id &&
+                            category._id === elem._id ? (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                              selected
+                            >
+                              {elem.cName}
+                            </option>
+                          ) : (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                            >
+                              {elem.cName}
+                            </option>
+                          )}
+                        </Fragment>
+                      );
+                    })
+                    : ""}
+                </select>
+              </div>
+              <div className="w-1/2 flex flex-col space-y-1">
+                <label htmlFor="apply">Discount Apply</label>
+                <select
+                  value={apply}
+                  name="apply"
+                  onChange={(e) => setApply(e.target.value)}
+                  className="px-4 py-2 border focus:outline-none"
+                  id="apply"
+                >
+                  <option name="apply" value="Yes">
+                    Yes
+                  </option>
+                  <option name="apply" value="No">
+                    No
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-col space-y-1 w-full">
+              <label htmlFor="status">Discount Status</label>
+              <select
+                value={status}
+                name="status"
+                onChange={(e) => setStatus(e.target.value)}
+                className="px-4 py-2 border focus:outline-none"
+                id="status"
+              >
+                <option name="status" value="Active">
+                  Active
+                </option>
+                <option name="status" value="Disabled">
+                  Disabled
+                </option>
+              </select>
+            </div>
+            <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6 mt-4">
+              <button
+                style={{ background: "#303031" }}
+                onClick={(e) => submitForm()}
+                className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
+              >
+                Update Discount
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </Fragment>

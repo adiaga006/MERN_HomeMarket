@@ -181,7 +181,7 @@ const HomeComponent = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-32 w-full h-[500px]" style={{paddingLeft: '100px', paddingRight: '100px'}}>
+      <div className="grid grid-cols-2 gap-32 w-full h-[500px]" style={{ paddingLeft: '100px', paddingRight: '100px' }}>
         <div className="flex flex-col gap-y-6 items-start max-w-max">
           <div className="">
             <div className="font-bold text-4xl text-primary mb-4">
@@ -342,7 +342,7 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="mt-10">
-          <img className="" src={banner1} alt="" />
+        <img className="" src={banner1} alt="" />
       </div>
     </Fragment>
   );

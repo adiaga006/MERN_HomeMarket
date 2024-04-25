@@ -63,13 +63,13 @@ export const layoutReducer = (state, action) => {
         ...state,
         loading: action.payload,
       };
-      case "setConfirmedSignup":
-        return {
-          ...state,
-          confirmedSignup: action.payload,
-        };
+    case "setConfirmedSignup":
+      return {
+        ...state,
+        confirmedSignup: action.payload,
+      };
     default:
       return state;
   }
-  
+
 };

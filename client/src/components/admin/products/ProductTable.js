@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { getAllProduct, deleteProduct,getAllProduct_Admin } from "./FetchApi";
+import { deleteProduct} from "./FetchApi";
 import moment from "moment";
 import { ProductContext } from "./index";
-import { fetchData} from "./Actions";
+import { fetchData } from "./Actions";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
@@ -17,15 +17,15 @@ const AllProduct = (props) => {
     fetchData(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
-let currentProducts = [];
-if (products) {
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-}
+  let currentProducts = [];
+  if (products) {
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    currentProducts = products.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+  }
   const deleteProductReq = async (pId) => {
     try {
       let deleteC = await deleteProduct(pId);
@@ -42,7 +42,7 @@ if (products) {
       console.error("Error deleting product:", error);
     }
   };
-  
+
 
   /* This method call the editmodal & dispatch product context */
   const editProduct = (pId, product, type) => {
@@ -96,24 +96,24 @@ if (products) {
             </tr>
           </thead>
           <tbody>
-          {currentProducts && currentProducts.length > 0 ? (
-            currentProducts.map((item, key) => (
-              <ProductTable
-                product={item}
-                editProduct={(pId, product, type) =>
-                  editProduct(pId, product, type)
-                }
-                deleteProduct={(pId) => deleteProductReq(pId)}
-                key={key}
-              />
-            ))
-          ) : (
-            <tr>
-              <td colSpan="10" className="text-xl text-center font-semibold py-8">
-                No product found
-              </td>
-            </tr>
-          )}
+            {currentProducts && currentProducts.length > 0 ? (
+              currentProducts.map((item, key) => (
+                <ProductTable
+                  product={item}
+                  editProduct={(pId, product, type) =>
+                    editProduct(pId, product, type)
+                  }
+                  deleteProduct={(pId) => deleteProductReq(pId)}
+                  key={key}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan="10" className="text-xl text-center font-semibold py-8">
+                  No product found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         {/* Pagination and total products info */}
@@ -123,9 +123,8 @@ if (products) {
           }).map((_, index) => (
             <button
               key={index}
-              className={`mx-1 px-3 py-1 rounded-lg ${
-                currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
+              className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
               onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}

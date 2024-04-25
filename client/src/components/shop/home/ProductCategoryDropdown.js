@@ -39,9 +39,9 @@ const CategoryList = () => {
                   onClick={(e) =>
                     history.push(`/products/category/${item._id}`)
                   }
-                  // className="col-span-1 m-2 flex flex-col items-center justify-center cursor-pointer"
+                // className="col-span-1 m-2 flex flex-col items-center justify-center cursor-pointer"
                 >
-                 {/* // <img
+                  {/* // <img
                   //   src={`${apiURL}/uploads/categories/${item.cImage}`}
                   //   alt="pic"
                 // />*/}
@@ -174,8 +174,8 @@ const Search = () => {
     const normalizedSearch = removeDiacritics(search).toLocaleLowerCase();
     const filteredProducts = productArray
       ? productArray.filter((item) =>
-          removeDiacritics(item.pName).toLocaleLowerCase().includes(normalizedSearch)
-        )
+        removeDiacritics(item.pName).toLocaleLowerCase().includes(normalizedSearch)
+      )
       : null;
 
     dispatch({
@@ -194,9 +194,8 @@ const Search = () => {
 
   return (
     <div
-      className={`${
-        data.searchDropdown ? "" : "hidden"
-      } my-4 flex items-center justify-between`}
+      className={`${data.searchDropdown ? "" : "hidden"
+        } my-4 flex items-center justify-between`}
     >
       <input
         value={search}

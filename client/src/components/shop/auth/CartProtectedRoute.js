@@ -7,7 +7,7 @@ const CartProtectedRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={(props) =>
       JSON.parse(localStorage.getItem("cart")).length !== 0 &&
-      isAuthenticate() ? (
+        isAuthenticate() ? (
         <Component {...props} />
       ) : (
         <Redirect

@@ -51,10 +51,10 @@ export const resetPasswordAfterOtp = async (email, otp, newPassword) => {
   }
 };
 export const sendOtpForResetPassword = async (email) => {
-  const data = { email};
+  const data = { email };
   try {
     let response = await axios.post(`${apiURL}/api/OtpResetPass`, data);
-      return response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }

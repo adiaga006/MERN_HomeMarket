@@ -79,7 +79,7 @@ export const filterOrder = async (
   }
 };
 
-export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) => {
+export const fetchOrdersByDate = async (startDate, endDate, dispatch, setError) => {
   try {
     if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
       const errorMessage = "Start date cannot be greater than end date";
@@ -96,9 +96,9 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch,setError) =
         filteredOrders = responseData.Orders.filter(
           (item) =>
             new Date(item.createdAt).setHours(0, 0, 0, 0) >=
-              new Date(startDate).setHours(0, 0, 0, 0) &&
+            new Date(startDate).setHours(0, 0, 0, 0) &&
             new Date(item.createdAt).setHours(23, 59, 59, 999) <=
-              new Date(endDate).setHours(23, 59, 59, 999)
+            new Date(endDate).setHours(23, 59, 59, 999)
         );
       } else {
         // If start or end date is not provided, return all orders

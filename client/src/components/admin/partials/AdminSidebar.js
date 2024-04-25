@@ -14,11 +14,10 @@ const AdminSidebar = (props) => {
       >
         <div
           onClick={(e) => history.push("/admin/dashboard")}
-          className={`${
-            location.pathname === "/admin/dashboard"
+          className={`${location.pathname === "/admin/dashboard"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
             <svg
@@ -41,11 +40,10 @@ const AdminSidebar = (props) => {
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/categories")}
-          className={`${
-            location.pathname === "/admin/dashboard/categories"
+          className={`${location.pathname === "/admin/dashboard/categories"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
             <svg
@@ -68,11 +66,10 @@ const AdminSidebar = (props) => {
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/products")}
-          className={`${
-            location.pathname === "/admin/dashboard/products"
+          className={`${location.pathname === "/admin/dashboard/products"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
             <svg
@@ -90,16 +87,15 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Product</span>
+          <span className="hover:text-gray-800">Products</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/orders")}
-          className={`${
-            location.pathname === "/admin/dashboard/orders"
+          className={`${location.pathname === "/admin/dashboard/orders"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
             <svg
@@ -117,46 +113,43 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Order</span>
+          <span className="hover:text-gray-800">Orders</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/users")}
-          className={`${
-            location.pathname === "/admin/dashboard/users"
+          className={`${location.pathname === "/admin/dashboard/users"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
-          <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
+            <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
           <span className="hover:text-gray-800">Users</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/discounts")}
-          className={`${
-            location.pathname === "/admin/dashboard/discounts"
+          className={`${location.pathname === "/admin/dashboard/discounts"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
-          <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
+            <i className="fa fa-percent" style={{ fontSize: "24px" }}></i>
           </span>
           <span className="hover:text-gray-800">Discounts</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/productStatistics")}
-          className={`${
-            location.pathname === "/admin/dashboard/productStatistics"
+          className={`${location.pathname === "/admin/dashboard/productStatistics"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
-            <span>
+          <span>
             <svg
               className="w-8 h-8 text-gray-600 hover:text-gray-800"
               fill="none"
@@ -177,14 +170,13 @@ const AdminSidebar = (props) => {
         <hr className="border-b border-gray-200" />
         <div
           onClick={(e) => history.push("/admin/dashboard/userStatistics")}
-          className={`${
-            location.pathname === "/admin/dashboard/userStatistics"
+          className={`${location.pathname === "/admin/dashboard/userStatistics"
               ? "border-r-4 border-gray-800 bg-gray-100"
               : ""
-          } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
         >
           <span>
-          <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
+            <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
           <span className="hover:text-gray-800">User Statistics</span>
         </div>

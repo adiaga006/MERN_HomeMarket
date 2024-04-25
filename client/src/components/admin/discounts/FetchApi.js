@@ -63,7 +63,7 @@ export const createCategory = async ({
 };
 
 export const editCategory = async (dId, name, method, amount, percent, category, apply, status) => {
-  let data = { dId: dId, dName: name,  dMethod: method, dAmount: amount, dPercent: percent, dCategory: category, dApply: apply, dStatus: status };
+  let data = { dId: dId, dName: name, dMethod: method, dAmount: amount, dPercent: percent, dCategory: category, dApply: apply, dStatus: status };
   try {
     let res = await axios.post(
       `${apiURL}/api/discount/edit-discount`,

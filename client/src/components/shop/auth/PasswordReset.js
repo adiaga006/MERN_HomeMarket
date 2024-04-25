@@ -8,7 +8,7 @@ const PasswordResetForm = ({ email }) => {
   const [newPassword, setNewPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage] = useState(null);
 
   const handleResetPassword = async () => {
     try {
@@ -96,7 +96,7 @@ const PasswordReset = () => {
 
       if (response.success) {
         setShowResetForm(true);
-        setError(null); 
+        setError(null);
       } else {
         setError(response.error);
       }

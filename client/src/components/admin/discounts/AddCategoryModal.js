@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { createCategory, getAllDiscount, getAllDiscount_Admin } from "./FetchApi";
-import { getAllCategory, getAllCategory_Admin } from "../categories/FetchApi";
+import { createCategory, getAllDiscount_Admin } from "./FetchApi";
+import { getAllCategory } from "../categories/FetchApi";
 
 const AddCategoryModal = ({ categories }) => {
   const { data, dispatch } = useContext(CategoryContext);
@@ -94,22 +94,20 @@ const AddCategoryModal = ({ categories }) => {
       {/* Black Overlay */}
       <div
         onClick={(e) => dispatch({ type: "addCategoryModal", payload: false })}
-        className={`${
-          data.addCategoryModal ? "" : "hidden"
-        } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
+        className={`${data.addCategoryModal ? "" : "hidden"
+          } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
       />
       {/* End Black Overlay */}
 
       {/* Modal Start */}
       <div
-        className={`${
-          data.addCategoryModal ? "" : "hidden"
-        } fixed inset-0 m-4  flex items-center z-30 justify-center`}
+        className={`${data.addCategoryModal ? "" : "hidden"
+          } fixed inset-0 m-4  flex items-center z-30 justify-center`}
       >
         <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Add Category
+              Add Discount
             </span>
             {/* Close Modal */}
             <span
@@ -154,9 +152,9 @@ const AddCategoryModal = ({ categories }) => {
                 type="text"
               />
             </div>
-            
+
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Method</label>
+              <label htmlFor="method">Discount Method</label>
               <select
                 name="method"
                 onChange={(e) => {
@@ -175,8 +173,9 @@ const AddCategoryModal = ({ categories }) => {
                 <option value="Percent">Percent</option>
               </select>
             </div>
-            <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Amount</label>
+            <div className="flex space-x-1 py-4">
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
+                <label htmlFor="amount">Discount Amount</label>
                 <input
                   value={fData.dAmount}
                   onChange={(e) => {
@@ -201,8 +200,8 @@ const AddCategoryModal = ({ categories }) => {
                   disabled={fData.dMethod === "Percent"}
                 />
               </div>
-              <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="percent">Percent</label>
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
+                <label htmlFor="percent">Discount Percent</label>
                 <input
                   value={fData.dPercent}
                   onChange={(e) => {
@@ -210,7 +209,7 @@ const AddCategoryModal = ({ categories }) => {
                     let newPercent = inputPercent;
 
                     // Kiểm tra nếu giá trị nhập vào là nhỏ hơn 0, đặt thành 0
-                    if (inputPercent < 0) {
+                    if (inputPercent < 0 || inputPercent > 100) {
                       newPercent = 0;
                     }
 
@@ -227,7 +226,9 @@ const AddCategoryModal = ({ categories }) => {
                   disabled={fData.dMethod === "Amount"}
                 />
               </div>
-              <div className="w-1/2 flex flex-col space-y-1">
+            </div>
+            <div className="flex space-x-1 py-4">
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
                 <label htmlFor="status">Discount Category *</label>
                 <select
                   value={fData.dCategory}
@@ -248,33 +249,34 @@ const AddCategoryModal = ({ categories }) => {
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {
-                        return (
-                          <option name="status" value={elem._id} key={elem._id}>
-                            {elem.cName}
-                          </option>
-                        );
-                      })
+                      return (
+                        <option name="status" value={elem._id} key={elem._id}>
+                          {elem.cName}
+                        </option>
+                      );
+                    })
                     : ""}
                 </select>
               </div>
-            <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="apply">Discount Apply</label>
-              <select
-                name="apply"
-                onChange={(e) =>
-                  setFdata({
-                    ...fData,
-                    success: false,
-                    error: false,
-                    dApply: e.target.value,
-                  })
-                }
-                className="px-4 py-2 border focus:outline-none"
-                id="apply"
-              >
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
+              <div className="w-1/2 flex flex-col space-y-1 space-x-1">
+                <label htmlFor="apply">Discount Apply</label>
+                <select
+                  name="apply"
+                  onChange={(e) =>
+                    setFdata({
+                      ...fData,
+                      success: false,
+                      error: false,
+                      dApply: e.target.value,
+                    })
+                  }
+                  className="px-4 py-2 border focus:outline-none"
+                  id="apply"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
               <label htmlFor="status">Discount Status</label>

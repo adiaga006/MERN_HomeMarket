@@ -65,7 +65,7 @@ const Product = () => {
                 </div>
                 <div className="md:w-1/2 md:flex md:items-center md:justify-around">
                   <div className="card-home-price">
-                    {Math.round(product.pPrice - (product.pPrice * product.pOffer)/100)}.000 VND
+                    {Math.round(product.pPrice - (product.pPrice * product.pOffer) / 100)}.000 VND
                   </div>
                   {product.pOffer !== 0 ? (
                     <Fragment>
@@ -77,7 +77,7 @@ const Product = () => {
                       </p>
                     </Fragment>
                   ) : (
-                    <div/>
+                    <div />
                   )}
                   {product.pQuantity > 0 ? (
                     <div className="text-green-500 my-1 md:my-0">In Stock</div>

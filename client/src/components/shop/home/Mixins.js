@@ -1,5 +1,4 @@
 import { getSingleProduct } from "../productDetails/FetchApi";
-import React, { Fragment, useState, useEffect, useContext } from "react";
 
 export const addToCart = async (
   id,
@@ -18,7 +17,7 @@ export const addToCart = async (
     try {
       let responseData = await getSingleProduct(id);
       setTimeout(() => {
-        
+
         if (responseData.Product) {
           layoutDispatch({
             type: "singleProductDetail",
@@ -120,8 +119,6 @@ export const prevSlide = (totalImg, slide, setSlide) => {
     setSlide(0);
   }
 };
-
-
 
 export const cartList = () => {
   let carts = localStorage.getItem("cart")

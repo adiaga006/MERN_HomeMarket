@@ -83,9 +83,8 @@ const SettingComponent = () => {
                       type: "password",
                     })
                   }
-                  className={`${
-                    fData.passwordView ? "" : "hidden"
-                  } absolute right-0 m-2 box-border cursor-pointer`}
+                  className={`${fData.passwordView ? "" : "hidden"
+                    } absolute right-0 m-2 box-border cursor-pointer`}
                 >
                   <svg
                     className="w-6 h-6"
@@ -112,9 +111,8 @@ const SettingComponent = () => {
                   onClick={(e) =>
                     setFdata({ ...fData, passwordView: true, type: "text" })
                   }
-                  className={`${
-                    !fData.passwordView ? "" : "hidden"
-                  } absolute right-0 m-2 box-border cursor-pointer`}
+                  className={`${!fData.passwordView ? "" : "hidden"
+                    } absolute right-0 m-2 box-border cursor-pointer`}
                 >
                   <svg
                     className="w-6 h-6"

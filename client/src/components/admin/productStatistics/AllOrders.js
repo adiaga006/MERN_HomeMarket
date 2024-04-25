@@ -1,10 +1,7 @@
-import React, { Fragment, useContext, useEffect,useState } from "react";
-import moment from "moment";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import { OrderContext } from "./index";
-import { fetchData, editOrderReq} from "./Actions";
-
-const apiURL = process.env.REACT_APP_API_URL;
+import { fetchData, editOrderReq } from "./Actions";
 
 const AllOrders = (props) => {
   const { data, dispatch } = useContext(OrderContext);
@@ -54,42 +51,42 @@ const AllOrders = (props) => {
             </tr>
           </thead>
           <tbody>
-          {currentOrders && currentOrders.length > 0 ? (
-            currentOrders.map((item, i) => {
-              return (
-                <CategoryTable
-                  key={i}
-                  order={item}
-                  editOrder={(oId, type, status) =>
-                    editOrderReq(oId, type, status, dispatch)
-                  }
-                />
-              );
-            })
-          ) : (
-            <tr>
-              <td
-                colSpan="12"
-                className="text-xl text-center font-semibold py-8"
-              >
-                No product found
-              </td>
-            </tr>
-          )}
+            {currentOrders && currentOrders.length > 0 ? (
+              currentOrders.map((item, i) => {
+                return (
+                  <CategoryTable
+                    key={i}
+                    order={item}
+                    editOrder={(oId, type, status) =>
+                      editOrderReq(oId, type, status, dispatch)
+                    }
+                  />
+                );
+              })
+            ) : (
+              <tr>
+                <td
+                  colSpan="12"
+                  className="text-xl text-center font-semibold py-8"
+                >
+                  No product found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-         {/* Pagination */}
-         <div className="flex justify-center mt-4">
-         {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }).map((_, index) => (
-           <button
-             key={index}
-             className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-             onClick={() => paginate(index + 1)}
-           >
-             {index + 1}
-           </button>
-         ))}
-       </div>
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+          {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }).map((_, index) => (
+            <button
+              key={index}
+              className={`mx-1 px-3 py-1 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         <div className="text-sm text-gray-600 mt-2">
           Total {orders && orders.length} product found
         </div>
@@ -100,7 +97,6 @@ const AllOrders = (props) => {
 
 /* Single Category Component */
 const CategoryTable = ({ order, editOrder }) => {
-  const { dispatch } = useContext(OrderContext);
 
   return (
     <Fragment>

@@ -21,7 +21,7 @@ const SingleProduct = (props) => {
   const [pImages, setPimages] = useState(null);
   const { data: layoutData, dispatch: layoutDispatch } = useContext(LayoutContext);
   const [, setAlertq] = useState(false); // Alert when quantity greater than stock
-  
+
   const { data, dispatch } = useContext(HomeContext);
   const { products } = data;
   const history = useHistory();
@@ -111,17 +111,17 @@ const SingleProduct = (props) => {
                         ({item.pNumOfReviews} Reviews)
                       </span>
                     </div>
-                    <p class="card-home-price">{Math.round(item.pPrice - (item.pPrice * item.pOffer)/100)}.000<span class="card-title"> ₫</span></p>
-                    {item.pOffer !==0 ? (
+                    <p class="card-home-price">{Math.round(item.pPrice - (item.pPrice * item.pOffer) / 100)}.000<span class="card-title"> ₫</span></p>
+                    {item.pOffer !== 0 ? (
                       <Fragment>
-                      <div className="flex items-center">
-                      <p class="card-home-price-2 original-price">{item.pPrice}.000<span class="card-title"> ₫</span></p>
-                      <span className="space-between"></span>
-                      <p class="card-home-price-2 discount rounded">-{item.pOffer}%</p>
-                      </div>
+                        <div className="flex items-center">
+                          <p class="card-home-price-2 original-price">{item.pPrice}.000<span class="card-title"> ₫</span></p>
+                          <span className="space-between"></span>
+                          <p class="card-home-price-2 discount rounded">-{item.pOffer}%</p>
+                        </div>
                       </Fragment>
                     ) : (
-                      <div/>
+                      <div />
                     )}
                     <div>
                       <span>Sold: {item.pSold}</span>
@@ -129,40 +129,38 @@ const SingleProduct = (props) => {
                   </div>
                   {/* Wishlist Logic  */}
                   <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">
-                  <svg
-                    onClick={(e) => isWishReq(e, item._id, setWlist)}
-                    className={`${
-                      isWish(item._id, wList) && "hidden"
-                    } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                  <svg
-                    onClick={(e) => unWishReq(e, item._id, setWlist)}
-                    className={`${
-                      !isWish(item._id, wList) && "hidden"
-                    } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                {/* WhisList Logic End */}
+                    <svg
+                      onClick={(e) => isWishReq(e, item._id, setWlist)}
+                      className={`${isWish(item._id, wList) && "hidden"
+                        } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    <svg
+                      onClick={(e) => unWishReq(e, item._id, setWlist)}
+                      className={`${!isWish(item._id, wList) && "hidden"
+                        } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  {/* WhisList Logic End */}
                 </div>
               </div>
             </Fragment>

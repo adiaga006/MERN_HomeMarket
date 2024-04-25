@@ -54,15 +54,15 @@ export const fetchOrderByUser = async (dispatch) => {
 
 export const updatePersonalInformationAction = async (dispatch, user) => {
   let formData = new FormData();
-  if(user.editAvatar) {
-    formData.append("editAvatar",user.editAvatar)
+  if (user.editAvatar) {
+    formData.append("editAvatar", user.editAvatar)
   }
   formData.append("uId", user.id);
   formData.append("name", user.name);
-  if(user.phone) {
+  if (user.phone) {
     formData.append("phoneNumber", user.phone);
   }
-  
+
   dispatch({ type: "loading", payload: true });
   try {
     let responseData = await updatePersonalInformationFetch(formData);

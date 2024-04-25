@@ -6,8 +6,10 @@ const orderSchema = new mongoose.Schema(
     allProduct: [
       {
         id: { type: ObjectId, ref: "products" },
+        category: { type: ObjectId, ref: "categories"},
         quantitiy: Number,
-        discount: Number,
+        oldPrice: Number,
+        offer: Number,
       },
     ],
     user: {
@@ -31,6 +33,15 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    allDiscount: [
+      {
+        id: { type: ObjectId, ref: "discounts" },
+        category: { type: ObjectId, ref: "categories"},
+        method: { type: String },
+        amount: { type: Number },
+        percent: { type: Number }
+      },
+    ],
     status: {
       type: String,
       default: "Not processed",
