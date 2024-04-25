@@ -1,5 +1,5 @@
-import { getAllOrder } from "F:/MERN_HomeMarket/client/src/components/admin/orders/FetchApi";
-import { getAllDiscount_Admin } from "F:/MERN_HomeMarket/client/src/components/admin/discounts/FetchApi";
+import { getAllOrder } from "D:/MERN_HomeMarket/client/src/components/admin/orders/FetchApi";
+import { getAllDiscount_Admin } from "D:/MERN_HomeMarket/client/src/components/admin/discounts/FetchApi";
 import { addToCart } from "./Mixins"
 
 export const logout = () => {

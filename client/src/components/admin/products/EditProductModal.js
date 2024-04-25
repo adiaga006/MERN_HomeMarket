@@ -51,7 +51,7 @@ const EditProductModal = (props) => {
       pQuantity: data.editProductModal.pQuantity,
       pPrice: data.editProductModal.pPrice,
       pOffer: data.editProductModal.pOffer,
-      pBrand: data.editProductModal.pBranches || "",
+      pBrand: data.editProductModal.pBrand || "",
     });
   }, [data.editProductModal]);
 
