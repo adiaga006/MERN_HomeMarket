@@ -115,6 +115,7 @@ const CartModal = () => {
             error: false,
           });
         }, 2000);
+        clearError()
       } else if (!responseData) {
         fetchData();
         setFdata({

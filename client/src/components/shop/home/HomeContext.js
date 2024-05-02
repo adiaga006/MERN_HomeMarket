@@ -16,6 +16,8 @@ export const homeReducer = (state, action) => {
         filterListDropdown: false,
         searchDropdown: false,
       };
+      case "setCategories":
+            return { ...state, categories: action.payload };
     case "filterListDropdown":
       return {
         ...state,

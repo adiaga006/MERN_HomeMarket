@@ -224,3 +224,42 @@ card-text:last-child{margin-bottom:0}
   object-fit: cover; /* Điều chỉnh kích thước ảnh để phủ kín khung mà không làm mất tỉ lệ */
   object-position: center; /* Căn giữa ảnh trong khung *//* Điều chỉnh kích thước ảnh để phủ kín khung mà không làm mất tỉ lệ */
 }
+
+.sidebar {
+  background-color: #f3f3f3;
+  padding: 1rem;
+  width: 250px; /* Điều chỉnh độ rộng của sidebar tại đây */
+  max-height: calc(100vh - 100px); /* Đặt kích thước tối đa cho sidebar, trừ điều chỉnh cho header/footer */
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước tối đa */
+}
+
+.sidebar h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: #ddd; /* Màu nền khi hover */
+}
+
+/* Tùy chỉnh kiểu chữ và màu chữ của các mục danh mục */
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Thêm kiểu chữ in đậm cho các mục danh mục */
+.sidebar ul li a:hover {
+  font-weight: bold;
+}

@@ -48,7 +48,7 @@ CreateAllFolder();
 
 // Database Connection
 mongoose
-  .connect(process.env.DB_LOCAL, {
+  .connect(process.env.DB_CLOUD, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

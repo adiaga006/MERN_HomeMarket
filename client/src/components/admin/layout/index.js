@@ -15,7 +15,6 @@ const AdminLayout = ({ children }) => {
           {children}
         </div>
       </section>
-      <AdminFooter />
     </Fragment>
   );
 };

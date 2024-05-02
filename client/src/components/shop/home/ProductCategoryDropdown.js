@@ -6,55 +6,51 @@ import { getAllProduct, productByPrice } from "../../admin/products/FetchApi";
 import "./style.css";
 import unorm from "unorm";
 const apiURL = process.env.REACT_APP_API_URL;
+const Brand = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 
-const CategoryList = () => {
+const CategoryList  = (props) => {
   const history = useHistory();
-  const { data } = useContext(HomeContext);
-  const [categories, setCategories] = useState(null);
+  const { data, dispatch } = useContext(HomeContext);
+  const [selectedBrand, setSelectedBrand] = useState(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const selectBrand = (brand) => {
+    setSelectedBrand(brand);
+    fetchData(brand);
+  };
 
-  const fetchData = async () => {
+  const fetchData = async (brand) => {
+    dispatch({ type: "loading", payload: true });
     try {
-      let responseData = await getAllCategory();
-      if (responseData && responseData.Categories) {
-        setCategories(responseData.Categories);
-      }
+      // setTimeout(async () => {
+      // //   let responseData = await productByBrand(brand);
+      // //   // if (responseData && responseData.Products) {
+      // //   //   dispatch({ type: "setProducts", payload: responseData.Products });
+      // //   //   dispatch({ type: "loading", payload: false });
+      // //   // }
+      // // }, 700);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const closeDropdown = () => {
+    setSelectedBrand(null);
+    dispatch({ type: "categoryListDropdown", payload: false });
+  };
+
   return (
-    <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4 dropdown-content`}>
-      <hr />
-      <div>
-        {categories && categories.length > 0 ? (
-          categories.map((item, index) => {
-            return (
-              <Fragment key={index}>
-                <div
-                  onClick={(e) =>
-                    history.push(`/products/category/${item._id}`)
-                  }
-                // className="col-span-1 m-2 flex flex-col items-center justify-center cursor-pointer"
-                >
-                  {/* // <img
-                  //   src={`${apiURL}/uploads/categories/${item.cImage}`}
-                  //   alt="pic"
-                // />*/}
-                  <div className="medium hover:text-yellow-700 cursor-pointer">{item.cName}</div>
-                </div>
-              </Fragment>
-            );
-          })
-        ) : (
-          <div className="text-xl text-center my-4">No Category</div>
-        )}
+    <Fragment>
+      <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4 dropdown-content`}>
+        <hr />
+        <div>
+          {Brand.map((brand, index) => (
+            <div key={index} onClick={() => selectBrand(brand)} className="hover:text-yellow-700 cursor-pointer">
+              {brand}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

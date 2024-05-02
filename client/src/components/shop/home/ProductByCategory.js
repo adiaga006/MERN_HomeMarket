@@ -1,9 +1,42 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState,useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Layout from "../layout";
 import { productByCategory } from "../../admin/products/FetchApi";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { isWishReq, unWishReq, isWish } from "./Mixins";
+import { getAllCategory } from "../../admin/categories/FetchApi";
+import { HomeContext } from "../home";
+const Sidebar = () => {
+  const [categories, setCategories] = useState([]);
+  const history = useHistory();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await getAllCategory();
+      if (response && response.Categories) {
+        setCategories(response.Categories);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleCategorySelection = (categoryId) => {
+    history.push(`/products/category/${categoryId}`);
+  };
+
+  return (
+    <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
+      <h3>Categories</h3>
+      <ul>
+        {categories.map((category) => (
+          <li key={category._id} onClick={() => handleCategorySelection(category._id)}>
+            {category.cName}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const Submenu = ({ category }) => {
   const history = useHistory();
@@ -11,9 +44,8 @@ const Submenu = ({ category }) => {
   return (
     <Fragment>
       {/* Submenu Section */}
-      <section className="mx-4 mt-24 md:mx-12 md:mt-32 lg:mt-24">
-        <div className="flex justify-between items-center">
-          <div className="text-sm flex space-x-3">
+      <div className="submenu" style={{ position: 'absolute', top: 74, left: 0, width: '100%', padding: '1rem', backgroundColor: '#fff' }}>
+      <div className="text-sm">
             <span
               className="hover:text-yellow-700 cursor-pointer"
               onClick={(e) => history.push("/shop")}
@@ -22,25 +54,16 @@ const Submenu = ({ category }) => {
             </span>
             <span> / </span>
             <span className="text-yellow-700 cursor-default">{category}</span>
-          </div>
-          <div>
-            <svg
-              className="w-3 h-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            </div>
+            </div>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M13 5l7 7-7 7M5 5l7 7-7 7"
               />
-            </svg>
-          </div>
-        </div>
-      </section>
+            
+        
       {/* Submenu Section */}
     </Fragment>
   );
@@ -154,31 +177,33 @@ const AllProduct = ({ products }) => {
     </Fragment>
   );
 };
-
 const PageComponent = () => {
   const [products, setProducts] = useState(null);
   const { catId } = useParams();
-
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      let responseData = await productByCategory(catId);
-      if (responseData && responseData.Products) {
-        setProducts(responseData.Products);
+    const fetchData = async () => {
+      if (catId) {
+        const responseData = await productByCategory(catId);
+        if (responseData && responseData.Products) {
+          setProducts(responseData.Products);
+        } else {
+          setProducts([]);
+        }
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
+    fetchData();
+  }, [catId]);
+
 
   return (
-    <Fragment>
-      <AllProduct products={products} />
-    </Fragment>
+    <Layout>
+    <div style={{ display: 'flex', marginTop: '126px', paddingLeft: '20px' }}>
+      <Sidebar />
+      <div style={{ flex: 1, paddingLeft: '20px' }}> {/* Additional padding to ensure spacing between sidebar and products */}
+        <AllProduct products={products} />
+      </div>
+    </div>
+  </Layout>
   );
 };
 

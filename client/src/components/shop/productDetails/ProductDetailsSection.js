@@ -186,8 +186,8 @@ const ProductDetailsSection = (props) => {
                 </span>
                 {sProduct.pOffer !== 0 ? (
                   <Fragment>
-                    <p class="card-product-price2 original-price">{sProduct.pPrice}.000<span class="card-title"> ₫</span></p>
-                    <p class="card-product-price2 discount rounded">-{sProduct.pOffer}%</p>
+                    <p className="card-product-price2 original-price">{sProduct.pPrice}.000<span className="card-title"> ₫</span></p>
+                    <p className="card-product-price2 discount rounded">-{sProduct.pOffer}%</p>
                   </Fragment>
                 ) : (
                   <div />
