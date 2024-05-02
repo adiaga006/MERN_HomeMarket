@@ -226,7 +226,7 @@ card-text:last-child{margin-bottom:0}
 }
 
 .sidebar {
-  background-color: #f3f3f3;
+  background-color: red;
   padding: 1rem;
   width: 250px; /* Điều chỉnh độ rộng của sidebar tại đây */
   max-height: calc(100vh - 100px); /* Đặt kích thước tối đa cho sidebar, trừ điều chỉnh cho header/footer */
@@ -250,7 +250,7 @@ card-text:last-child{margin-bottom:0}
 }
 
 .sidebar ul li:hover {
-  background-color: #ddd; /* Màu nền khi hover */
+  background-color: #8DECB4; /* Màu nền khi hover */
 }
 
 /* Tùy chỉnh kiểu chữ và màu chữ của các mục danh mục */

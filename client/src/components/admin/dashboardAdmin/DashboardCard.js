@@ -1,14 +1,83 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect,useState } from "react";
 import { DashboardContext } from "./";
 import { GetAllData } from "./Action";
+import { Bar } from 'react-chartjs-2'; // Import Bar chart component
+import { getAllOrder } from "./FetchApi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DashboardCard = (props) => {
   const { data, dispatch } = useContext(DashboardContext);
-
+  const [monthlyRevenue, setMonthlyRevenue] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [totalAnnualRevenue, setTotalAnnualRevenue] = useState(0);
   useEffect(() => {
     GetAllData(dispatch);
+    fetchMonthlyRevenue(selectedYear);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedYear]);
+
+  const handleYearChange = (date) => {
+    setSelectedYear(date.getFullYear());
+  };
+
+  const fetchMonthlyRevenue = async (year) => {
+    const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' }));
+    const revenueByMonth = Array(12).fill(0);
+    let annualRevenue = 0;
+  
+    for (let month = 0; month < 12; month++) {
+      let startDate = new Date(year, month, 1);
+      let endDate = new Date(year, month + 1, 0);
+  
+      let responseData = await getAllOrder(); // Fetch all orders within the given date range
+      let filteredOrders = responseData.Orders.filter(order =>
+        order.status !== "Cancelled" &&
+        new Date(order.createdAt) >= startDate &&
+        new Date(order.createdAt) <= endDate
+      );
+  
+      for (const order of filteredOrders) {
+        for (const product of order.allProduct) {
+          const price = product.oldPrice;
+          const offer = product.offer;
+          const quantity = product.quantitiy;
+          const orderTotal = Math.round(price - ((price * offer) / 100)) * quantity;
+          revenueByMonth[month] += orderTotal;
+          annualRevenue += orderTotal;
+        }
+      }
+    }
+    setMonthlyRevenue(revenueByMonth);
+    setTotalAnnualRevenue(annualRevenue); // State update to reflect new total with currency formatting handled in the component
+  };
+  const chartData = {
+    labels: Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' })),
+    datasets: [
+      {
+        label: 'Monthly Revenue',
+        data: monthlyRevenue,
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        borderColor: 'rgba(53, 162, 235, 1)',
+        borderWidth: 1,
+      }
+    ]
+  };
+
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            return value.toLocaleString() + ',000 VND'; // Add VND to the y-axis labels
+          }
+        }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
+  };
 
   return (
     <Fragment>
@@ -138,6 +207,31 @@ const DashboardCard = (props) => {
           </div>
           <div className="text-lg font-medium">Categories</div>
         </div>
+       {/* DatePicker and Total Annual Revenue */}
+       <div className="flex justify-between items-center col-span-1 md:col-span-4 bg-white p-6 shadow-lg hover:shadow-none cursor-pointer transition-all duration-300 ease-in border-b-4 border-opacity-0 hover:border-opacity-100 border-blue-200">
+       <div className="font-semibold"> 
+         <div className="mb-2">Select Year</div>
+         <DatePicker
+           selected={new Date(selectedYear, 0)}
+           onChange={handleYearChange}
+           showYearPicker
+           dateFormat="yyyy"
+           className="datepicker"
+         />
+       </div>
+       <div className="text-right">
+         <div className="text-lg font-semibold mb-1">Total Annual Revenue</div>
+         <div className="text-xl font-bold">{totalAnnualRevenue.toLocaleString()},000 VND</div>
+       </div>
+     </div>
+
+     {/* Chart */}
+     <div className="col-span-1 md:col-span-4 bg-white p-6 shadow-lg hover:shadow-none cursor-pointer transition-all duration-300 ease-in border-b-4 border-opacity-0 hover:border-opacity-100 border-blue-200">
+       <div className="text-xl font-semibold mb-2">Monthly Revenue Chart</div>
+       <div className="w-full h-64">
+         <Bar data={chartData} options={chartOptions} />
+       </div>
+     </div>
       </div>
       {/* End Card */}
     </Fragment>

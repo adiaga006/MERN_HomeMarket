@@ -9,7 +9,14 @@ export const DashboardData = async () => {
     console.log(error);
   }
 };
-
+export const getAllOrder = async () => {
+  try {
+    let res = await axios.get(`${apiURL}/api/order/get-all-orders`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const getSliderImages = async () => {
   try {
     let res = await axios.get(`${apiURL}/api/customize/get-slide-image`);

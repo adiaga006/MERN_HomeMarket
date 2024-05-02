@@ -25,9 +25,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
+    <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '0rem' }}>
+    <div style={{ backgroundColor: '#8DECB4', color: 'white', padding: '0rem', display: 'flex', alignItems: 'center' }}>
       <h3>Categories</h3>
-      <ul>
+      </div>
+      <ul className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }} >
         {categories.map((category) => (
           <li key={category._id} onClick={() => handleCategorySelection(category._id)}>
             {category.cName}
