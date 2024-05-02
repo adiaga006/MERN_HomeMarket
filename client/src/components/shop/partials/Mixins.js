@@ -5,13 +5,15 @@ export const subTotal = (id, price) => {
   carts.forEach((item) => {
     if (item.id === id) {
       subTotalCost = item.quantitiy * price;
-      discounts.forEach((discount) => {
-        if (item.category._id === discount.category) {
-          if (discount.method === "Percent") {
-            subTotalCost *= (1 - (discount.percent / 100));
+      if (discounts != null) {
+        discounts.forEach((discount) => {
+          if (item.category._id === discount.category) {
+            if (discount.method === "Percent") {
+              subTotalCost *= (1 - (discount.percent / 100));
+            }
           }
-        }
-      });
+        });
+      }
     }
   });
   if (subTotalCost < 0) {
@@ -51,38 +53,43 @@ export const totalCost = () => {
     carts.forEach((item) => {
       if (item.category._id === categoryID) {
         subTotalCost = item.quantitiy * item.price;
-        discounts.forEach((discount) => {
-          if (item.category._id === discount.category) {
-            if (discount.method === "Percent") {
-              subTotalCost *= (1 - (discount.percent / 100));
-              // Đảm bảo subTotalCost không âm
-              subTotalCost = Math.max(subTotalCost, 0)
-              if (!usedDiscounts.includes(discount)) {
-                usedDiscounts.push(discount)
+        if (discounts != null) {
+          discounts.forEach((discount) => {
+            if (item.category._id === discount.category) {
+              if (discount.method === "Percent") {
+                subTotalCost *= (1 - (discount.percent / 100));
+                // Đảm bảo subTotalCost không âm
+                subTotalCost = Math.max(subTotalCost, 0)
+                if (!usedDiscounts.includes(discount)) {
+                  usedDiscounts.push(discount)
+                }
               }
             }
-          }
-        });
+          });
+        }
         categoryTotalCost += subTotalCost;
       }
     });
-    discounts.forEach((discount) => {
-      if (categoryID === discount.category) {
-        if (discount.method === "Amount") {
-          categoryTotalCost -= discount.amount;
-          categoryTotalCost = Math.max(categoryTotalCost, 0)
-          if (!usedDiscounts.includes(discount)) {
-            usedDiscounts.push(discount)
+    if (discounts != null) {
+      discounts.forEach((discount) => {
+        if (categoryID === discount.category) {
+          if (discount.method === "Amount") {
+            categoryTotalCost -= discount.amount;
+            categoryTotalCost = Math.max(categoryTotalCost, 0)
+            if (!usedDiscounts.includes(discount)) {
+              usedDiscounts.push(discount)
+            }
           }
         }
-      }
-    });
+      });
+    }
     totalCost += categoryTotalCost;
     categoryTotalCost = 0;
   });
-  
-  let updatedDiscounts = discounts.filter(discount => usedDiscounts.includes(discount));
-  localStorage.setItem("discount", JSON.stringify(updatedDiscounts));
+  if (discounts != null) {
+    let updatedDiscounts = discounts.filter(discount => usedDiscounts.includes(discount));
+    localStorage.setItem("discount", JSON.stringify(updatedDiscounts));
+  }
   return totalCost;
 };
 
@@ -95,7 +102,7 @@ export const addToCart = (
 ) => {
   let isObj = false;
   let discount = localStorage.getItem("discount")
-    ? JSON.parse(localStorage.getItem("discount"))
+? JSON.parse(localStorage.getItem("discount"))
     : [];
   if (discount.length > 0) {
     discount.forEach((item) => {
@@ -112,4 +119,3 @@ export const addToCart = (
     localStorage.setItem("discount", JSON.stringify(discount));
   }
 };
-
