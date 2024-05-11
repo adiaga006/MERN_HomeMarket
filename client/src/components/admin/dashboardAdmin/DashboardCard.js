@@ -70,14 +70,27 @@ const DashboardCard = (props) => {
         beginAtZero: true,
         ticks: {
           callback: function(value) {
-            return value.toLocaleString() + ',000 VND'; // Add VND to the y-axis labels
+            return value.toLocaleString()+',000 VND';
           }
+        }
+      }
+    },
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          let label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          label += `${tooltipItem.yLabel.toLocaleString()},000 VND`;
+          return label;
         }
       }
     },
     responsive: true,
     maintainAspectRatio: false
   };
+
 
   return (
     <Fragment>

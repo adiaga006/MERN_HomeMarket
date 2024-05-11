@@ -401,7 +401,7 @@ const ProductDetailsSection = (props) => {
                           layoutDispatch,
                           setQuantitiy,
                           setAlertq,
-                          fetchData,
+                          fetchCartProduct,
                           totalCost
                         )
                       }

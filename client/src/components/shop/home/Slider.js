@@ -31,22 +31,22 @@ const Slider = (props) => {
 
   return (
     <Fragment>
-    <div className="slider-container mt-16 bg-gray-100 border-2"style={{ height: '650px', width: 'fit-content' }}>
-    <div className="slider-wrapper" style={slideStyle}>
-    {data.sliderImages.length > 0 &&
-      data.sliderImages.map((image, index) => (
-        <img
-          key={index}
-          className="slider-image"
-          src={image.slideImage.url}
-          alt="sliderImage"
-        />
-      ))}
-  </div>
+      <div className="slider-container mt-16 bg-gray-100 border-2" style={{ height: '650px', width: 'fit-content' }}>
+        <div className="slider-wrapper" style={slideStyle}>
+          {data.sliderImages.length > 0 &&
+            data.sliderImages.map((image, index) => (
+              <img
+                key={index}
+                className="slider-image"
+                src={image.slideImage.url}
+                alt="sliderImage"
+              />
+            ))}
+        </div>
         {data?.sliderImages?.length > 0 ? (
           <>
             <svg
-              onClick={(e) =>{
+              onClick={(e) => {
                 prevSlide(data.sliderImages.length, slide, setSlide)
                 setAutoSlide(false); // Tạm dừng tự động chuyển slide khi người dùng tương tác
               }}
@@ -64,9 +64,9 @@ const Slider = (props) => {
               />
             </svg>
             <svg
-              onClick={(e) =>{
+              onClick={(e) => {
                 nextSlide(data.sliderImages.length, slide, setSlide)
-                setAutoSlide(false); 
+                setAutoSlide(false);
               }}
               className={`z-10 absolute top-0 right-0 mt-64 flex justify-start items-center box-border flex justify-center w-12 h-12 text-gray-700 cursor-pointer hover:text-yellow-700`}
               fill="none"

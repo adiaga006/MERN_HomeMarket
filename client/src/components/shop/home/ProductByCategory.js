@@ -1,14 +1,20 @@
-import React, { Fragment, useEffect, useState,useContext } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Layout from "../layout";
 import { productByCategory } from "../../admin/products/FetchApi";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { isWishReq, unWishReq, isWish } from "./Mixins";
+import { LayoutContext } from "../layout";
+import { quantityCartItem, updateQuantityCartItem } from "./Mixins";
+import { addToCart } from "../productDetails/Mixins";
+import { totalCost } from "../partials/Mixins";
+import { cartListProduct } from "../partials/FetchApi";
 import { getAllCategory } from "../../admin/categories/FetchApi";
 import { HomeContext } from "../home";
 const Sidebar = () => {
   const [categories, setCategories] = useState([]);
   const history = useHistory();
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,8 +32,8 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '0rem' }}>
-    <div style={{ backgroundColor: '#8DECB4', color: 'white', padding: '0rem', display: 'flex', alignItems: 'center' }}>
-      <h3>Categories</h3>
+      <div style={{ backgroundColor: '#8DECB4', color: 'white', padding: '0rem', display: 'flex', alignItems: 'center' }}>
+        <h3>Categories</h3>
       </div>
       <ul className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }} >
         {categories.map((category) => (
@@ -47,25 +53,25 @@ const Submenu = ({ category }) => {
     <Fragment>
       {/* Submenu Section */}
       <div className="submenu" style={{ position: 'absolute', top: 74, left: 0, width: '100%', padding: '1rem', backgroundColor: '#fff' }}>
-      <div className="text-sm">
-            <span
-              className="hover:text-yellow-700 cursor-pointer"
-              onClick={(e) => history.push("/shop")}
-            >
-              Shop
-            </span>
-            <span> / </span>
-            <span className="text-yellow-700 cursor-default">{category}</span>
-            </div>
-            </div>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 5l7 7-7 7M5 5l7 7-7 7"
-              />
-            
-        
+        <div className="text-sm">
+          <span
+            className="hover:text-yellow-700 cursor-pointer"
+            onClick={(e) => history.push("/shop")}
+          >
+            Shop
+          </span>
+          <span> / </span>
+          <span className="text-yellow-700 cursor-default">{category}</span>
+        </div>
+      </div>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 5l7 7-7 7M5 5l7 7-7 7"
+      />
+
+
       {/* Submenu Section */}
     </Fragment>
   );
@@ -76,6 +82,20 @@ const AllProduct = ({ products }) => {
   const category =
     products && products.length > 0 ? products[0].pCategory.cName : "";
 
+  const [quantitiy, setQuantitiy] = useState(1);
+  const [, setAlertq] = useState(false); // Alert when quantity greater than stock
+
+  const { data: layoutData, dispatch: layoutDispatch } = useContext(LayoutContext);
+  const fetchCartProduct = async () => {
+    try {
+      let responseData = await cartListProduct();
+      if (responseData && responseData.Products) {
+        layoutDispatch({ type: "cartProduct", payload: responseData.Products }); // Layout context Cartproduct fetch and dispatch
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   /* WhisList State */
   const [wList, setWlist] = useState(
     JSON.parse(localStorage.getItem("wishList"))
@@ -124,13 +144,101 @@ const AllProduct = ({ products }) => {
                       <div>
                         <span>Sold: {item.pSold}</span>
                       </div>
-                      {/* <Link
-                          id="view_btn"
-                          className="btn btn-block"
-                          // onClick={addToCart}
-                      >
-                          Add to Cart
-                      </Link> */}
+                      {item.pQuantity !== 0 ? (
+                        <Fragment>
+                          {layoutData.inCart !== null &&
+                            layoutData.inCart.includes(item._id) === true ? (
+                            <div
+                              id="view_btn"
+                              className="btn btn-block "
+                            >
+                              <div className="stockCounter d-inline">
+                                <span className="btn"
+                                  onClick={(e) =>
+                                    updateQuantityCartItem(
+                                      item._id,
+                                      quantityCartItem(item._id) - 1,
+                                      layoutDispatch,
+                                      fetchCartProduct
+                                    )}>-</span>
+
+                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+
+                                <span className="btn"
+                                  onClick={(e) =>
+                                    updateQuantityCartItem(
+                                      item._id,
+                                      quantityCartItem(item._id) + 1,
+                                      layoutDispatch,
+                                      fetchCartProduct
+                                    )}>+</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              id="view_btn"
+                              className="btn btn-block"
+                              onClick={(e) =>
+                                addToCart(
+                                  item._id,
+                                  item.pCategory,
+                                  quantitiy,
+                                  item.pOffer,
+                                  item.pPrice,
+                                  Math.round(item.pPrice * (1 - (item.pOffer / 100))),
+                                  layoutDispatch,
+                                  setQuantitiy,
+                                  setAlertq,
+                                  fetchCartProduct,
+                                  totalCost
+                                )
+                              }
+                            >
+                              Add to Cart
+                            </div>)}
+                        </Fragment>
+                      ) : (
+                        <Fragment>
+                          {layoutData.inCart !== null &&
+                            layoutData.inCart.includes(item._id) === true ? (
+                            <Link
+                              id="view_btn"
+                              className="btn btn-block "
+                            >
+                              <div className="stockCounter d-inline">
+                                <span className="btn"
+                                  onClick={(e) =>
+                                    updateQuantityCartItem(
+                                      item._id,
+                                      quantityCartItem(item._id) - 1,
+                                      layoutDispatch,
+                                      fetchCartProduct
+                                    )}>-</span>
+
+                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+
+                                <span className="btn"
+                                  onClick={(e) =>
+                                    updateQuantityCartItem(
+                                      item._id,
+                                      quantityCartItem(item._id) + 1,
+                                      layoutDispatch,
+                                      fetchCartProduct
+                                    )}>+</span>
+                              </div>
+                            </Link>
+                          ) : (
+                            <Link
+                              id="view_btn"
+                              style={{ background: "#303031" }}
+                              className="px-4 py-2 text-white text-center cursor-not-allowed uppercase opacity-75"
+                              disabled={item.quantitiy === 0}
+                            >
+                              Out of Stock
+                            </Link>
+                          )}
+                        </Fragment>
+                      )}
                     </div>
                     <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">
                       <svg
@@ -199,13 +307,13 @@ const PageComponent = () => {
 
   return (
     <Layout>
-    <div style={{ display: 'flex', marginTop: '126px', paddingLeft: '20px' }}>
-      <Sidebar />
-      <div style={{ flex: 1, paddingLeft: '20px' }}> {/* Additional padding to ensure spacing between sidebar and products */}
-        <AllProduct products={products} />
+      <div style={{ display: 'flex', marginTop: '126px', paddingLeft: '20px' }}>
+        <Sidebar />
+        <div style={{ flex: 1, paddingLeft: '20px' }}> {/* Additional padding to ensure spacing between sidebar and products */}
+          <AllProduct products={products} />
+        </div>
       </div>
-    </div>
-  </Layout>
+    </Layout>
   );
 };
 

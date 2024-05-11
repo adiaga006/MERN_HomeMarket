@@ -97,4 +97,5 @@ export const addToCart = (
   setQuantitiy(1);
   setAlertq(false);
   fetchData();
+  //window.location.reload();
 };
