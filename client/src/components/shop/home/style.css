@@ -41,9 +41,13 @@
 .card-title a {
   color: #2e2e2e;
 }
-
+.card:hover{
+  color: #7ABA78; /* Thay đổi màu chữ khi hover */
+  border-color: #5A9460; /* Thay đổi màu viền khi hover */
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px 0px; /* Tăng độ đổ bóng khi hover */
+}
 .card-title a:hover {
-  color: #fa9c23;
+  color: #7ABA78;
   text-decoration: none;
 }
 
@@ -76,7 +80,12 @@
   padding: 0px;
   overflow: hidden;
 }
-
+#view_btn:hover {
+  background-color: #7ABA78; /* Thay đổi màu nền khi hover */
+  color: #FFFFFF; /* Thay đổi màu chữ khi hover */
+  border-color: #5A9460; /* Thay đổi màu viền khi hover */
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px 0px; /* Tăng độ đổ bóng khi hover */
+}
 
 .card-img-top {
   width: 200px;
@@ -291,7 +300,7 @@ card-text:last-child{margin-bottom:0}
 }
 .btn_plus{
   font-size: 25px;
-  color:#7ABA78;
+  color:black;
   vertical-align:middle !important;
   margin: 10px;
 }
