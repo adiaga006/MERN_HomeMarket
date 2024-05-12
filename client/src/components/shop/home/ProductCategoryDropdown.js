@@ -1,17 +1,17 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import { HomeContext } from "./index";
-import { getAllCategory } from "../../admin/categories/FetchApi";
+// import { getAllCategory } from "../../admin/categories/FetchApi";
 import { getAllProduct, productByPrice } from "../../admin/products/FetchApi";
 import "./style.css";
-import unorm from "unorm";
-const apiURL = process.env.REACT_APP_API_URL;
+// import unorm from "unorm";
+// const apiURL = process.env.REACT_APP_API_URL;
 const Brand = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 
 const CategoryList  = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
   const { data, dispatch } = useContext(HomeContext);
-  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [setSelectedBrand] = useState(null);
 
   const selectBrand = (brand) => {
     setSelectedBrand(brand);
@@ -22,21 +22,21 @@ const CategoryList  = (props) => {
     dispatch({ type: "loading", payload: true });
     try {
       // setTimeout(async () => {
-      // //   let responseData = await productByBrand(brand);
-      // //   // if (responseData && responseData.Products) {
-      // //   //   dispatch({ type: "setProducts", payload: responseData.Products });
-      // //   //   dispatch({ type: "loading", payload: false });
-      // //   // }
-      // // }, 700);
+      //   let responseData = await productByBrand(brand);
+      //   if (responseData && responseData.Products) {
+      //     dispatch({ type: "setProducts", payload: responseData.Products });
+      //     dispatch({ type: "loading", payload: false });
+      //   }
+      // }, 700);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const closeDropdown = () => {
-    setSelectedBrand(null);
-    dispatch({ type: "categoryListDropdown", payload: false });
-  };
+  // const closeDropdown = () => {
+  //   setSelectedBrand(null);
+  //   dispatch({ type: "categoryListDropdown", payload: false });
+  // };
 
   return (
     <Fragment>

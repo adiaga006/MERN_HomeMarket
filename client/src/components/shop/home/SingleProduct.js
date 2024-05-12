@@ -128,13 +128,13 @@ const SingleProduct = (props) => {
                         ({item.pNumOfReviews} Reviews)
                       </span>
                     </div>
-                    <p class="card-home-price">{Math.round(item.pPrice - (item.pPrice * item.pOffer) / 100)}.000<span class="card-title"> ₫</span></p>
+                    <p className="card-home-price">{Math.round(item.pPrice - (item.pPrice * item.pOffer) / 100)}.000<span className="card-title"> ₫</span></p>
                     {item.pOffer !== 0 ? (
                       <Fragment>
                         <div className="flex items-center">
-                          <p class="card-home-price-2 original-price">{item.pPrice}.000<span class="card-title"> ₫</span></p>
+                          <p className="card-home-price-2 original-price">{item.pPrice}.000<span className="card-title"> ₫</span></p>
                           <span className="space-between"></span>
-                          <p class="card-home-price-2 discount rounded">-{item.pOffer}%</p>
+                          <p className="card-home-price-2 discount rounded">-{item.pOffer}%</p>
                         </div>
                       </Fragment>
                     ) : (
