@@ -1,83 +1,67 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios'; // Make sure to install axios for making HTTP requests
 import { HomeContext } from './index';
+import { filterAdvance } from "../../admin/products/FetchApi";  // Ensure this is the correct import path
 
 const FilterForm = () => {
   const { dispatch } = useContext(HomeContext);
   const [filters, setFilters] = useState({
     category: '',
     brand: '',
-    priceSort: '', // 'asc' or 'desc'
-    offerSort: '', // 'asc' or 'desc'
-    soldSort: '', // 'asc' or 'desc'
+    priceSort: '',
+    offerSort: '',
+    soldSort: '',
   });
-  const apiURL = process.env.REACT_APP_API_URL;
-  const applyFilters = async () => {
-    try {
-      const response = await axios.get(`${apiURL}/api/product/filter`, { params: { ...filters } });
-      if (response.data && response.data.Products.length > 0) {
-        dispatch({ type: 'SET_PRODUCTS', payload: response.data.Products });
-      } else {
-        console.log("No products found for these filters.");
-        // Optionally, dispatch an action to clear the products list or show a message
-      }
-    } catch (error) {
-      console.error('Failed to fetch filtered products:', error);
-      // Handle error appropriately, such as showing a user-friendly message
+
+  // Function to apply filters
+  const applyAdvancedFilters = async () => {
+    dispatch({ type: "loading", payload: true });
+    const data = await filterAdvance(filters);
+    if (data.Products && data.Products.length > 0) {
+      dispatch({ type: 'SET_PRODUCTS', payload: data.Products });
+    } else {
+      console.log("No products found for these filters.");
+      dispatch({ type: 'SET_PRODUCTS', payload: [] });
     }
+    dispatch({ type: "loading", payload: false });
   };
-  
+
+  // Handle changes in filter form inputs
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prevFilters => ({ ...prevFilters, [name]: value }));
+  };
+
   return (
     <div className="filter-form">
-      <select
-        value={filters.category}
-        onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-      >
+      <select name="category" value={filters.category} onChange={handleInputChange}>
         <option value="">Select Category</option>
-        {/* Replace the following options with dynamic category options */}
-        <option value="">{filters.category.cName}</option>
-        {/* ... other categories */}
+        {/* Dynamic category options would be populated here */}
       </select>
 
-      <select
-        value={filters.brand}
-        onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
-      >
+      <select name="brand" value={filters.brand} onChange={handleInputChange}>
         <option value="">Select Brand</option>
-        {/* Replace the following options with dynamic brand options */}
-        <option value="samsung">Samsung</option>
-        <option value="apple">Apple</option>
-        {/* ... other brands */}
+        {/* Dynamic brand options would be populated here */}
       </select>
 
-      <select
-        value={filters.priceSort}
-        onChange={(e) => setFilters({ ...filters, priceSort: e.target.value })}
-      >
+      <select name="priceSort" value={filters.priceSort} onChange={handleInputChange}>
         <option value="">Select Price Sorting</option>
         <option value="asc">Price Low to High</option>
         <option value="desc">Price High to Low</option>
       </select>
 
-      <select
-        value={filters.offerSort}
-        onChange={(e) => setFilters({ ...filters, offerSort: e.target.value })}
-      >
+      <select name="offerSort" value={filters.offerSort} onChange={handleInputChange}>
         <option value="">Select Offer Sorting</option>
         <option value="asc">Offer Low to High</option>
         <option value="desc">Offer High to Low</option>
       </select>
 
-      <select
-        value={filters.soldSort}
-        onChange={(e) => setFilters({ ...filters, soldSort: e.target.value })}
-      >
+      <select name="soldSort" value={filters.soldSort} onChange={handleInputChange}>
         <option value="">Select Sales Volume Sorting</option>
         <option value="asc">Sold Low to High</option>
         <option value="desc">Sold High to Low</option>
       </select>
 
-      <button onClick={applyFilters}>Apply Filters</button>
+      <button onClick={applyAdvancedFilters}>Apply Filters</button>
     </div>
   );
 };

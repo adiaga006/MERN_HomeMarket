@@ -120,3 +120,20 @@ export const productByPrice = async (price) => {
     console.log(error);
   }
 };
+export const filterAdvance = async ({ category, brand, priceSort, offerSort, soldSort }) => {
+  try {
+    const response = await axios.get(`${apiURL}/api/product/filter`, {
+      params: {
+        category,
+        brand,
+        priceSort,
+        offerSort,
+        soldSort
+      }
+    });
+    return response.data; // Assuming the API returns data in this format
+  } catch (error) {
+    console.error('Error fetching filtered products:', error);
+    return { error: 'Failed to fetch products with advanced filters' };
+  }
+};

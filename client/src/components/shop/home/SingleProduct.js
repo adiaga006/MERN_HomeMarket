@@ -100,8 +100,8 @@ const SingleProduct = (props) => {
     <Fragment key={category._id}>
       {products && products.length > 0 ? (
         products
-        .filter((product) => product.pCategory._id === category._id)
-        .sort((a, b) => b.pOffer - a.pOffer)
+        //.filter((product) => product.pCategory._id === category._id)
+        //.sort((a, b) => b.pOffer - a.pOffer)
         .map((item, index) => {
           return (
             <Fragment key={index}>
