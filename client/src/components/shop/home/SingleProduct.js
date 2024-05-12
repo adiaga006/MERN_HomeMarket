@@ -159,7 +159,7 @@ const SingleProduct = (props) => {
                                 fetchCartProduct
                               )}> - </span>
 
-                              <input type="number" style={{ width: "60%", height: "20%", color: "black" }} className="text-input" value={quantityCartItem(item._id)} readOnly />
+                              <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="text-input" value={quantityCartItem(item._id)} readOnly />
 
                               <span className="btn_plus"
                               onClick={(e) =>

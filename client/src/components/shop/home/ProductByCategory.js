@@ -150,8 +150,8 @@ const AllProduct = ({ products }) => {
                               id="view_btn"
                               className="btn btn-block "
                             >
-                              <div className="stockCounter d-inline">
-                                <span className="btn"
+                              <div className="text-input">
+                                <span className="btn_plus"
                                   onClick={(e) =>
                                     updateQuantityCartItem(
                                       item._id,
@@ -160,9 +160,9 @@ const AllProduct = ({ products }) => {
                                       fetchCartProduct
                                     )}>-</span>
 
-                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="text-input" value={quantityCartItem(item._id)} readOnly />
 
-                                <span className="btn"
+                                <span className="btn_plus"
                                   onClick={(e) =>
                                     updateQuantityCartItem(
                                       item._id,
@@ -214,7 +214,7 @@ const AllProduct = ({ products }) => {
                               className="btn btn-block "
                             >
                               <div className="stockCounter d-inline">
-                                <span className="btn"
+                                <span className="btn_plus"
                                   onClick={(e) =>
                                     updateQuantityCartItem(
                                       item._id,
@@ -223,9 +223,9 @@ const AllProduct = ({ products }) => {
                                       fetchCartProduct
                                     )}>-</span>
 
-                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+                                <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="text-input" value={quantityCartItem(item._id)} readOnly />
 
-                                <span className="btn"
+                                <span className="btn_plus"
                                   onClick={(e) =>
                                     updateQuantityCartItem(
                                       item._id,
