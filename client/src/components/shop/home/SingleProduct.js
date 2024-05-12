@@ -5,24 +5,25 @@ import { HomeContext } from "./index";
 import { isWishReq, unWishReq, isWish } from "./Mixins";
 
 import { LayoutContext } from "../layout";
-import { updateQuantity, slideImage, addToCart, cartList } from "./Mixins";
+import { quantityCartItem, updateQuantityCartItem} from "./Mixins";
+import { addToCart, cartList } from "../productDetails/Mixins";
 import { totalCost } from "../partials/Mixins";
 import { getSingleProduct } from "../productDetails/FetchApi";
 import { cartListProduct } from "../partials/FetchApi";
-
+import { getAllCategory } from "../../admin/categories/FetchApi";
 
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
 const SingleProduct = (props) => {
-
+  
+  const [categories, setCategories] = useState([]);
   const [quantitiy, setQuantitiy] = useState(1);
-  const [pImages, setPimages] = useState(null);
-  const { data: layoutData, dispatch: layoutDispatch } = useContext(LayoutContext);
   const [, setAlertq] = useState(false); // Alert when quantity greater than stock
 
   const { data, dispatch } = useContext(HomeContext);
+  const { data: layoutData, dispatch: layoutDispatch } = useContext(LayoutContext);
   const { products } = data;
   const history = useHistory();
 
@@ -33,6 +34,13 @@ const SingleProduct = (props) => {
 
   useEffect(() => {
     fetchData();
+    const fetchCategories = async () => {
+      const response = await getAllCategory();
+      if (response && response.Categories) {
+        setCategories(response.Categories);
+      }
+    };
+    fetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,10 +48,14 @@ const SingleProduct = (props) => {
     dispatch({ type: "loading", payload: true });
     try {
       let responseData = await getAllProduct();
+
       setTimeout(() => {
         if (responseData && responseData.Products) {
+          //let filterProduct = responseData.Products.filter(product => product.pCategory._id === "6581b8f521150133b002a3e8");
+          
           dispatch({ type: "setProducts", payload: responseData.Products });
           dispatch({ type: "loading", payload: false });
+          layoutDispatch({ type: "inCart", payload: cartList() });
         }
       }, 500);
     } catch (error) {
@@ -84,11 +96,17 @@ const SingleProduct = (props) => {
   }
   return (
     <Fragment>
+    {categories.map((category) => (
+    <Fragment key={category._id}>
+      <h2>{category.cName}</h2>
       {products && products.length > 0 ? (
-        products.map((item, index) => {
+        products
+        .filter((product) => product.pCategory._id === category._id)
+        .sort((a, b) => b.pOffer - a.pOffer)
+        .map((item, index) => {
           return (
             <Fragment key={index}>
-              <div className="col-sm-12 col-md-6 col-lg-12 my-3 p-4">
+              <div  className="col-sm-12 col-md-6 col-lg-12 my-3 p-4">
                 <div className="card p-3 rounded">
                   <img
                     onClick={(e) => history.push(`/products/${item._id}`)}
@@ -126,7 +144,103 @@ const SingleProduct = (props) => {
                     <div>
                       <span>Sold: {item.pSold}</span>
                     </div>
+                    {item.pQuantity !== 0 ? (
+                      <Fragment>
+                        {layoutData.inCart !== null &&
+                          layoutData.inCart.includes(item._id) === true ? (
+                          <div
+                            id="view_btn"
+                            className="btn btn-block "
+                          >
+                            <div className="stockCounter d-inline">
+                              <span className="btn"
+                              onClick={(e) =>
+                              updateQuantityCartItem(
+                                item._id,
+                                quantityCartItem(item._id) - 1,
+                                layoutDispatch,
+                                fetchCartProduct
+                              )}>-</span>
+
+                              <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+
+                              <span className="btn"
+                              onClick={(e) =>
+                                updateQuantityCartItem(
+                                  item._id,
+                                  quantityCartItem(item._id) + 1,
+                                  layoutDispatch,
+                                  fetchCartProduct
+                                )}>+</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            id="view_btn"
+                            className="btn btn-block"
+                            onClick={(e) =>
+                              addToCart(
+                                item._id,
+                                item.pCategory,
+                                quantitiy,
+                                item.pOffer,
+                                item.pPrice,
+                                Math.round(item.pPrice * ( 1 - (item.pOffer / 100))),
+                                layoutDispatch,
+                                setQuantitiy,
+                                setAlertq,
+                                fetchCartProduct,
+                                totalCost
+                              )
+                            }
+                          >
+                            Add to Cart
+                          </div>) }
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        {layoutData.inCart !== null &&
+                          layoutData.inCart.includes(item._id) === true ? (
+                          <Link
+                            id="view_btn"
+                            className="btn btn-block "
+                          >
+                            <div className="stockCounter d-inline">
+                              <span className="btn"
+                              onClick={(e) =>
+                              updateQuantityCartItem(
+                                item._id,
+                                quantityCartItem(item._id) - 1,
+                                layoutDispatch,
+                                fetchCartProduct
+                              )}>-</span>
+
+                              <input type="number" style={{ width: "59%", height: "20%", color: "black" }} className="form-control rounded count d-inline" value={quantityCartItem(item._id)} readOnly />
+
+                              <span className="btn"
+                              onClick={(e) =>
+                                updateQuantityCartItem(
+                                  item._id,
+                                  quantityCartItem(item._id) + 1,
+                                  layoutDispatch,
+                                  fetchCartProduct
+                                )}>+</span>
+                            </div>
+                          </Link>
+                        ) : (
+                          <Link
+                            id="view_btn"
+                            style={{ background: "#303031" }}
+                            className="px-4 py-2 text-white text-center cursor-not-allowed uppercase opacity-75"
+                            disabled={item.quantitiy === 0}
+                            >
+                                Out of Stock
+                          </Link>
+                        )}
+                      </Fragment>
+                    )}
                   </div>
+                  
                   {/* Wishlist Logic  */}
                   <div className="absolute top-0 right-0 mx-2 my-2 md:mx-4">
                     <svg
@@ -171,8 +285,13 @@ const SingleProduct = (props) => {
           No product found
         </div>
       )}
+      
+    </Fragment>
+    ))}
     </Fragment>
   );
 };
 
 export default SingleProduct;
+
+

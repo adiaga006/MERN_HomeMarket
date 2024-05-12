@@ -1,71 +1,5 @@
 import { getSingleProduct } from "../productDetails/FetchApi";
-
-export const addToCart = async (
-  id,
-  quantitiy,
-  price,
-  layoutDispatch,
-  setQuantitiy,
-  setAlertq,
-  fetchData,
-  totalCost,
-  dispatch,
-  setPimages
-) => {
-  try {
-    dispatch({ type: "loading", payload: true });
-    try {
-      let responseData = await getSingleProduct(id);
-      setTimeout(() => {
-
-        if (responseData.Product) {
-          layoutDispatch({
-            type: "singleProductDetail",
-            payload: responseData.Product,
-          }); // Dispatch in layout context
-          setPimages(responseData.Product.pImages);
-          dispatch({ type: "loading", payload: false });
-          layoutDispatch({ type: "inCart", payload: cartList() }); // This function change cart in cart state
-        }
-        if (responseData.error) {
-          console.log(responseData.error);
-        }
-      }, 500);
-    } catch (error) {
-      console.log(error);
-    }
-
-    let isObj = false;
-    let cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [];
-
-    if (cart.length > 0) {
-      for (const item of cart) {
-        if (item.id === id) {
-          isObj = true;
-          break;
-        }
-      }
-
-      if (!isObj) {
-        cart.push({ id, quantitiy, price });
-        localStorage.setItem("cart", JSON.stringify(cart));
-      }
-    } else {
-      cart.push({ id, quantitiy, price });
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-
-    layoutDispatch({ type: "inCart", payload: cartList() });
-    layoutDispatch({ type: "cartTotalCost", payload: await totalCost() });
-    setQuantitiy(1);
-    setAlertq(false);
-    fetchData()
-  } catch (error) {
-    console.error("Error in addToCart:", error);
-  }
-};
+import { cartList } from "../productDetails/Mixins"
 
 export const isWish = (id, wList) => {
   if (wList !== null && wList.includes(id) === true) {
@@ -120,17 +54,38 @@ export const prevSlide = (totalImg, slide, setSlide) => {
   }
 };
 
-export const cartList = () => {
+export const quantityCartItem = (id) => {
   let carts = localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
     : null;
-  let list = [];
+
   if (carts !== null) {
     for (let cart of carts) {
-      list.push(cart.id);
+      if (cart.id === id) {
+        return cart.quantitiy;
+      }
     }
-    return list;
-  } else {
-    return (list = null);
   }
 };
+
+export const updateQuantityCartItem = (id, quantity, layoutDispatch, fetchData) => {
+  let carts = localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : null;
+
+  if (carts !== null) {
+    for (let i = 0; i < carts.length; i++) {
+      if (carts[i].id === id) {
+        if (quantity === 0) {
+          carts.splice(i, 1);
+        } else {
+          // Cập nhật số lượng mới
+          carts[i].quantitiy = quantity;
+        }
+        localStorage.setItem("cart", JSON.stringify(carts));
+        layoutDispatch({ type: "inCart", payload: cartList() });
+        fetchData();
+      }
+    }
+  }
+}

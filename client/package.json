@@ -10,11 +10,19 @@
     "axios": "^1.6.8",
     "bootstrap": "^4.6.2",
     "braintree-web-drop-in-react": "^1.2.1",
+<<<<<<< HEAD
     "chart.js": "^3.6.0",
     "moment": "^2.29.0",
     "react": "^16.13.1",
     "react-bootstrap": "^2.9.1",
     "react-chartjs-2": "^4.0.0",
+=======
+    "chart.js": "^2.9.4",
+    "moment": "^2.29.0",
+    "react": "^16.13.1",
+    "react-bootstrap": "^2.9.1",
+    "react-chartjs-2": "^2.11.2",
+>>>>>>> origin/tuan8
     "react-datepicker": "^4.24.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.3.4",

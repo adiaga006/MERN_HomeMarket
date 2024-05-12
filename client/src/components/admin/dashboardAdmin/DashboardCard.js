@@ -94,6 +94,18 @@ const DashboardCard = (props) => {
         }
       }
     },
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          let label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          label += `${tooltipItem.yLabel.toLocaleString()},000 VND`;
+          return label;
+        }
+      }
+    },
     responsive: true,
     maintainAspectRatio: false
   };
