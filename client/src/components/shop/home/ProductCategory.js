@@ -22,7 +22,7 @@ const ProductCategory = (props) => {
         } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
       >
           <span className="text-md md:text-lg hover:text-yellow-700">
-            Categories
+            Brand
           </span>
           <svg
             className="w-4 h-4 text-yellow-700"
