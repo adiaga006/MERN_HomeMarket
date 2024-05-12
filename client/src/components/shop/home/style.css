@@ -245,16 +245,19 @@ card-text:last-child{margin-bottom:0}
 }
 
 .sidebar {
-  background-color: red;
+  background-color: #34495e; /* Màu tối giúp chữ nổi bật */
   padding: 1rem;
   width: 250px; /* Điều chỉnh độ rộng của sidebar tại đây */
   max-height: calc(100vh - 100px); /* Đặt kích thước tối đa cho sidebar, trừ điều chỉnh cho header/footer */
   overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước tối đa */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease-in-out;
+  font-family: 'Arial', sans-serif;
 }
 
 .sidebar h3 {
-  margin-bottom: 1rem;
   font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar ul {
@@ -266,16 +269,20 @@ card-text:last-child{margin-bottom:0}
   padding: 0.5rem 0;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom: 0.3rem; /* Thêm margin để tăng khoảng cách giữa các mục */
 }
 
 .sidebar ul li:hover {
   background-color: #8DECB4; /* Màu nền khi hover */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 /* Tùy chỉnh kiểu chữ và màu chữ của các mục danh mục */
 .sidebar ul li a {
   text-decoration: none;
   color: #333;
+  display: flex;
+  align-items: center;
 }
 
 /* Thêm kiểu chữ in đậm cho các mục danh mục */
@@ -287,6 +294,13 @@ card-text:last-child{margin-bottom:0}
   height: 16px; /* Đặt chiều cao cho icon, giữ cho nó vuông */
   margin-right: 4px; /* Khoảng cách giữa icon và chữ */
   vertical-align:middle !important; /* Điều chỉnh cho icon thẳng hàng với chữ */
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
 }
 .css-vubbuv {
   user-select: none;
