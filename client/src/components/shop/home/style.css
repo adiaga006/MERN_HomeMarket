@@ -56,9 +56,27 @@
 }
 
 #view_btn {
-  background-color: #fa9c23;
-  color: white;
+  color: #7ABA78;
+  font-weight: 500;
+  vertical-align: middle;
+  border: 1px solid #7ABA78;
+  height: 36px;
+  transition: all 0.35s ease-in-out 0s;
+  cursor: pointer;
+  text-transform: inherit;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: rgba(153, 153, 153, 0.6) 0px 0px 5px 0px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  justify-content: center; /* Căn giữa các item theo chiều ngang */
+  background-color: rgb(255, 255, 255);
+  padding: 0px;
+  overflow: hidden;
 }
+
 
 .card-img-top {
   width: 200px;
@@ -76,15 +94,7 @@
   margin-left: 0.5rem;
 }
 
-#view_btn {
-  background-color: #febd69;
-  font-family: calibri;
-}
 
-#view_btn {
-  background-color: #fa9c23;
-  color: white;
-}
 .card-text {
   font-size: 1.4rem;
 }
@@ -262,4 +272,33 @@ card-text:last-child{margin-bottom:0}
 /* Thêm kiểu chữ in đậm cho các mục danh mục */
 .sidebar ul li a:hover {
   font-weight: bold;
+}
+.add-to-cart-icon {
+  width: 16px; /* Đặt chiều rộng cho icon */
+  height: 16px; /* Đặt chiều cao cho icon, giữ cho nó vuông */
+  margin-right: 4px; /* Khoảng cách giữa icon và chữ */
+  vertical-align:middle !important; /* Điều chỉnh cho icon thẳng hàng với chữ */
+}
+.css-vubbuv {
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentcolor;
+  flex-shrink: 0;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.5rem;
+}
+.btn_plus{
+  font-size: 25px;
+  color:#7ABA78;
+  vertical-align:middle !important;
+  margin: 10px;
+}
+.text-input{
+  font-family: Roboto, sans-serif;
+  margin: 0px;
+  vertical-align: middle;
+  text-align: center;
+  border: none;
 }

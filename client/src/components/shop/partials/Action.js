@@ -1,6 +1,7 @@
-import { getAllOrder } from "F:/MERN_HomeMarket/client/src/components/admin/orders/FetchApi";
-import { getAllDiscount_Admin } from "F:/MERN_HomeMarket/client/src/components/admin/discounts/FetchApi";
+import { getAllOrder } from "D:/MERN_HomeMarket/client/src/components/admin/orders/FetchApi";
+import { getAllDiscount_Admin } from "D:/MERN_HomeMarket/client/src/components/admin/discounts/FetchApi";
 import { addToCart } from "./Mixins"
+import { Alert } from "react-bootstrap";
 
 export const logout = () => {
   localStorage.removeItem("jwt");
@@ -38,7 +39,7 @@ export const addDiscount = async ({
                 for (const order of checkOrderDiscount) {
                   for (const orderDiscount of order.allDiscount) {
                     if (orderDiscount.id._id === discount._id) {
-                      setError("Nguoi dung da tung su dung discount nay")
+                      setError("Users have used this discount before")
                       return false;
                     }
                   }
@@ -47,7 +48,7 @@ export const addDiscount = async ({
                   console.log(dis.id)
                   console.log(discount._id);
                   if (dis.id === discount._id) {
-                    setError("Discount da duoc ap dung vao product")
+                    Alert("Discount was applied successfully")
                     return false;
                   }
                 });
@@ -61,7 +62,7 @@ export const addDiscount = async ({
                   }
                 });
                 if (!discountApplied) {
-                  setError("Trong cart khong co san pham ap dung duoc discount")
+                  setError("There are no products in the cart that can be discounted")
                   return false;
                 }
               }
@@ -70,16 +71,16 @@ export const addDiscount = async ({
                 return true;
               }
             } else {
-              setError("Discount het han su dung")
+              setError("Discount expires")
               return false;
             }
           }
         } else {
-          setError("Discount khong ton tai")
+          setError("Discount does not exist")
           return false;
         }
       } else {
-        setError("Khong co discount")
+        setError("There is no discount")
         return false;
       }
     }

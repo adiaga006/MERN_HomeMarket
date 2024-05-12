@@ -3,8 +3,6 @@ import { deleteCategory, getAllDiscount_Admin } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
-const apiURL = process.env.REACT_APP_API_URL;
-
 const AllCategory = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
   const { categories, loading } = data;

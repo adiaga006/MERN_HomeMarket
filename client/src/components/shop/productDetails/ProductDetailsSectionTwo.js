@@ -68,7 +68,7 @@ const ProductDetailsSectionTwo = (props) => {
   useEffect(() => {
     // Scroll to the top of the page
     window.scrollTo(0, 0);
-  }, [data.menu]); // This effect runs when data.menu changes
+  }, []); // This effect runs when data.menu changes
 
   return (
     <Fragment>

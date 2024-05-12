@@ -51,15 +51,18 @@ const ShopComponent = () => {
     <Fragment>
         <div style={{ marginTop: '126px', display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem' ,paddingLeft: '20px'}}>
             {/* Sidebar Section */}
-            <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-                {/* Add your sidebar content here, such as filters or category links */}
-                <h3>Categories</h3>
+            <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '0rem' }}>
+            <div style={{ backgroundColor: '#8DECB4', color: 'Black', padding: '1rem',display: 'flex', alignItems: 'center' ,fontWeight:"bold"}}>
+              <h3>Categories</h3>
+              </div>
                 <ul>
+                <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
                   {categories.map((category) => (
                     <li key={category._id} onClick={() => handleCategorySelection(category._id)}>
                       {category.cName}
                     </li>
                   ))}
+                  </div>
                 </ul>         
                 </div>
             {/* Main Content Section */}
