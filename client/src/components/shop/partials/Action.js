@@ -47,6 +47,7 @@ export const addDiscount = async ({
                   }
                 }
                 }
+                if(discount!=null){
                 discounts.forEach((dis) => {
                   console.log(dis.id)
                   console.log(discount._id);
@@ -55,6 +56,7 @@ export const addDiscount = async ({
                     return false;
                   }
                 });
+              }
                 let discountApplied = false;
                 // Kiem tra xem co san pham nao trong cart ap dung duoc discount khong
                 carts.forEach((item) => {
