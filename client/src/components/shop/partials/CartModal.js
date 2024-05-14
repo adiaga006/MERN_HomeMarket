@@ -15,9 +15,7 @@ const CartModal = () => {
   const [error, setError] = useState(null);
 
   const [fData, setFdata] = useState({
-    dName: "",
-    success: false,
-    error: false,
+    dName: ""
   });
 
   const products = data.cartProduct;
@@ -95,24 +93,20 @@ const CartModal = () => {
     // Reset and prevent the form
     e.preventDefault();
     e.target.reset();
-
+    
     try {
       let responseData = await addDiscount({ dName: fData.dName, setError });
       if (responseData) {
         fetchData();
         setFdata({
           ...fData,
-          dName: "",
-          success: responseData.success,
-          error: false,
+          dName: ""
         });
         dispatch({ type: "loading", payload: false });
         setTimeout(() => {
           setFdata({
             ...fData,
-            dName: "",
-            success: false,
-            error: false,
+            dName: ""
           });
         }, 2000);
         clearError()
@@ -120,27 +114,23 @@ const CartModal = () => {
         fetchData();
         setFdata({
           ...fData,
-          dName: "",
-          success: responseData.success,
-          error: false,
+          dName: ""
         });
         dispatch({ type: "loading", payload: false });
         setTimeout(() => {
           setFdata({
             ...fData,
-            dName: "",
-            success: false,
-            error: false,
+            dName: ""
           });
         }, 2000);
         setTimeout(() => {
           clearError();
         }, 5000);
       }else if (responseData.error) {
-        setFdata({ ...fData, success: false, error: responseData.error });
+        setFdata({ ...fData,});
         dispatch({ type: "loading", payload: false });
         setTimeout(() => {
-          return setFdata({ ...fData, error: false, success: false });
+          return setFdata({ ...fData,});
         }, 2000);
       }
     } catch (error) {
@@ -272,8 +262,6 @@ const CartModal = () => {
                   onChange={(e) =>
                     setFdata({
                       ...fData,
-                      success: false,
-                      error: false,
                       dName: e.target.value,
                     })
                   }

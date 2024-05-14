@@ -98,7 +98,7 @@ const SingleProduct = (props) => {
     <Fragment>
     {categories.map((category) => (
     <Fragment key={category._id}>
-      <h2>{category.cName}</h2>
+      {/* <h2>{category.cName}</h2> */}
       {products && products.length > 0 ? (
         products
         .filter((product) => product.pCategory._id === category._id)

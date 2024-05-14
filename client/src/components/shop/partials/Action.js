@@ -36,21 +36,23 @@ export const addDiscount = async ({
               );
               if (checkOrderDiscount.length > 0) {
                 for (const order of checkOrderDiscount) {
-                  for (const orderDiscount of order.allDiscount) {
-                    if (orderDiscount.id._id === discount._id) {
-                      setError("Nguoi dung da tung su dung discount nay")
-                      return false;
+                  if (order.allDiscount != null) {
+                    for (const orderDiscount of order.allDiscount) {
+                      if (orderDiscount.id._id === discount._id) {
+                        setError("Nguoi dung da tung su dung discount nay")
+                        return false;
+                      }
                     }
                   }
                 }
+                if (discounts != null) {
                 discounts.forEach((dis) => {
-                  console.log(dis.id)
-                  console.log(discount._id);
                   if (dis.id === discount._id) {
                     setError("Discount da duoc ap dung vao product")
                     return false;
                   }
                 });
+              }
                 let discountApplied = false;
                 // Kiem tra xem co san pham nao trong cart ap dung duoc discount khong
                 carts.forEach((item) => {
