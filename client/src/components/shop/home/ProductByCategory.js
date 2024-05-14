@@ -55,13 +55,13 @@ const Submenu = ({ category }) => {
       <div className="submenu" style={{ position: 'absolute', top: 74, left: 0, width: '100%', padding: '1rem', backgroundColor: '#fff' }}>
         <div className="text-sm">
           <span
-            className="hover:text-yellow-700 cursor-pointer"
+            className="hover:text-green-700 cursor-pointer"
             onClick={(e) => history.push("/shop")}
           >
             Shop
           </span>
           <span> / </span>
-          <span className="text-yellow-700 cursor-default">{category}</span>
+          <span className="text-green-700 cursor-default">{category}</span>
         </div>
       </div>
       <path
@@ -252,7 +252,7 @@ const AllProduct = ({ products }) => {
                       <svg
                         onClick={(e) => isWishReq(e, item._id, setWlist)}
                         className={`${isWish(item._id, wList) && "hidden"
-                          } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
+                          } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-green-700 transition-all duration-300 ease-in`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -268,7 +268,7 @@ const AllProduct = ({ products }) => {
                       <svg
                         onClick={(e) => unWishReq(e, item._id, setWlist)}
                         className={`${!isWish(item._id, wList) && "hidden"
-                          } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-yellow-700 transition-all duration-300 ease-in`}
+                          } w-5 h-5 md:w-6 md:h-6 cursor-pointer text-green-700 transition-all duration-300 ease-in`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"

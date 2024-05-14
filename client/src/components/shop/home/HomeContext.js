@@ -1,4 +1,4 @@
-export const homeState = {
+ export const homeState = {
   categoryListDropdown: false,
   filterListDropdown: false,
   searchDropdown: false,
@@ -6,7 +6,6 @@ export const homeState = {
   loading: false,
   sliderImages: [],
 };
-
 export const homeReducer = (state, action) => {
   switch (action.type) {
     case "categoryListDropdown":

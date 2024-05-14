@@ -18,7 +18,7 @@ const HomeComponent = () => {
         <ProductCategory />
         </section>
         <section className="m-4 md:mx-8 md:my-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <SingleProduct />
+          <SingleProduct_Load />
         </section>
     */}
       <div className="grid grid-cols-4 bg-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] py-6 mb-12">

@@ -2,12 +2,19 @@ import React, { Fragment, useContext, useState } from "react";
 import ProductCategoryDropdown from "./ProductCategoryDropdown";
 import { HomeContext } from "./index";
 import FilterForm from './FilterForm';
-
+import { getAllProduct} from "../../admin/products/FetchApi";
 const ProductCategory = (props) => {
   const { data, dispatch } = useContext(HomeContext);
   const [showFilterForm, setShowFilterForm] = useState(false);
-  const toggleFilterForm = () => {
-    setShowFilterForm(!showFilterForm);  // Toggle visibility of filter form
+  const toggleFilterForm = async() => {
+    setShowFilterForm(!showFilterForm);
+    if (showFilterForm) {
+      // Reset the product filters when hiding the filter form
+      let responseData = await getAllProduct();
+      if (responseData && responseData.Products) {
+        dispatch({ type: "setProducts", payload: responseData.Products });
+      }
+    }    // Optionally reset any other filter-related states
   };
   return (
     <Fragment>
@@ -18,14 +25,14 @@ const ProductCategory = (props) => {
           payload: !data.categoryListDropdown,
         })}
         className={`flex items-center space-x-1 cursor-pointer ${
-          data.categoryListDropdown && !showFilterForm ? "text-yellow-700" : ""
-        } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+          data.categoryListDropdown && !showFilterForm ? "text-green-700" : ""
+        } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-green-700"}`}
       >
-          <span className="text-md md:text-lg hover:text-yellow-700">
+          <span className="text-md md:text-lg hover:text-green-700">
             Brand
           </span>
           <svg
-            className="w-4 h-4 text-yellow-700"
+            className="w-4 h-4 text-green-700"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -42,7 +49,7 @@ const ProductCategory = (props) => {
         <div className="flex space-x-2">
         {/* Toggle Filter Form Button */}
          <div onClick={toggleFilterForm} className="flex items-center space-x-2 cursor-pointer">
-        <span className="text-md md:text-lg hover:text-yellow-700">{showFilterForm ? 'Hide Advance Filters' : 'Show Advance Filters'}</span>
+        <span className="text-md md:text-lg hover:text-green-700">{showFilterForm ? 'Hide Advance Filters' : 'Show Advance Filters'}</span>
         <span>/</span>
       </div>
           <div
@@ -51,13 +58,13 @@ const ProductCategory = (props) => {
             payload: !data.filterListDropdown,
           })}
           className={`flex items-center space-x-1 cursor-pointer ${
-            data.filterListDropdown && !showFilterForm ? "text-yellow-700" : ""
-          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+            data.filterListDropdown && !showFilterForm ? "text-green-700" : ""
+          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-green-700"}`}
         >
             <span className="text-md md:text-lg">Filter</span>
             <span>
               <svg
-                className="w-4 h-4 text-gray-700 text-yellow-700"
+                className="w-4 h-4 text-gray-700 text-green-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -79,13 +86,13 @@ const ProductCategory = (props) => {
             payload: !data.searchDropdown,
           })}
           className={`flex items-center space-x-1 cursor-pointer ${
-            data.searchDropdown && !showFilterForm ? "text-yellow-700" : ""
-          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-yellow-700"}`}
+            data.searchDropdown && !showFilterForm ? "text-green-700" : ""
+          } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-green-700"}`}
         >
             <span className="text-md md:text-lg">Search</span>
             <span>
               <svg
-                className="w-4 h-4 text-gray-700 text-yellow-700"
+                className="w-4 h-4 text-gray-700 text-green-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -95,9 +95,9 @@ const SingleProduct = (props) => {
     );
   }
   return (
+    // <Fragment>
+    // {categories.map((category) => (
     <Fragment>
-    {categories.map((category) => (
-    <Fragment key={category._id}>
       {products && products.length > 0 ? (
         products
         //.filter((product) => product.pCategory._id === category._id)
@@ -293,8 +293,6 @@ const SingleProduct = (props) => {
         </div>
       )}
       
-    </Fragment>
-    ))}
     </Fragment>
   );
 };

@@ -1,0 +1,59 @@
+.advanced-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    border: 1px solid #7ABA78;
+}
+
+.advanced-filter-form select, .advanced-filter-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.advanced-filter-form select:hover, .advanced-filter-form button:hover {
+    border-color: #888;
+    color: black;
+    
+}
+
+.advanced-filter-form select:disabled {
+    color: #7ABA78;
+    cursor: not-allowed;
+    background-color: #e9ecef;
+}
+
+.advanced-filter-form button {
+    background-color: #7ABA78;
+    color: white;
+    font-weight: bold;
+}
+
+.advanced-filter-form button:disabled {
+    background-color: #ccc;
+}
+.advanced-filter-form :hover {
+    background-color: white;
+    color: white;
+    font-weight: bold;
+}
+/* Additional responsive adjustments for larger screens */
+@media (min-width: 768px) {
+    .advanced-filter-form {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .advanced-filter-form select, .advanced-filter-form button {
+        width: 175px;
+    }
+}

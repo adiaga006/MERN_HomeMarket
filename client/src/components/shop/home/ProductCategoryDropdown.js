@@ -4,14 +4,15 @@ import { HomeContext } from "./index";
 import { getAllCategory } from "../../admin/categories/FetchApi";
 import { getAllProduct, productByPrice } from "../../admin/products/FetchApi";
 import "./style.css";
+import { filterAdvance } from "../../admin/products/FetchApi";
 import unorm from "unorm";
 const apiURL = process.env.REACT_APP_API_URL;
-const Brand = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
+const brands = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 
-const CategoryList  = (props) => {
+const CategoryList = (props) => {
   const history = useHistory();
   const { data, dispatch } = useContext(HomeContext);
-  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState('');
 
   const selectBrand = (brand) => {
     setSelectedBrand(brand);
@@ -21,15 +22,18 @@ const CategoryList  = (props) => {
   const fetchData = async (brand) => {
     dispatch({ type: "loading", payload: true });
     try {
-      // setTimeout(async () => {
-      // //   let responseData = await productByBrand(brand);
-      // //   // if (responseData && responseData.Products) {
-      // //   //   dispatch({ type: "setProducts", payload: responseData.Products });
-      // //   //   dispatch({ type: "loading", payload: false });
-      // //   // }
-      // // }, 700);
+      const filters = { brand }; // Assuming the API expects a 'brand' field
+      const data = await filterAdvance(filters);
+      if (data.Products && data.Products.length > 0) {
+        dispatch({ type: 'SET_PRODUCTS', payload: data.Products });
+      } else {
+        console.log("No products found for these filters.");
+        dispatch({ type: 'SET_PRODUCTS', payload: [] });
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching products by brand:", error);
+    } finally {
+      dispatch({ type: "loading", payload: false });
     }
   };
 
@@ -43,7 +47,7 @@ const CategoryList  = (props) => {
       <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4 dropdown-content`}>
         <hr />
         <div>
-          {Brand.map((brand, index) => (
+          {brands.map((brand, index) => (
             <div key={index} onClick={() => selectBrand(brand)} className="hover:text-yellow-700 cursor-pointer">
               {brand}
             </div>
