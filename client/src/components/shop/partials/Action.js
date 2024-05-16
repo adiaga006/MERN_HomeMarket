@@ -47,12 +47,12 @@ export const addDiscount = async ({
                   }
                 }
                 }
-                if(discount!=null){
+                if(discounts!=null){
                 discounts.forEach((dis) => {
                   console.log(dis.id)
                   console.log(discount._id);
                   if (dis.id === discount._id) {
-                    Alert("Discount was applied successfully")
+                    alert("Discount was applied successfully")
                     return false;
                   }
                 });

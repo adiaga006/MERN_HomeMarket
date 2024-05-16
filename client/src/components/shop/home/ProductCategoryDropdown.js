@@ -9,55 +9,6 @@ import unorm from "unorm";
 const apiURL = process.env.REACT_APP_API_URL;
 const brands = ["Biên Hòa", "Visaco", "Ajinomoto","Chinsu","Guyumi","Basalco","Knorr","Nam Ngư","Bạc Liêu","Happi Koki","Đầu Bếp Tôm","Simply","Tường An","Việt Hàn","Trần Gia","NT Pearly Food"];
 
-const CategoryList = (props) => {
-  const history = useHistory();
-  const { data, dispatch } = useContext(HomeContext);
-  const [selectedBrand, setSelectedBrand] = useState('');
-
-  const selectBrand = (brand) => {
-    setSelectedBrand(brand);
-    fetchData(brand);
-  };
-
-  const fetchData = async (brand) => {
-    dispatch({ type: "loading", payload: true });
-    try {
-      const filters = { brand }; // Assuming the API expects a 'brand' field
-      const data = await filterAdvance(filters);
-      if (data.Products && data.Products.length > 0) {
-        dispatch({ type: 'SET_PRODUCTS', payload: data.Products });
-      } else {
-        console.log("No products found for these filters.");
-        dispatch({ type: 'SET_PRODUCTS', payload: [] });
-      }
-    } catch (error) {
-      console.error("Error fetching products by brand:", error);
-    } finally {
-      dispatch({ type: "loading", payload: false });
-    }
-  };
-
-  const closeDropdown = () => {
-    setSelectedBrand(null);
-    dispatch({ type: "categoryListDropdown", payload: false });
-  };
-
-  return (
-    <Fragment>
-      <div className={`${data.categoryListDropdown ? "" : "hidden"} my-4 dropdown-content`}>
-        <hr />
-        <div>
-          {brands.map((brand, index) => (
-            <div key={index} onClick={() => selectBrand(brand)} className="hover:text-yellow-700 cursor-pointer">
-              {brand}
-            </div>
-          ))}
-        </div>
-      </div>
-    </Fragment>
-  );
-};
-
 const FilterList = () => {
   const { data, dispatch } = useContext(HomeContext);
   const [range, setRange] = useState(0);
@@ -227,7 +178,6 @@ const Search = () => {
 const ProductCategoryDropdown = (props) => {
   return (
     <Fragment>
-      <CategoryList />
       <FilterList />
       <Search />
     </Fragment>
