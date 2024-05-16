@@ -1,5 +1,5 @@
-import { getAllOrder } from "D:/MERN_HomeMarket/client/src/components/admin/orders/FetchApi";
-import { getAllDiscount_Admin } from "D:/MERN_HomeMarket/client/src/components/admin/discounts/FetchApi";
+import { getAllOrder } from "../../admin/orders/FetchApi";
+import { getAllDiscount_Admin } from "../../admin/discounts/FetchApi";
 import { addToCart } from "./Mixins"
 import { Alert } from "react-bootstrap";
 
@@ -37,26 +37,25 @@ export const addDiscount = async ({
               );
               if (checkOrderDiscount.length > 0) {
                 for (const order of checkOrderDiscount) {
-                  if(order.addDiscount != null)
-                    {
-                  for (const orderDiscount of order.allDiscount) {
-                    if (orderDiscount.id._id === discount._id) {
-                      setError("Users have used this discount before")
-                      return false;
+                  if (order.addDiscount != null) {
+                    for (const orderDiscount of order.allDiscount) {
+                      if (orderDiscount.id._id === discount._id) {
+                        setError("Users have used this discount before")
+                        return false;
+                      }
                     }
                   }
                 }
+                if (discounts != null) {
+                  discounts.forEach((dis) => {
+                    console.log(dis.id)
+                    console.log(discount._id);
+                    if (dis.id === discount._id) {
+                      Alert("Discount was applied successfully")
+                      return false;
+                    }
+                  });
                 }
-                if(discount!=null){
-                discounts.forEach((dis) => {
-                  console.log(dis.id)
-                  console.log(discount._id);
-                  if (dis.id === discount._id) {
-                    Alert("Discount was applied successfully")
-                    return false;
-                  }
-                });
-              }
                 let discountApplied = false;
                 // Kiem tra xem co san pham nao trong cart ap dung duoc discount khong
                 carts.forEach((item) => {

@@ -1,4 +1,4 @@
-import { getSingleProduct } from "../productDetails/FetchApi";
+import { totalCost } from "../partials/Mixins";
 import { cartList } from "../productDetails/Mixins"
 
 export const isWish = (id, wList) => {
@@ -84,6 +84,7 @@ export const updateQuantityCartItem = (id, quantity, layoutDispatch, fetchData) 
         }
         localStorage.setItem("cart", JSON.stringify(carts));
         layoutDispatch({ type: "inCart", payload: cartList() });
+        layoutDispatch({ type: "cartTotalCost", payload: totalCost() });
         fetchData();
       }
     }
