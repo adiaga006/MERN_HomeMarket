@@ -7,6 +7,7 @@ class Category {
     try {
       let Categories = await categoryModel
       .find({cStatus: "Active"})
+      .populate("cParentCategory", "_id cName")
       .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });
@@ -19,6 +20,7 @@ class Category {
     try {
       let Categories = await categoryModel
       .find({ cStatus: { $in: ["Active", "Disabled"]} })
+      .populate("cParentCategory", "_id cName")
       .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });
@@ -28,7 +30,7 @@ class Category {
     }
   }
   async postAddCategory(req, res) {
-    let { cName, cDescription, cStatus } = req.body;
+    let { cName, cDescription, cStatus, cParentCategory } = req.body;
     // let cImage = req.file.filename;
     // const filePath = `../server/public/uploads/categories/${cImage}`;
     if (!cName || !cDescription || !cStatus ) {
@@ -46,6 +48,7 @@ class Category {
             cName,
             cDescription,
             cStatus,
+            cParentCategory
           });
           await newCategory.save((err) => {
             if (!err) {
@@ -60,7 +63,7 @@ class Category {
   }
 
   async postEditCategory(req, res) {
-    let { cId, cName, cDescription, cStatus } = req.body;
+    let { cId, cName, cDescription, cStatus , cParentCategory} = req.body;
     
     if (!cId || !cName || !cDescription || !cStatus) {
       return res.json({ error: "All fields must be required" });
@@ -81,6 +84,7 @@ class Category {
         cName,
         cDescription,
         cStatus,
+        cParentCategory,
         updatedAt: Date.now(),
       });
   
@@ -123,11 +127,6 @@ class Category {
       }
     }
   }
-  
-
-
-
-  
 }
 
 const categoryController = new Category();

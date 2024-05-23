@@ -34,6 +34,7 @@ export const createCategory = async ({
   cName,
   cDescription,
   cStatus,
+  cParentCategory
 }) => {
   try {
     let res = await axios.post(
@@ -41,7 +42,8 @@ export const createCategory = async ({
       {
         cName,
         cDescription,
-        cStatus
+        cStatus,
+        cParentCategory
       },
       {
         ...Headers(),
@@ -54,8 +56,8 @@ export const createCategory = async ({
   }
 };
 
-export const editCategory = async (cId, name, des, status) => {
-  let data = { cId: cId, cName: name, cDescription: des, cStatus: status };
+export const editCategory = async (cId, name, des, parent, status) => {
+  let data = { cId: cId, cName: name, cDescription: des, cParentCategory: parent , cStatus: status };
   try {
     let res = await axios.post(
       `${apiURL}/api/category/edit-category`,

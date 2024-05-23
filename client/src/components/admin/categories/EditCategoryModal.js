@@ -1,26 +1,28 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { editCategory, getAllCategory_Admin } from "./FetchApi";
+import { editCategory, getAllCategory_Admin, getAllCategory } from "./FetchApi";
 
 const EditCategoryModal = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
+  const [categories, setCategories] = useState(null);
 
   const [des, setDes] = useState("");
   const [status, setStatus] = useState("");
   const [cId, setCid] = useState("");
   const [name, setName] = useState("");
+  const [parent, setParent] = useState("");
   const [error, setError] = useState("");
 
 
   useEffect(() => {
-    setDes(data.editCategoryModal.des);
-    setStatus(data.editCategoryModal.status);
     setCid(data.editCategoryModal.cId);
     setName(data.editCategoryModal.name); // Add this line
+    setDes(data.editCategoryModal.des);
+    setParent(data.editCategoryModal.parent);
+    setStatus(data.editCategoryModal.status);
     setError(""); // Clear error when modal is opened
-
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchCategoryData(data.editCategoryModal.cId)
   }, [data.editCategoryModal.modal]);
 
   const fetchData = async () => {
@@ -33,9 +35,18 @@ const EditCategoryModal = (props) => {
     }
   };
 
+  const fetchCategoryData = async (cId) => {
+    let responseData = await getAllCategory_Admin();
+    if (responseData.Categories) {
+      const filteredCategories = responseData.Categories.filter(category => category._id !== cId && category.cParentCategory == null);
+      setCategories(filteredCategories);
+    }
+    
+  };
+
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let edit = await editCategory(cId, name, des, status); // Update this line
+    let edit = await editCategory(cId, name, des, parent, status); // Update this line
     if (edit.error) {
       setError(edit.error);
       // dispatch({ type: "loading", payload: false });
@@ -120,7 +131,97 @@ const EditCategoryModal = (props) => {
               rows={5}
             />
           </div>
-          <div className="flex flex-col space-y-1 w-full">
+          <div className="flex space-x-1 py-4">
+            <div className="w-1/2 flex flex-col space-y-1">
+              <label htmlFor="status">Product Category *</label>
+              <select
+                value={parent}
+                onChange={(e) => setParent(e.target.value)}
+                name="status"
+                className="px-4 py-2 border focus:outline-none"
+                id="status"
+              >
+                <option disabled value="">
+                  Select a category
+                </option>
+                {categories && categories.length > 0
+                    ? categories.map((elem) => {
+                      return (
+                        <Fragment key={elem._id}>
+                          {parent && parent &&
+                            parent._id === elem._id ? (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                              selected
+                            >
+                              {elem.cName}
+                            </option>
+                          ) : (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                            >
+                              {elem.cName}
+                            </option>
+                          )}
+                        </Fragment>
+                      );
+                    })
+                    : ""}
+              </select>
+            </div>
+            {/* <div className="w-1/2 flex flex-col space-y-1">
+              <label htmlFor="status">Product Category *</label>
+              <select
+                value={parent}
+                // onChange={(e) =>
+                //   setFdata({
+                //     ...fData,
+                //     error: false,
+                //     success: false,
+                //     pCategory: e.target.value,
+                //   })
+                // }
+                name="status"
+                className="px-4 py-2 border focus:outline-none"
+                id="status"
+              >
+                <option disabled value="">
+                  Select a category
+                </option>
+                {categories && categories.length > 0
+                  ? categories.map(function (elem) {
+                    return (
+                      <Fragment key={elem._id}>
+                          {parent && parent &&
+                            parent._id === elem._id ? (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                              selected
+                            >
+                              {elem.cName}
+                            </option>
+                          ) : (
+                            <option
+                              name="status"
+                              value={elem._id}
+                              key={elem._id}
+                            >
+                              {elem.cName}
+                            </option>
+                          )}
+                        </Fragment>
+                    );
+                  })
+                  : ""}
+              </select>
+            </div> */}
+          <div className="w-1/2 flex flex-col space-y-1">
             <label htmlFor="status">Category Status</label>
             <select
               value={status}
@@ -137,15 +238,16 @@ const EditCategoryModal = (props) => {
               </option>
             </select>
           </div>
-          <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">
-            <button
-              style={{ background: "#303031" }}
-              onClick={(e) => submitForm()}
-              className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
-            >
-              Update Category
-            </button>
-          </div>
+        </div>
+        <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">
+          <button
+            style={{ background: "#303031" }}
+            onClick={(e) => submitForm()}
+            className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
+          >
+            Update Category
+          </button>
+        </div>
         </div>
       </div>
     </Fragment>

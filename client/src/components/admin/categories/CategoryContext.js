@@ -6,6 +6,7 @@ export const categoryState = {
     cId: null,
     name: "",
     des: "",
+    parent: "",
     status: "",
   },
   loading: false,
@@ -34,6 +35,7 @@ export const categoryReducer = (state, action) => {
           cId: action.cId,
           name: action.name,
           des: action.des,
+          parent: action.parent,
           status: action.status,
         },
       };
@@ -45,6 +47,7 @@ export const categoryReducer = (state, action) => {
           cId: null,
           name: "",
           des: "",
+          parent: "",
           status: "",
         },
       };

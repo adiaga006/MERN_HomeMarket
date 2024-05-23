@@ -43,7 +43,6 @@ class Product {
       // Chỉ hiển thị sản phẩm có pStatus là "Active"
       let Products = await productModel
         .find({ pStatus: "Active" })
-        .populate("pCategory", "_id cName")
         .sort({ _id: -1 });
   
       if (Products) {

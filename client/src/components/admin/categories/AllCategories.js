@@ -39,15 +39,15 @@ const AllCategory = (props) => {
       fetchData();
     }
   };
-
   /* This method call the editmodal & dispatch category context */
-  const editCategory = (cId, name, type, des, status) => {
+  const editCategory = (cId, name, type, des, parent, status) => {
     if (type) {
       dispatch({
         type: "editCategoryModalOpen",
         cId: cId,
         name: name,
         des: des,
+        parent: parent,
         status: status,
       });
     }
@@ -89,7 +89,6 @@ const AllCategory = (props) => {
             <tr>
               <th className="px-4 py-2 border">Category</th>
               <th className="px-4 py-2 border">Description</th>
-
               <th className="px-4 py-2 border">Status</th>
               <th className="px-4 py-2 border">Created at</th>
               <th className="px-4 py-2 border">Updated at</th>
@@ -102,8 +101,8 @@ const AllCategory = (props) => {
                 return (
                   <CategoryTable
                     category={item}
-                    editCat={(cId, name, type, des, status) =>
-                      editCategory(cId, name, type, des, status)
+                    editCat={(cId, name, type, des, parent, status) =>
+                      editCategory(cId, name, type, des, parent, status)
                     }
                     deleteCat={(cId) => deleteCategoryReq(cId)}
                     key={key}
@@ -189,6 +188,7 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
                 category.cName,
                 true,
                 category.cDescription,
+                category.cParentCategory,
                 category.cStatus
               )
             }

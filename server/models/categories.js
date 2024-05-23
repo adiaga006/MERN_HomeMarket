@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { ObjectId } = mongoose.Schema.Types;
 const categorySchema = new mongoose.Schema(
   {
     cName: {
@@ -18,6 +18,10 @@ const categorySchema = new mongoose.Schema(
     cStatus: {
       type: String,
       required: true,
+    },
+    cParentCategory: {
+      type: ObjectId,
+      ref: "categories",
     },
   },
   { timestamps: true }

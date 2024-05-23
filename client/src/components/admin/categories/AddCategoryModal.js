@@ -1,8 +1,8 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { createCategory, getAllCategory_Admin } from "./FetchApi";
+import { getAllCategory_Admin, createCategory, getAllCategory } from "./FetchApi";
 
-const AddCategoryModal = (props) => {
+const AddCategryDetail = ({ categories }) => {
   const { data, dispatch } = useContext(CategoryContext);
 
   const alert = (msg, type) => (
@@ -14,6 +14,7 @@ const AddCategoryModal = (props) => {
     cDescription: "",
     cImage: "",
     cStatus: "Active",
+    cParentCategory: "",
     success: false,
     error: false,
   });
@@ -55,6 +56,7 @@ const AddCategoryModal = (props) => {
           cDescription: "",
           cImage: "",
           cStatus: "Active",
+          cParentCategory: "",
           success: responseData.success,
           error: false,
         });
@@ -66,6 +68,7 @@ const AddCategoryModal = (props) => {
             cDescription: "",
             cImage: "",
             cStatus: "Active",
+            cParentCategory: "",
             success: false,
             error: false,
           });
@@ -181,28 +184,60 @@ const AddCategoryModal = (props) => {
                 type="file"
               />
               </div>*/}
-            <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Category Status</label>
-              <select
-                name="status"
-                onChange={(e) =>
-                  setFdata({
-                    ...fData,
-                    success: false,
-                    error: false,
-                    cStatus: e.target.value,
-                  })
-                }
-                className="px-4 py-2 border focus:outline-none"
-                id="status"
-              >
-                <option name="status" value="Active">
-                  Active
-                </option>
-                <option name="status" value="Disabled">
-                  Disabled
-                </option>
-              </select>
+            <div className="flex space-x-1 py-4">
+              <div className="w-1/2 flex flex-col space-y-1">
+                <label htmlFor="status">Parent Category *</label>
+                <select
+                  value={fData.cParentCategory}
+                  onChange={(e) =>
+                    setFdata({
+                      ...fData,
+                      error: false,
+                      success: false,
+                      cParentCategory: e.target.value,
+                    })
+                  }
+                  name="status"
+                  className="px-4 py-2 border focus:outline-none"
+                  id="status"
+                >
+                  <option disabled value="">
+                    Select a category
+                  </option>
+                  {categories.length > 0
+                    ? categories.map(function (elem) {
+                      return (
+                        <option name="status" value={elem._id} key={elem._id}>
+                          {elem.cName}
+                        </option>
+                      );
+                    })
+                    : ""}
+                </select>
+              </div>
+              <div className="w-1/2 flex flex-col space-y-1">
+                <label htmlFor="status">Category Status</label>
+                <select
+                  name="status"
+                  onChange={(e) =>
+                    setFdata({
+                      ...fData,
+                      success: false,
+                      error: false,
+                      cStatus: e.target.value,
+                    })
+                  }
+                  className="px-4 py-2 border focus:outline-none"
+                  id="status"
+                >
+                  <option name="status" value="Active">
+                    Active
+                  </option>
+                  <option name="status" value="Disabled">
+                    Disabled
+                  </option>
+                </select>
+              </div>
             </div>
             <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6 mt-4">
               <button
@@ -216,6 +251,28 @@ const AddCategoryModal = (props) => {
           </form>
         </div>
       </div>
+    </Fragment>
+  );
+};
+
+const AddCategoryModal = (props) => {
+  useEffect(() => {
+    fetchCategoryData();
+  }, []);
+
+  const [allCat, setAllCat] = useState({});
+
+  const fetchCategoryData = async () => {
+    let responseData = await getAllCategory();
+    if (responseData.Categories) {
+      const filteredCategories = responseData.Categories.filter(category => category.cParentCategory == null);
+      setAllCat(responseData.Categories);
+    }
+  };
+
+  return (
+    <Fragment>
+      <AddCategryDetail categories={allCat} />
     </Fragment>
   );
 };
