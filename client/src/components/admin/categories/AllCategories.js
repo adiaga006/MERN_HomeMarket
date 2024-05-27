@@ -41,6 +41,7 @@ const AllCategory = (props) => {
   };
   /* This method call the editmodal & dispatch category context */
   const editCategory = (cId, name, type, des, parent, status) => {
+    console.log(parent);
     if (type) {
       dispatch({
         type: "editCategoryModalOpen",

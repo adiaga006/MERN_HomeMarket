@@ -1,14 +1,14 @@
 const { toTitleCase } = require("../config/function");
 const categoryModel = require("../models/categories");
 const fs = require("fs");
-const productModel=require("../models/products.js");
+const productModel = require("../models/products.js");
 class Category {
   async getAllCategory(req, res) {
     try {
       let Categories = await categoryModel
-      .find({cStatus: "Active"})
-      .populate("cParentCategory", "_id cName")
-      .sort({ _id: -1 });
+        .find({ cStatus: "Active" })
+        .populate("cParentCategory", "_id cName")
+        .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });
       }
@@ -19,9 +19,9 @@ class Category {
   async getAllCategory_Admin(req, res) {
     try {
       let Categories = await categoryModel
-      .find({ cStatus: { $in: ["Active", "Disabled"]} })
-      .populate("cParentCategory", "_id cName")
-      .sort({ _id: -1 });
+        .find({ cStatus: { $in: ["Active", "Disabled"] } })
+        .populate("cParentCategory", "_id cName")
+        .sort({ _id: -1 });
       if (Categories) {
         return res.json({ Categories });
       }
@@ -30,19 +30,25 @@ class Category {
     }
   }
   async postAddCategory(req, res) {
-    let { cName, cDescription, cStatus, cParentCategory } = req.body;
+    let { cName, cDescription, cStatus,
+      cParentCategory
+    } = req.body;
+    console.log(cName);
+    console.log(cDescription);
+    // console.log(cParentCategory);
+    console.log(cStatus);
     // let cImage = req.file.filename;
     // const filePath = `../server/public/uploads/categories/${cImage}`;
-    if (!cName || !cDescription || !cStatus ) {
-        return res.json({ error: "All filled must be required" });
-     
+    if (!cName || !cDescription || !cStatus) {
+      return res.json({ error: "All filled must be required" });
+
     } else {
       cName = toTitleCase(cName);
       try {
         let checkCategoryExists = await categoryModel.findOne({ cName: cName });
         if (checkCategoryExists) {
-            return res.json({ error: "Category already exists" });
-      
+          return res.json({ error: "Category already exists" });
+
         } else {
           let newCategory = new categoryModel({
             cName,
@@ -50,6 +56,7 @@ class Category {
             cStatus,
             cParentCategory
           });
+
           await newCategory.save((err) => {
             if (!err) {
               return res.json({ success: "Category created successfully" });
@@ -63,22 +70,22 @@ class Category {
   }
 
   async postEditCategory(req, res) {
-    let { cId, cName, cDescription, cStatus , cParentCategory} = req.body;
-    
+    let { cId, cName, cDescription, cStatus, cParentCategory } = req.body;
+
     if (!cId || !cName || !cDescription || !cStatus) {
       return res.json({ error: "All fields must be required" });
     }
-  
+
     // Trim trailing spaces from category name
     cName = cName.trim();
-  
+
     try {
       // Check if the new category name is unique
       const isNameUnique = await categoryModel.findOne({ cName, _id: { $ne: cId } });
       if (isNameUnique) {
         return res.json({ error: "Category name must be unique" });
       }
-  
+
       // Update the category
       let editCategory = await categoryModel.findByIdAndUpdate(cId, {
         cName,
@@ -87,7 +94,7 @@ class Category {
         cParentCategory,
         updatedAt: Date.now(),
       });
-  
+
       if (editCategory) {
         return res.json({ success: "Category edited successfully" });
       }
@@ -96,30 +103,32 @@ class Category {
       return res.json({ error: "Error editing category" });
     }
   }
-  
+
   async getDeleteCategory(req, res) {
     let { cId } = req.body;
     if (!cId) {
       return res.json({ error: "All fields must be required" });
     } else {
-      let deletedObj=await categoryModel.findById(cId);
-      let oldName=deletedObj.cName;
+      let deletedObj = await categoryModel.findById(cId);
+      let oldName = deletedObj.cName;
       try {
         // Thay đổi cStatus thành "Disabled" cho category cần xóa mềm
         let deleteCategory = await categoryModel.findByIdAndUpdate(
           cId,
-          { cStatus: "Not available" ,
-            cName: `${oldName} (Category deleted)`,},
+          {
+            cStatus: "Not available",
+            cName: `${oldName} (Category deleted)`,
+          },
           { new: true } // Trả về bản ghi đã được cập nhật
         );
-  
+
         if (deleteCategory) {
           // Thay đổi pStatus thành "Disabled" cho tất cả các product thuộc category
           let deleteProducts = await productModel.updateMany(
             { pCategory: cId },
             { pStatus: "Not available" }
           );
-            return res.json({ success: "Category and associated products deleted successfully" });
+          return res.json({ success: "Category and associated products deleted successfully" });
         }
       } catch (err) {
         console.log(err);

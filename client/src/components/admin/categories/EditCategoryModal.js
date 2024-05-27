@@ -10,19 +10,18 @@ const EditCategoryModal = (props) => {
   const [status, setStatus] = useState("");
   const [cId, setCid] = useState("");
   const [name, setName] = useState("");
-  const [parent, setParent] = useState("");
+  const [parent, setParent] = useState(null);
   const [error, setError] = useState("");
-
 
   useEffect(() => {
     setCid(data.editCategoryModal.cId);
-    setName(data.editCategoryModal.name); // Add this line
+    setName(data.editCategoryModal.name);
     setDes(data.editCategoryModal.des);
     setParent(data.editCategoryModal.parent);
     setStatus(data.editCategoryModal.status);
     setError(""); // Clear error when modal is opened
+    fetchCategoryData(data.editCategoryModal.cId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetchCategoryData(data.editCategoryModal.cId)
   }, [data.editCategoryModal.modal]);
 
   const fetchData = async () => {
@@ -41,15 +40,14 @@ const EditCategoryModal = (props) => {
       const filteredCategories = responseData.Categories.filter(category => category._id !== cId && category.cParentCategory == null);
       setCategories(filteredCategories);
     }
-    
   };
 
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let edit = await editCategory(cId, name, des, parent, status); // Update this line
+    let edit = await editCategory(cId, name, des, parent._id, status); // Update this line
     if (edit.error) {
       setError(edit.error);
-      // dispatch({ type: "loading", payload: false });
+      dispatch({ type: "loading", payload: false });
     } else if (edit.success) {
       console.log(edit.success);
       dispatch({ type: "editCategoryModalClose" });
@@ -65,17 +63,15 @@ const EditCategoryModal = (props) => {
       {/* Black Overlay */}
       <div
         onClick={(e) => dispatch({ type: "editCategoryModalClose" })}
-        className={`${data.editCategoryModal.modal ? "" : "hidden"
-          } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
+        className={`${data.editCategoryModal.modal ? "" : "hidden"} fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
       />
       {/* End Black Overlay */}
 
       {/* Modal Start */}
       <div
-        className={`${data.editCategoryModal.modal ? "" : "hidden"
-          } fixed inset-0 m-4  flex items-center z-30 justify-center`}
+        className={`${data.editCategoryModal.modal ? "" : "hidden"} fixed inset-0 m-4 flex items-center z-30 justify-center`}
       >
-        <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
+        <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4 overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
               Edit Category
@@ -133,121 +129,59 @@ const EditCategoryModal = (props) => {
           </div>
           <div className="flex space-x-1 py-4">
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="status">Product Category *</label>
+              <label htmlFor="parent">Parent Category *</label>
               <select
-                value={parent}
-                onChange={(e) => setParent(e.target.value)}
-                name="status"
+                value={parent ? parent._id : ""}
+                onChange={(e) => {
+                  const selectedParent = categories.find(cat => cat._id === e.target.value);
+                  setParent(selectedParent);
+                }}
+                name="parent"
                 className="px-4 py-2 border focus:outline-none"
-                id="status"
+                id="parent"
               >
                 <option disabled value="">
                   Select a category
                 </option>
                 {categories && categories.length > 0
-                    ? categories.map((elem) => {
-                      return (
-                        <Fragment key={elem._id}>
-                          {parent && parent &&
-                            parent._id === elem._id ? (
-                            <option
-                              name="status"
-                              value={elem._id}
-                              key={elem._id}
-                              selected
-                            >
-                              {elem.cName}
-                            </option>
-                          ) : (
-                            <option
-                              name="status"
-                              value={elem._id}
-                              key={elem._id}
-                            >
-                              {elem.cName}
-                            </option>
-                          )}
-                        </Fragment>
-                      );
-                    })
-                    : ""}
-              </select>
-            </div>
-            {/* <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="status">Product Category *</label>
-              <select
-                value={parent}
-                // onChange={(e) =>
-                //   setFdata({
-                //     ...fData,
-                //     error: false,
-                //     success: false,
-                //     pCategory: e.target.value,
-                //   })
-                // }
-                name="status"
-                className="px-4 py-2 border focus:outline-none"
-                id="status"
-              >
-                <option disabled value="">
-                  Select a category
-                </option>
-                {categories && categories.length > 0
-                  ? categories.map(function (elem) {
-                    return (
-                      <Fragment key={elem._id}>
-                          {parent && parent &&
-                            parent._id === elem._id ? (
-                            <option
-                              name="status"
-                              value={elem._id}
-                              key={elem._id}
-                              selected
-                            >
-                              {elem.cName}
-                            </option>
-                          ) : (
-                            <option
-                              name="status"
-                              value={elem._id}
-                              key={elem._id}
-                            >
-                              {elem.cName}
-                            </option>
-                          )}
-                        </Fragment>
-                    );
-                  })
+                  ? categories.map((elem) => (
+                    <option
+                      key={elem._id}
+                      value={elem._id}
+                    >
+                      {elem.cName}
+                    </option>
+                  ))
                   : ""}
               </select>
-            </div> */}
-          <div className="w-1/2 flex flex-col space-y-1">
-            <label htmlFor="status">Category Status</label>
-            <select
-              value={status}
-              name="status"
-              onChange={(e) => setStatus(e.target.value)}
-              className="px-4 py-2 border focus:outline-none"
-              id="status"
-            >
-              <option name="status" value="Active">
-                Active
-              </option>
-              <option name="status" value="Disabled">
-                Disabled
-              </option>
-            </select>
+            </div>
+            <div className="w-1/2 flex flex-col space-y-1">
+              <label htmlFor="status">Category Status</label>
+              <select
+                value={status}
+                name="status"
+                onChange={(e) => setStatus(e.target.value)}
+                className="px-4 py-2 border focus:outline-none"
+                id="status"
+              >
+                <option name="status" value="Active">
+                  Active
+                </option>
+                <option name="status" value="Disabled">
+                  Disabled
+                </option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">
-          <button
-            style={{ background: "#303031" }}
-            onClick={(e) => submitForm()}
-            className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
-          >
-            Update Category
-          </button>
-        </div>
+          <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">
+            <button
+              style={{ background: "#303031" }}
+              onClick={(e) => submitForm()}
+              className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
+            >
+              Update Category
+            </button>
+          </div>
         </div>
       </div>
     </Fragment>
