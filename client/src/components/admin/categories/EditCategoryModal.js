@@ -44,7 +44,7 @@ const EditCategoryModal = (props) => {
 
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let edit = await editCategory(cId, name, des, parent._id, status); // Update this line
+    let edit = await editCategory(cId, name, des, parent, status); // Update this line
     if (edit.error) {
       setError(edit.error);
       dispatch({ type: "loading", payload: false });

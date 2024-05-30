@@ -40,7 +40,6 @@ const AddCategryDetail = ({ categories }) => {
     // Reset and prevent the form
     e.preventDefault();
     e.target.reset();
-    console.log(fData);
     // if (!fData.cImage) {
     //   dispatch({ type: "loading", payload: false });
     //   return setFdata({ ...fData, error: "Please upload a category image" });

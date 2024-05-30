@@ -21,7 +21,7 @@ router.get("/all-category-admin", categoryController.getAllCategory_Admin);
 router.post(
   "/add-category",
   //upload.single("cImage"),
-  categoryController.postEditCategory
+  categoryController.postAddCategory
 );
 router.post("/edit-category", loginCheck, categoryController.postEditCategory);
 router.post(

@@ -37,10 +37,6 @@ export const createCategory = async ({
   cParentCategory
 }) => {
   try {
-    console.log(cName);
-    console.log(cDescription);
-    // console.log(cParentCategory);
-    console.log(cStatus);
     if (cParentCategory === "") {
       cParentCategory = undefined;
     }
