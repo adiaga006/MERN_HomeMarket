@@ -17,6 +17,7 @@
     "react-chartjs-2": "^4.0.0",
     "react-datepicker": "^4.24.0",
     "react-dom": "^16.13.1",
+    "react-facebook": "^9.0.12",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",
     "react-slider": "^2.0.6",
