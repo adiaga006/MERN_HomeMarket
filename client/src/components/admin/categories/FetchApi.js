@@ -38,8 +38,9 @@ export const createCategory = async ({
 }) => {
   try {
     if (cParentCategory === "") {
-      cParentCategory = undefined;
+      cParentCategory = null;
     }
+    console.log(cParentCategory);
     let res = await axios.post(
       `${apiURL}/api/category/add-category`,
       {

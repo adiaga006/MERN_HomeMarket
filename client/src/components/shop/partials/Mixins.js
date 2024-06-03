@@ -2,20 +2,24 @@ export const subTotal = (id, price) => {
   let subTotalCost = 0;
   let carts = JSON.parse(localStorage.getItem("cart"));
   let discounts = JSON.parse(localStorage.getItem("discount"));
-  carts.forEach((item) => {
-    if (item.id === id) {
-      subTotalCost = item.quantitiy * price;
-      if (discounts != null) {
-        discounts.forEach((discount) => {
-          if (item.category._id === discount.category) {
-            if (discount.method === "Percent") {
-              subTotalCost *= (1 - (discount.percent / 100));
+
+  if(carts != null) {
+    carts.forEach((item) => {
+      if (item.id === id) {
+        subTotalCost = item.quantitiy * price;
+        if (discounts != null) {
+          discounts.forEach((discount) => {
+            if (item.category._id === discount.category) {
+              if (discount.method === "Percent") {
+                subTotalCost *= (1 - (discount.percent / 100));
+              }
             }
-          }
-        });
+          });
+        }
       }
-    }
-  });
+    });
+  }
+  
   if (subTotalCost < 0) {
     subTotalCost = 0;
   }
@@ -42,12 +46,14 @@ export const totalCost = () => {
 
   let uniqueCategories = [];
   let usedDiscounts = [];
-  carts.forEach((item) => {
-    let categoryID = item.category._id;
-    if (!uniqueCategories.includes(categoryID)) {
-      uniqueCategories.push(categoryID);
-    }
-  });
+  if (carts != null) {
+    carts.forEach((item) => {
+      let categoryID = item.category._id;
+      if (!uniqueCategories.includes(categoryID)) {
+        uniqueCategories.push(categoryID);
+      }
+    });
+  }
 
   uniqueCategories.forEach((categoryID) => {
     carts.forEach((item) => {
