@@ -34,7 +34,7 @@ const SingleProduct = (props) => {
     const fetchCategories = async () => {
       const response = await getAllCategory();
       if (response && response.Categories) {
-        setCategories(response.Categories.filter(category => category.cParentCategory !== null));
+        setCategories(response.Categories.filter(category => category.cParentCategory == null).reverse());
       }
     };
     fetchCategories();
@@ -96,11 +96,12 @@ const SingleProduct = (props) => {
 
   return (
     <Fragment>
-      {/* {categories.map((category) => (
-        <Fragment key={category._id}> */}
+      {categories.map((category) => (
+        <Fragment key={category._id}>
+          <h2>{category.cName}</h2>
           {products && products.length > 0 ? (
             products
-              // .filter((product) => product.pCategory._id === category._id)
+              .filter((product) => product.pCategory.cParentCategory === category._id)
               // .sort((a, b) => b.pOffer - a.pOffer)
               .map((item, index) => {
                 return (
@@ -297,8 +298,8 @@ const SingleProduct = (props) => {
             </div>
           )}
         </Fragment>
-    //   ))}
-    // </Fragment>
+      ))}
+    </Fragment>
   );
 };
 

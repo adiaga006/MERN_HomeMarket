@@ -19,12 +19,12 @@ const ShopComponent = () => {
   const history = useHistory();
 
   const [selectedParentCategory, setSelectedParentCategory] = useState(null);
-  const parentCategories = categories.filter(category => category.cParentCategory == null);
+  const parentCategories = categories.filter(category => category.cParentCategory == null).reverse();
   const child = categories.filter(category => category.cParentCategory !== null);
   const childCategories = child.filter(category => 
     category.cParentCategory && selectedParentCategory && 
     category.cParentCategory._id === selectedParentCategory
-  );
+  ).reverse();
   
   
   useEffect(() => {
