@@ -1,6 +1,7 @@
 import React from "react";
 import { postAddReview, postDeleteReview } from "./FetchApi";
 import { isAuthenticate } from "../auth/fetchApi";
+import { getAllOrder } from "../../admin/orders/FetchApi";
 
 export const Alert = (color, text) => (
   <div className={`bg-${color}-200 px-4 py-2 my-2 rounded`}>{text}</div>
@@ -13,6 +14,34 @@ export const reviewSubmitHanlder = (fData, setFdata, fetchData) => {
     setFdata({ ...fData, error: "You must need login to review" });
   } else {
     addReview(fData, setFdata, fetchData);
+  }
+};
+
+export const checkBuyProduct = async (id) => {
+  try {
+    let responseData = await getAllOrder();
+    if (!responseData && responseData.Orders) {
+      return false;
+    }
+
+    let userId = JSON.parse(localStorage.getItem("jwt")).user._id;
+    let OrdersOfUser = responseData.Orders.filter(order => order.user._id === userId);
+    console.log(OrdersOfUser);
+    if (id) {
+      console.log(id);
+      for (const order of OrdersOfUser) {
+        for (const product of order.allProduct) {
+          console.log(product.id._id);
+          if (product.id._id === id) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 };
 

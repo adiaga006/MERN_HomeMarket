@@ -41,9 +41,6 @@ const SingleProduct = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(categories);
-  console.log(products);
-
   const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
     try {

@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import AllReviews from "./AllReviews";
 import ReviewForm from "./ReviewForm";
+import { useParams } from "react-router-dom";
 
 import { ProductDetailsContext } from "./";
 import { LayoutContext } from "../layout";
@@ -8,6 +9,7 @@ import { LayoutContext } from "../layout";
 import { isAuthenticate } from "../auth/fetchApi";
 
 import "./style.css";
+import { checkBuyProduct } from "./Action";
 
 const Menu = () => {
   const { data, dispatch } = useContext(ProductDetailsContext);
@@ -39,14 +41,38 @@ const Menu = () => {
 };
 
 const RatingReview = () => {
+  let { id } = useParams(); // Product Id
+  const [hasBought, setHasBought] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCheckBuyProduct = async () => {
+      try {
+        const result = await checkBuyProduct(id);
+        setHasBought(result);
+        console.log(hasBought);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCheckBuyProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Fragment>
       <AllReviews />
-      {isAuthenticate() ? (
+      {hasBought && isAuthenticate() ? (
         <ReviewForm />
       ) : (
         <div className="mb-12 md:mx-16 lg:mx-20 xl:mx-24 bg-red-200 px-4 py-2 rounded mb-4">
-          You need to login in for review
+          {hasBought ? 'You need to login in for review' : 'You need to buy the product to leave a review'}
         </div>
       )}
     </Fragment>
