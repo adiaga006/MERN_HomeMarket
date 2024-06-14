@@ -6,27 +6,30 @@ import { HomeContext } from "../home";
 import ProductCategory from "../home/ProductCategory";
 import SingleProduct from "../home/SingleProduct";
 import { getAllCategory } from "../../admin/categories/FetchApi";
-import { getAllProduct, productByPrice } from "../../admin/products/FetchApi";
-import { productByCategory } from "../../admin/products/FetchApi";
+import { getAllProduct, productByPrice, productByCategory } from "../../admin/products/FetchApi";
 import { useHistory } from "react-router-dom";
 
+const CategoryItem = ({ category, onClick, isSelected, children }) => (
+  <li onClick={onClick} style={{ cursor: 'pointer', fontWeight: isSelected ? 'bold' : 'normal' }}>
+    {category.cName}
+    {children}
+  </li>
+);
 
 const ShopComponent = () => {
   const { data } = useContext(HomeContext);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedParentCategory, setSelectedParentCategory] = useState(null);
   const history = useHistory();
 
-  const [selectedParentCategory, setSelectedParentCategory] = useState(null);
   const parentCategories = categories.filter(category => category.cParentCategory == null).reverse();
-  const child = categories.filter(category => category.cParentCategory !== null);
-  const childCategories = child.filter(category => 
-    category.cParentCategory && selectedParentCategory && 
+  const childCategories = categories.filter(category =>
+    category.cParentCategory && selectedParentCategory &&
     category.cParentCategory._id === selectedParentCategory
   ).reverse();
-  
-  
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -55,12 +58,11 @@ const ShopComponent = () => {
       fetchProducts();
     }
   }, [selectedCategory]);
+
   const handleCategorySelection = (categoryId) => {
-    history.push(`/products/category/${categoryId}`); // Navigate to category-specific route
+    history.push(`/products/category/${categoryId}`);
   };
-  // const handleHotSaleSelection = (categoryId) => {
-  //   history.push(`/products/category/${categoryId}`); // Navigate to category-specific route
-  // };
+
   return (
     <Fragment>
       <div style={{ marginTop: '126px', display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem', paddingLeft: '20px' }}>
@@ -70,46 +72,32 @@ const ShopComponent = () => {
             <h3>Categories</h3>
           </div>
           <ul>
-          {/* <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-              <ul>
-                  <li
-                    key= "hot sale"
-                    onClick={() => setSelectedParentCategory("")}
-                    style={{ cursor: 'pointer', fontWeight:'bold' }}
-                  >
-                    Hot Sale
-                  </li>
-              </ul>
-            </div> */}
             {/* Parent Categories */}
-            <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-              <ul>
-                {parentCategories.map(parentCategory => (
-                  <li
-                    key={parentCategory._id}
-                    onClick={() => setSelectedParentCategory(parentCategory._id)}
-                    style={{ cursor: 'pointer', fontWeight: selectedParentCategory === parentCategory._id ? 'bold' : 'normal' }}
-                  >
-                    {parentCategory.cName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Child Categories */}
-            <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-              <ul>
-                {childCategories.map(childCategory => (
-                  <li
-                    key={childCategory._id}
-                    onClick={() => handleCategorySelection(childCategory._id)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {childCategory.cName}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="slidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
+            <ul>
+            {parentCategories.map(parentCategory => (
+              <CategoryItem
+                key={parentCategory._id}
+                category={parentCategory}
+                onClick={() => setSelectedParentCategory(parentCategory._id)}
+                isSelected={selectedParentCategory === parentCategory._id}
+              >
+                {/* Child Categories */}
+                {selectedParentCategory === parentCategory._id && (
+                  <ul>
+                    {childCategories.map(childCategory => (
+                      <CategoryItem
+                        key={childCategory._id}
+                        category={childCategory}
+                        onClick={() => handleCategorySelection(childCategory._id)}
+                        isSelected={selectedCategory === childCategory._id}
+                      />
+                    ))}
+                  </ul>
+                )}
+              </CategoryItem>
+            ))}
+            </ul></div>
           </ul>
         </div>
         {/* Main Content Section */}
@@ -127,6 +115,7 @@ const ShopComponent = () => {
     </Fragment>
   );
 };
+
 const Shop = (props) => {
   const [data, dispatch] = useReducer(homeReducer, homeState);
   return (

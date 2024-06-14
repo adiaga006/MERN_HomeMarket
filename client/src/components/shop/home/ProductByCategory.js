@@ -11,9 +11,18 @@ import { totalCost } from "../partials/Mixins";
 import { cartListProduct } from "../partials/FetchApi";
 import { getAllCategory } from "../../admin/categories/FetchApi";
 import { HomeContext } from "../home";
+
+const CategoryItem = ({ category, onClick, isSelected, children }) => (
+  <li onClick={onClick} style={{ cursor: 'pointer', fontWeight: isSelected ? 'bold' : 'normal' }}>
+    {category.cName}
+    {children}
+  </li>
+);
+
 const Sidebar = () => {
   const [categories, setCategories] = useState([]);
   const history = useHistory();
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [selectedParentCategory, setSelectedParentCategory] = useState(null);
   const parentCategories = categories.filter(category => category.cParentCategory == null).reverse();
@@ -33,6 +42,7 @@ const Sidebar = () => {
   }, []);
 
   const handleCategorySelection = (categoryId) => {
+    setSelectedCategory(categoryId);
     history.push(`/products/category/${categoryId}`);
   };
 
@@ -49,33 +59,30 @@ const Sidebar = () => {
         ))}
       </ul> */}
       <ul>
-        <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-          <ul>
+      <div style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
             {parentCategories.map(parentCategory => (
-              <li
+              <CategoryItem
                 key={parentCategory._id}
+                category={parentCategory}
                 onClick={() => setSelectedParentCategory(parentCategory._id)}
-                style={{ cursor: 'pointer', fontWeight: selectedParentCategory === parentCategory._id ? 'bold' : 'normal' }}
+                isSelected={selectedParentCategory === parentCategory._id}
               >
-                {parentCategory.cName}
-              </li>
+                {/* Child Categories */}
+                {selectedParentCategory === parentCategory._id && (
+                  <ul>
+                    {childCategories.map(childCategory => (
+                      <CategoryItem
+                        key={childCategory._id}
+                        category={childCategory}
+                        onClick={() => handleCategorySelection(childCategory._id)}
+                        isSelected={selectedCategory === childCategory._id}
+                      />
+                    ))}
+                  </ul>
+                )}
+              </CategoryItem>
             ))}
-          </ul>
-        </div>
-
-        <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '1rem' }}>
-          <ul>
-            {childCategories.map(childCategory => (
-              <li
-                key={childCategory._id}
-                onClick={() => handleCategorySelection(childCategory._id)}
-                style={{ cursor: 'pointer' }}
-              >
-                {childCategory.cName}
-              </li>
-            ))}
-          </ul>
-        </div>
+            </div>
       </ul>
     </div>
   );
@@ -140,7 +147,7 @@ const AllProduct = ({ products }) => {
       <Submenu category={category} />
       <section className="m-4 md:mx-8 md:my-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products && products.length > 0 ? (
-          products.map((item, index) => {
+          products.sort((a, b) => b.pOffer - a.pOffer).map((item, index) => {
             return (
               <Fragment key={index}>
                 <div className="col-sm-12 col-md-6 col-lg-12 my-3 p-4">
