@@ -31,9 +31,68 @@
   margin: 0;
   row-gap: 5px;
   text-shadow: rgba(0, 0, 0, 0.004) 1px 1px 1px;
-  width: 1100px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.product-footer {
+  box-sizing: border-box;
+  color: rgb(51, 51, 51);
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  flex-wrap: wrap;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  height: 60px; /* Note: this seems unusually large, please verify */
+  line-height: 19.5px;
+  padding-right: 0px;
+  text-shadow: rgba(0, 0, 0, 0.004) 1px 1px 1px;
+  text-size-adjust: 100%;
+  transition: padding-right 0.35s ease-in-out;
+  unicode-bidi: isolate;
+  width: 1100px; /* Note: this seems unusually large, please verify */
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.show-more {
+  align-items: center;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-image: none;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  box-sizing: border-box;
+  color: rgb(237, 28, 36);
+  cursor: pointer;
+  display: flex;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  height: 40px;
+  justify-content: center;
+  line-height: 21px;
+  margin: auto; /* Center the button horizontally */
+  margin-top: 10px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  position: relative;
+  text-shadow: rgba(0, 0, 0, 0.004) 1px 1px 1px;
+  text-size-adjust: 100%;
+  unicode-bidi: isolate;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
 
 
 .slider {
