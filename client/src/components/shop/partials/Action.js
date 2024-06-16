@@ -37,7 +37,7 @@ export const addDiscount = async ({
               );
               if (checkOrderDiscount.length > 0) {
                 for (const order of checkOrderDiscount) {
-                  if (order.addDiscount != null) {
+                  if (order.allDiscount != null) {
                     for (const orderDiscount of order.allDiscount) {
                       if (orderDiscount.id._id === discount._id) {
                         setError("Users have used this discount before")
@@ -48,10 +48,8 @@ export const addDiscount = async ({
                 }
                 if (discounts != null) {
                   discounts.forEach((dis) => {
-                    console.log(dis.id)
-                    console.log(discount._id);
                     if (dis.id === discount._id) {
-                      Alert("Discount was applied successfully")
+                      setError("Discount was applied successfully")
                       return false;
                     }
                   });
