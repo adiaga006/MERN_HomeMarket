@@ -22,7 +22,7 @@ const FilterForm = () => {
       try {
         const response = await getAllCategory();
         if (response && response.Categories) {
-          setCategories(response.Categories);
+          setCategories(response.Categories.filter(category => category.cParentCategory !== null).reverse());
         }
       } catch (error) {
         console.log("Error fetching categories:", error);

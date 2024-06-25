@@ -28,6 +28,15 @@ export const getOrderByUser = async (uId) => {
   }
 };
 
+export const getDiscountByUser = async () => {
+  try {
+    let res = await axios.get(`${apiURL}/api/discount/all-discount`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updatePassword = async (formData) => {
   try {
     let res = await axios.post(`${apiURL}/api/user/change-password`, formData);

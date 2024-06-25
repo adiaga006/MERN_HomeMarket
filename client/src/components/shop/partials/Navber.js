@@ -198,6 +198,15 @@ const Navber = (props) => {
                             <span>My Wishlist</span>
                           </span>
                           <span
+                            onClick={(e) => history.push("/user/discount")}
+                            className="flex space-x-2 py-2 px-8 hover:bg-gray-400 cursor-pointer"
+                          >
+                            <span>
+                            <i className="fa fa-percent" style={{ fontSize: "24px" }}></i>
+                            </span>
+                            <span>Discount Available</span>
+                          </span>
+                          <span
                             onClick={(e) => history.push("/user/setting")}
                             className="flex space-x-1 py-2 px-8 hover:bg-gray-400 cursor-pointer"
                           >

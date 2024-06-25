@@ -111,9 +111,11 @@ const SingleProduct = (props) => {
 
           return (
             <div id={category.cName} key={category._id}>
-              <div className="category-header">
-                <h2>{category.cName}</h2>
-              </div>
+              {productsInCategory.length > 0 && (
+                <div className="category-header">
+                  <h2>{category.cName}</h2>
+                </div>
+              )}
               <div className="product-list">
                 {products && products.length > 0 ? (
                   productsInCategory

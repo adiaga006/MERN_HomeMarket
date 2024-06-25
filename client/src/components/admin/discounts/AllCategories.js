@@ -89,7 +89,7 @@ const AllCategory = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Code</th>
               <th className="px-4 py-2 border">Method</th>
               <th className="px-4 py-2 border">Amount</th>
               <th className="px-4 py-2 border">Percent</th>

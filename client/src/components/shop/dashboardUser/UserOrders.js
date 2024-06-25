@@ -54,7 +54,7 @@ const TableBody = ({ order }) => {
               {order.status}
             </span>
           )}
-          {order.status === "Shipped" && (
+          {order.status === "Shipping" && (
             <span className="block text-blue-600 rounded-full text-center text-xs px-2 font-semibold">
               {order.status}
             </span>
@@ -92,7 +92,7 @@ const TableBody = ({ order }) => {
 const OrdersComponent = () => {
   const { data, dispatch } = useContext(DashboardUserContext);
   const { OrderByUser: orders } = data;
-
+  
   useEffect(() => {
     fetchOrderByUser(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,7 +140,7 @@ const OrdersComponent = () => {
                       colSpan="8"
                       className="text-xl text-center font-semibold py-8"
                     >
-                      No user found
+                      No order found
                     </td>
                   </tr>
                 )}

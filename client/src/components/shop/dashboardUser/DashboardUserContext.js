@@ -2,6 +2,7 @@ export const dashboardUserState = {
   userDetails: null,
   loading: false,
   OrderByUser: null,
+  DiscountByUser: null
 };
 
 export const dashboardUserReducer = (state, action) => {
@@ -15,6 +16,11 @@ export const dashboardUserReducer = (state, action) => {
       return {
         ...state,
         OrderByUser: action.payload,
+      };
+    case "DiscountByUser":
+      return {
+        ...state,
+        DiscountByUser: action.payload,
       };
     case "loading":
       return {

@@ -12,7 +12,7 @@ import {
   CheckoutPage,
 } from "./shop";
 import { DashboardAdmin, Categories, Products, Orders, Users, Discounts, ProductStatistics, UserStatistics } from "./admin";
-import { UserProfile, UserOrders, SettingUser } from "./shop/dashboardUser";
+import { UserProfile, UserOrders, UserDiscount, SettingUser } from "./shop/dashboardUser";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ConfirmSignup from "./shop/auth/ConfirmSignup";
@@ -98,6 +98,11 @@ const Routes = (props) => {
           exact={true}
           path="/user/setting"
           component={SettingUser}
+        />
+        <ProtectedRoute
+          exact={true}
+          path="/user/discount"
+          component={UserDiscount}
         />
         {/* User Dashboard End */}
 

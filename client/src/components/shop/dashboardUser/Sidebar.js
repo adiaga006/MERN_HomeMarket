@@ -57,6 +57,16 @@ const Sidebar = (props) => {
           </div>
           <hr />
           <div
+            onClick={(e) => history.push("/user/discount")}
+            className={`${location.pathname === "/user/discount"
+                ? "border-r-4 border-yellow-700 bg-gray-200"
+                : ""
+              }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
+          >
+            Discount Available
+          </div>
+          <hr />
+          <div
             onClick={(e) => history.push("/user/setting")}
             className={`${location.pathname === "/user/setting"
                 ? "border-r-4 border-yellow-700 bg-gray-200"
