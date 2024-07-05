@@ -378,7 +378,7 @@ const AddProductModal = (props) => {
   const fetchCategoryData = async () => {
     let responseData = await getAllCategory();
     if (responseData.Categories) {
-      setAllCat(responseData.Categories);
+      setAllCat(responseData.Categories.filter(category => category.cParentCategory !== null).reverse())
     }
   };
 

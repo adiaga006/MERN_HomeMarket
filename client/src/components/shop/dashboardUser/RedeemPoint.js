@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useContext } from "react";
 import moment from "moment";
-import { fetchDiscountByUser } from "./Action";
+import { createDiscount, fetchRedeemPoint, generateRandomCode } from "./Action";
 import Layout, { DashboardUserContext } from "./Layout";
+import { getOrderByUser, getSingleUser, getTotalPoint } from "./FetchApi";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
@@ -10,26 +11,70 @@ const TableHeader = () => {
     <Fragment>
       <thead>
         <tr>
-          <th className="px-4 py-2 border">Code</th>
+          <th className="px-4 py-2 border">Point</th>
           <th className="px-4 py-2 border">Category</th>
           <th className="px-4 py-2 border">Method</th>
           <th className="px-4 py-2 border">Amount</th>
           <th className="px-4 py-2 border">Percent</th>
+          <th className="px-4 py-2 border">Redeem</th>
         </tr>
       </thead>
     </Fragment>
   );
 };
 
-const TableBody = ({ order }) => {
+const TableBody = ({ order, points, spendPoints }) => {
+
+  const handleDiscountClick = async () => {
+    if (points >= order.rPoint) {
+      try {
+        let dName = generateRandomCode(10)
+        const response = await createDiscount({
+          dName: dName,
+          dMethod : order.rMethod,
+          dAmount: order.rAmount,
+          dPercent: order.rPercent,
+          dCategory: order.rCategory,
+          dApply: "Yes",
+          dUser: JSON.parse(localStorage.getItem("jwt")).user,
+          dStatus: "Active",
+          point: spendPoints + order.rPoint
+        });
+        window.location.reload()
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   return (
     <Fragment>
       <tr className="border-b">
-        <td className="hover:bg-gray-200 p-2 text-center">{order.dName}</td>
-        <td className="hover:bg-gray-200 p-2 text-center">{(order.dCategory.cName)}</td>
-        <td className="hover:bg-gray-200 p-2 text-center">{order.dMethod}</td>
-        <td className="hover:bg-gray-200 p-2 text-center">{order.dAmount}.000 VNĐ</td>
-        <td className="hover:bg-gray-200 p-2 text-center">{order.dPercent}%</td>
+        <td className="hover:bg-gray-200 p-2 text-center">{order.rPoint}</td>
+        <td className="hover:bg-gray-200 p-2 text-center">{(order.rCategory.cName)}</td>
+        <td className="hover:bg-gray-200 p-2 text-center">{order.rMethod}</td>
+        <td className="hover:bg-gray-200 p-2 text-center">{order.rAmount}.000 VNĐ</td>
+        <td className="hover:bg-gray-200 p-2 text-center">{order.rPercent}%</td>
+        {points >= order.rPoint ? (
+          <Fragment>
+            <div
+              onClick={handleDiscountClick}
+              style={{ background: "#303031" }}
+              className={`px-4 py-2 text-white text-center cursor-pointer uppercase`}
+            >
+              Redeem Now
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div
+              style={{ background: "#303031" }}
+              disabled={true}
+              className="px-4 py-2 text-white opacity-50 cursor-not-allowed text-center uppercase"
+            >
+              Not Enough Points
+            </div>
+          </Fragment>
+        )}
       </tr>
     </Fragment>
   );
@@ -37,12 +82,23 @@ const TableBody = ({ order }) => {
 
 const OrdersComponent = () => {
   const { data, dispatch } = useContext(DashboardUserContext);
-  const { DiscountByUser: orders } = data;
-  
+  const { RedeemPoint: orders } = data;
+  const { TotalPoint: totalPoints} = data;
+  const { userDetails: user } = data;
+
   useEffect(() => {
-    fetchDiscountByUser(dispatch);
+    fetchRedeemPoint(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  let spendPoints;
+  if (user !== null && user.point !== undefined) {
+    spendPoints = user.point;
+  } else {
+    spendPoints = 0;
+  }
+
+  let points = totalPoints - spendPoints;
 
   if (data.loading) {
     return (
@@ -69,7 +125,7 @@ const OrdersComponent = () => {
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
         <div className="border">
           <div className="py-4 px-4 text-lg font-semibold border-t-2 border-yellow-700">
-            Discount Available
+            Your Point: {points}
           </div>
           <hr />
           <div className="overflow-auto bg-white shadow-lg p-4">
@@ -78,7 +134,7 @@ const OrdersComponent = () => {
               <tbody>
                 {orders && orders.length > 0 ? (
                   orders.map((item, i) => {
-                    return <TableBody key={i} order={item} />;
+                    return <TableBody key={i} order={item} points={points} spendPoints={spendPoints}  />;
                   })
                 ) : (
                   <tr>
@@ -86,14 +142,14 @@ const OrdersComponent = () => {
                       colSpan="8"
                       className="text-xl text-center font-semibold py-8"
                     >
-                      No discount found
+                      No redeem point found
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
             <div className="text-sm text-gray-600 mt-2">
-              Total {orders && orders.length} discount found
+              Total {orders && orders.length} redeem point found
             </div>
           </div>
         </div>

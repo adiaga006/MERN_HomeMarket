@@ -1,8 +1,12 @@
+import { RedeemPoint } from ".";
+
 export const dashboardUserState = {
   userDetails: null,
   loading: false,
   OrderByUser: null,
-  DiscountByUser: null
+  DiscountByUser: null,
+  RedeemPoint: null,
+  TotalPoint: 0,
 };
 
 export const dashboardUserReducer = (state, action) => {
@@ -21,6 +25,16 @@ export const dashboardUserReducer = (state, action) => {
       return {
         ...state,
         DiscountByUser: action.payload,
+      };
+    case "RedeemPoint":
+      return {
+        ...state,
+        RedeemPoint: action.payload,
+      };
+    case "TotalPoint":
+      return {
+        ...state,
+        TotalPoint: action.payload,
       };
     case "loading":
       return {

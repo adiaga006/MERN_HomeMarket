@@ -58,7 +58,7 @@ export const addDiscount = async ({
                 // Kiem tra xem co san pham nao trong cart ap dung duoc discount khong
                 carts.forEach((item) => {
                   if (item.category._id === discount.dCategory._id) {
-                    addToCart(discount._id, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent)
+                    addToCart(discount._id, discount.dName, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent, discount.dUser)
                     discountApplied = true;
                     return true;
                   }
@@ -69,7 +69,7 @@ export const addDiscount = async ({
                 }
               }
               else {
-                addToCart(discount._id, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent)
+                addToCart(discount._id, discount.dName, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent, discount.dUser)
                 return true;
               }
             } else {

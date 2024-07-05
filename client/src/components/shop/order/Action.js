@@ -68,7 +68,7 @@ export const pay = async (
                 allDiscount: JSON.parse(localStorage.getItem("discount")),
               };
               try {
-                let resposeData = await createOrder(orderData);
+                let resposeData = await createOrder(orderData, JSON.parse(localStorage.getItem("discount")));
                 if (resposeData.success) {
                   localStorage.setItem("cart", JSON.stringify([]));
                   localStorage.setItem("discount", JSON.stringify([]));

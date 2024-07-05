@@ -101,10 +101,12 @@ export const totalCost = () => {
 
 export const addToCart = (
   id,
+  name,
   category,
   method,
   amount,
   percent,
+  user
 ) => {
   let isObj = false;
   let discount = localStorage.getItem("discount")
@@ -117,11 +119,17 @@ export const addToCart = (
       }
     });
     if (!isObj) {
-      discount.push({ id, category, method, amount, percent });
+      if (user === undefined) {
+        user = null;
+      }
+      discount.push({ id, name, category, method, amount, percent, user });
       localStorage.setItem("discount", JSON.stringify(discount));
     }
   } else {
-    discount.push({ id, category, method, amount, percent });
+    if (user === undefined) {
+      user = null;
+    }
+    discount.push({ id, name, category, method, amount, percent, user });
     localStorage.setItem("discount", JSON.stringify(discount));
   }
 };

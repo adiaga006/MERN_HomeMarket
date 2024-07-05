@@ -6,7 +6,7 @@ class User {
   async getAllUser(req, res) {
     try {
       let Users = await userModel
-        .find({ verified: "true"  })
+        .find({ verified: "true" })
         .sort({ _id: -1 });
       if (Users) {
         return res.json({ Users });
@@ -24,7 +24,7 @@ class User {
       try {
         let User = await userModel
           .findById(uId)
-          .select("name email phoneNumber userImage updatedAt createdAt");
+          .select("name email phoneNumber userImage point updatedAt createdAt");
         if (User) {
           return res.json({ User });
         }
@@ -57,7 +57,7 @@ class User {
       if (!uId || !name) {
         return res.status(400).json({ message: "All fields must be required" });
       }
-      
+
 
       if (!req.file || !req.file.path) {
         const currentUser = await userModel.findByIdAndUpdate(uId, {
@@ -73,13 +73,13 @@ class User {
         if (deleteUserImage && deleteUserImage.userImage) {
           await cloudinary.v2.uploader.destroy(deleteUserImage.userImage.public_id);
         }
-  
+
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
           folder: 'avatars',
           width: 150,
           crop: "scale"
         });
-  
+
         const currentUser = await userModel.findByIdAndUpdate(uId, {
           name: name,
           phoneNumber: phoneNumber,
@@ -97,7 +97,24 @@ class User {
       return res.status(500).json({ error: "An error occurred while updating user" });
     }
   }
-  
+
+  async postUpdatePointUser(req, res) {
+    const { uId, point } = req.body;
+
+    if (!uId || !point) {
+      return res.status(400).json({ message: "All fields must be required" });
+    } else {
+      let currentUser = userModel.findByIdAndUpdate(uId, {
+        point: point,
+        updatedAt: Date.now(),
+      });
+      currentUser.exec((err, result) => {
+        if (err) console.log(err);
+        return res.json({ success: "User updated successfully" });
+      });
+    }
+  }
+
   async getDeleteUser(req, res) {
     let { oId, status } = req.body;
     if (!oId || !status) {

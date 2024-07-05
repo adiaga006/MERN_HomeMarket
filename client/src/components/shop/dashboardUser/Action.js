@@ -5,6 +5,8 @@ import {
   getOrderByUser,
   updatePassword,
   getDiscountByUser,
+  getAllRedeemPoint,
+  getTotalPoint,
 } from "./FetchApi";
 
 import { getAllOrder } from "../../admin/orders/FetchApi";
@@ -66,8 +68,9 @@ export const fetchDiscountByUser = async (dispatch) => {
     // Lấy danh sách các order từ getAllOrder
     let responseOrderData = await getAllOrder();
 
-    // Lấy danh sách discount chưa hêt hạn
-    let discountNotExpires = responseData.Discounts.filter(discount => discount.dApply === "Yes")
+    // Lấy danh sách discount chưa hết hạn
+    let discountNotExpires = responseData.Discounts.filter(discount => discount.dApply === "Yes" && (discount.dUser === userId || discount.dUser == null))
+    
     // Lọc các order của user và có discount
     let checkOrderDiscount = responseOrderData.Orders.filter((item) =>
       item.user._id === userId && item.allDiscount && item.allDiscount.length > 0
@@ -90,7 +93,25 @@ export const fetchDiscountByUser = async (dispatch) => {
     console.log(error);
   }
 };
-
+export const fetchRedeemPoint = async (dispatch) => {
+  dispatch({ type: "loading", payload: true });
+  let userId = JSON.parse(localStorage.getItem("jwt"))
+    ? JSON.parse(localStorage.getItem("jwt")).user._id
+    : "";
+  try {
+    let responseData = await getAllRedeemPoint();
+    let totalPoint = await getTotalPoint(userId);
+    setTimeout(() => {
+      if (responseData && responseData.redeemPoints) {
+        dispatch({ type: "RedeemPoint", payload: responseData.redeemPoints });
+        dispatch({ type: "TotalPoint", payload: totalPoint });
+        dispatch({ type: "loading", payload: false });
+      }
+    }, 500);
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const updatePersonalInformationAction = async (dispatch, user) => {
   let formData = new FormData();
   if (user.editAvatar) {
@@ -158,4 +179,75 @@ export const handleChangePassword = async (fData, setFdata, dispatch) => {
       console.log(error);
     }
   }
+};
+const BearerToken = () =>
+  localStorage.getItem("jwt")
+    ? JSON.parse(localStorage.getItem("jwt")).token
+    : false;
+
+const Headers = () => {
+  return {
+    headers: {
+      token: `Bearer ${BearerToken()}`,
+    },
+  };
+};
+
+export const createDiscount = async ({
+  dName,
+  dMethod,
+  dAmount,
+  dPercent,
+  dCategory,
+  dApply,
+  dUser,
+  dStatus,
+  point
+}) => {
+  try {
+    let res = await axios.post(
+      `${apiURL}/api/discount/add-discount`,
+      {
+        dName,
+        dMethod,
+        dAmount,
+        dPercent,
+        dCategory,
+        dApply,
+        dUser,
+        dStatus
+      },
+      {
+        ...Headers(),
+        'content-type': 'application/json'
+      }
+    );
+    console.log(res.data);
+    if (res.data && res.data.success === 'Discount created successfully') {
+
+      await updatePointUser(dUser._id, point);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePointUser = async (uId, point) => {
+  let data = { uId: uId, point: point };
+  try {
+    let res = await axios.post(`${apiURL}/api/user/update-point-user`, data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const generateRandomCode = (length) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+  for (let i = 0; i < length; i++) {
+    code += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return code;
 };
