@@ -30,10 +30,11 @@ class Discount {
     }
   }
   async postAddDiscount(req, res) {
-    let { dName,  dMethod, dAmount, dPercent, dCategory, dApply, dStatus} = req.body;
+    let { dName,  dMethod, dAmount, dPercent, dCategory, dApply, dUser, dStatus} = req.body;
     //let cImage = req.file.filename;
     //const filePath = `../server/public/uploads/categories/${cImage}`;
-    console.log(dCategory);
+    console.log(dName, dMethod, dAmount, dPercent, dCategory, dApply);
+    
     if (!dName || !dMethod || !dCategory || !dApply || !dStatus) {
         return res.json({ error: "All filled must be required" });
      
@@ -52,6 +53,7 @@ class Discount {
             dPercent,
             dCategory,
             dApply,
+            dUser,
             dStatus
           });
           await newDiscount.save((err) => {
@@ -67,7 +69,7 @@ class Discount {
   }
 
   async postEditDiscount(req, res) {
-    let { dId, dName, dMethod, dAmount, dPercent, dCategory,  dApply, dStatus } = req.body;
+    let { dId, dName, dMethod, dAmount, dPercent, dCategory, dApply, dUser, dStatus } = req.body;
     
     if (!dId || !dName || !dMethod || !dCategory || !dApply || !dStatus) {
       return res.json({ error: "All fields must be required" });
@@ -90,6 +92,7 @@ class Discount {
         dPercent,
         dCategory,
         dApply,
+        dUser,
         dStatus,
         updatedAt: Date.now()
       };

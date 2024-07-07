@@ -38,6 +38,7 @@ const orderRouter = require("./routes/orders");
 const usersRouter = require("./routes/users");
 const customizeRouter = require("./routes/customize");
 const discountRouter = require("./routes/discounts");
+const redeemRouter = require("./routes/redeemPoints");
 
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
@@ -48,7 +49,7 @@ CreateAllFolder();
 
 // Database Connection
 mongoose
-  .connect(process.env.DB_CLOUD, {
+  .connect(process.env.DB_LOCAL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -102,6 +103,7 @@ app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
 app.use("/api/discount", discountRouter);
+app.use("/api/redeem", redeemRouter);
 
 // Run Server
 const PORT = process.env.PORT || 8000;

@@ -133,12 +133,13 @@ class Auth {
                 password: hashedPassword,
                 otp,
                 userRole: 0,
+                point: 0,
               });
           
               try {
                 // Save new user to the database
                 const savedUser = await newUser.save();
-          
+
                 // Send OTP email
                 sendOTPEmail(email, otp);
           
@@ -172,12 +173,14 @@ class Auth {
               password: hashedPassword,
               otp,
               userRole: 0,
+              point: 0,
             });
           
             try {
               // Save new user to the database
               const savedUser = await newUser.save();
-          
+
+              console.log(savedUser);
               // Send OTP email
               sendOTPEmail(email, otp);
           
@@ -202,6 +205,7 @@ class Auth {
       }    
     }
   }
+  
   async confirmSignup(req, res) {
     const { email, otp } = req.body;
   
@@ -253,7 +257,7 @@ class Auth {
         const login = await bcrypt.compare(password, data.password);
         if (login) {
           const token = jwt.sign(
-            { _id: data._id, role: data.userRole },
+            { _id: data._id, role: data.userRole, point: data.point },
             JWT_SECRET
           );
           const encode = jwt.verify(token, JWT_SECRET);

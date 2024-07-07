@@ -1,13 +1,13 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { editCategory, getAllDiscount_Admin } from "./FetchApi";
+import { editRedeemPoint, getAllRedeemPoint_Admin } from "./FetchApi";
 import { getAllCategory } from "../categories/FetchApi";
 
 const EditCategoryModal = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
 
-  const [dId, setdId] = useState("");
-  const [name, setName] = useState("");
+  const [rId, setrId] = useState("");
+  const [point, setPoint] = useState(0);
   const [method, setMethod] = useState("");
   const [amount, setAmount] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -19,8 +19,8 @@ const EditCategoryModal = (props) => {
 
 
   useEffect(() => {
-    setdId(data.editCategoryModal.dId);
-    setName(data.editCategoryModal.name); // Add this line
+    setrId(data.editCategoryModal.rId);
+    setPoint(data.editCategoryModal.point); // Add this line
     setMethod(data.editCategoryModal.method);
     setAmount(data.editCategoryModal.amount);
     setPercent(data.editCategoryModal.percent);
@@ -56,18 +56,18 @@ const EditCategoryModal = (props) => {
   };
 
   const fetchData = async () => {
-    let responseData = await getAllDiscount_Admin();
-    if (responseData.Disounts) {
+    let responseData = await getAllRedeemPoint_Admin();
+    if (responseData.redeemPoints) {
       dispatch({
         type: "fetchCategoryAndChangeState",
-        payload: responseData.Disounts,
+        payload: responseData.redeemPoints,
       });
     }
   };
 
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let edit = await editCategory(dId, name, method, amount, percent, category, apply, status); // Update this line
+    let edit = await editRedeemPoint(rId, point, method, amount, percent, category, apply, status); // Update this line
     if (edit.error) {
       setError(edit.error);
       // dispatch({ type: "loading", payload: false });
@@ -99,7 +99,7 @@ const EditCategoryModal = (props) => {
         <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Edit Discount
+              Edit Redeem Point
             </span>
             {/* Close Modal */}
             <span
@@ -131,18 +131,18 @@ const EditCategoryModal = (props) => {
           )}
           <form className="w-full">
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="name">Discount Name</label>
+              <label htmlFor="name">Point</label>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={point}
+                onChange={(e) => setPoint(e.target.value)}
                 className="px-4 py-2 border focus:outline-none"
                 name="name"
                 id="name"
               />
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Discount Method</label>
+              <label htmlFor="method">Method</label>
               <select
                 value={method}
                 name="method"
@@ -160,7 +160,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Discount Amount</label>
+                <label htmlFor="amount">Amount</label>
                 <input
                   type="text"
                   value={amount}
@@ -182,7 +182,7 @@ const EditCategoryModal = (props) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Discount Percent</label>
+                <label htmlFor="percent">Percent</label>
                 <input
                   type="text"
                   value={percent}
@@ -205,7 +205,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="discount">Discount Category *</label>
+                <label htmlFor="discount">Category *</label>
                 <select
                   onChange={(e) => setCategory(e.target.value)}
                   name="discount"
@@ -245,7 +245,7 @@ const EditCategoryModal = (props) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="apply">Discount Apply</label>
+                <label htmlFor="apply">Apply</label>
                 <select
                   value={apply}
                   name="apply"
@@ -263,7 +263,7 @@ const EditCategoryModal = (props) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Discount Status</label>
+              <label htmlFor="status">Status</label>
               <select
                 value={status}
                 name="status"
@@ -285,7 +285,7 @@ const EditCategoryModal = (props) => {
                 onClick={(e) => submitForm()}
                 className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
               >
-                Update Discount
+                Update Redeem Point
               </button>
             </div>
           </form>

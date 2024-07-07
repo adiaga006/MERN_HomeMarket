@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { createCategory, getAllDiscount_Admin } from "./FetchApi";
+import { createRedeemPoint, getAllRedeemPoint_Admin } from "./FetchApi";
 import { getAllCategory } from "../categories/FetchApi";
 
 const AddCategoryModal = ({ categories }) => {
@@ -11,23 +11,23 @@ const AddCategoryModal = ({ categories }) => {
   );
 
   const [fData, setFdata] = useState({
-    dName: "",
-    dMethod: "Amount",
-    dAmount: 0,
-    dPercent: 0,
-    dCategory: "",
-    dApply: "Yes",
-    dStatus: "Active",
+    rPoint: 0,
+    rMethod: "Amount",
+    rAmount: 0,
+    rPercent: 0,
+    rCategory: "",
+    rApply: "Yes",
+    rStatus: "Active",
     success: false,
     error: false,
   });
 
   const fetchData = async () => {
-    let responseData = await getAllDiscount_Admin();
-    if (responseData.Discounts) {
+    let responseData = await getAllRedeemPoint_Admin();
+    if (responseData.redeemPoints) {
       dispatch({
         type: "fetchCategoryAndChangeState",
-        payload: responseData.Discounts,
+        payload: responseData.redeemPoints,
       });
     }
   };
@@ -49,17 +49,18 @@ const AddCategoryModal = ({ categories }) => {
     e.target.reset();
 
     try {
-      let responseData = await createCategory(fData);
+      let responseData = await createRedeemPoint(fData);
       if (responseData.success) {
         fetchData();
         setFdata({
           ...fData,
-          dName: "",
-          dAmount: 0,
-          dPercent: 0,
-          dCategory: "",
-          dApply: "",
-          dStatus: "Active",
+          rPoint: "",
+          rMethod: "Amount",
+          rAmount: 0,
+          rPercent: 0,
+          rCategory: "",
+          rApply: "",
+          rStatus: "Active",
           success: responseData.success,
           error: false,
         });
@@ -67,12 +68,13 @@ const AddCategoryModal = ({ categories }) => {
         setTimeout(() => {
           setFdata({
             ...fData,
-            dName: "",
-            dAmount: 0,
-            dPercent: 0,
-            dCategory: "",
-            dApply: "",
-            dStatus: "Active",
+            rPoint: 0,
+            rMethod: "Amount",
+            rAmount: 0,
+            rPercent: 0,
+            rCategory: "",
+            rApply: "",
+            rStatus: "Active",
             success: false,
             error: false,
           });
@@ -107,7 +109,7 @@ const AddCategoryModal = ({ categories }) => {
         <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Add Discount
+              Add Redeem Point
             </span>
             {/* Close Modal */}
             <span
@@ -137,35 +139,35 @@ const AddCategoryModal = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Discount Name</label>
+              <label htmlFor="name">Point</label>
               <input
                 onChange={(e) =>
                   setFdata({
                     ...fData,
                     success: false,
                     error: false,
-                    dName: e.target.value,
+                    rPoint: e.target.value,
                   })
                 }
-                value={fData.dName}
+                value={fData.rPoint}
                 className="px-4 py-2 border focus:outline-none"
-                type="text"
+                type="number"
               />
             </div>
 
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Discount Method</label>
+              <label htmlFor="method">Method</label>
               <select
                 name="method"
                 onChange={(e) => {
                   setFdata({
                     ...fData,
-                    dMethod: e.target.value,
-                    dAmount: 0,
-                    dPercent: 0,
+                    rMethod: e.target.value,
+                    rAmount: 0,
+                    rPercent: 0,
                   });
                 }}
-                value={fData.dMethod}
+                value={fData.rMethod}
                 className="px-4 py-2 border focus:outline-none"
                 id="method"
               >
@@ -175,9 +177,9 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Discount Amount</label>
+                <label htmlFor="amount">Amount</label>
                 <input
-                  value={fData.dAmount}
+                  value={fData.rAmount}
                   onChange={(e) => {
                     const inputAmount = e.target.value;
                     let newAmount = inputAmount;
@@ -191,19 +193,19 @@ const AddCategoryModal = ({ categories }) => {
                       ...fData,
                       error: false,
                       success: false,
-                      dAmount: newAmount,
+                      rAmount: newAmount,
                     })
                   }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="amount"
-                  disabled={fData.dMethod === "Percent"}
+                  disabled={fData.rMethod === "Percent"}
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Discount Percent</label>
+                <label htmlFor="percent">Percent</label>
                 <input
-                  value={fData.dPercent}
+                  value={fData.rPercent}
                   onChange={(e) => {
                     const inputPercent = e.target.value;
                     let newPercent = inputPercent;
@@ -217,27 +219,27 @@ const AddCategoryModal = ({ categories }) => {
                       ...fData,
                       error: false,
                       success: false,
-                      dPercent: newPercent
+                      rPercent: newPercent
                     })
                   }}
                   type="number"
                   className="px-4 py-2 border focus:outline-none"
                   id="offer"
-                  disabled={fData.dMethod === "Amount"}
+                  disabled={fData.rMethod === "Amount"}
                 />
               </div>
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="status">Discount Category *</label>
+                <label htmlFor="status">Category *</label>
                 <select
-                  value={fData.dCategory}
+                  value={fData.rCategory}
                   onChange={(e) =>
                     setFdata({
                       ...fData,
                       error: false,
                       success: false,
-                      dCategory: e.target.value,
+                      rCategory: e.target.value,
                     })
                   }
                   name="status"
@@ -259,7 +261,7 @@ const AddCategoryModal = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="apply">Discount Apply</label>
+                <label htmlFor="apply">Apply</label>
                 <select
                   name="apply"
                   onChange={(e) =>
@@ -267,7 +269,7 @@ const AddCategoryModal = ({ categories }) => {
                       ...fData,
                       success: false,
                       error: false,
-                      dApply: e.target.value,
+                      rApply: e.target.value,
                     })
                   }
                   className="px-4 py-2 border focus:outline-none"
@@ -279,7 +281,7 @@ const AddCategoryModal = ({ categories }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Discount Status</label>
+              <label htmlFor="status">Status</label>
               <select
                 name="status"
                 onChange={(e) =>
@@ -287,7 +289,7 @@ const AddCategoryModal = ({ categories }) => {
                     ...fData,
                     success: false,
                     error: false,
-                    dStatus: e.target.value,
+                    rStatus: e.target.value,
                   })
                 }
                 className="px-4 py-2 border focus:outline-none"
@@ -303,7 +305,7 @@ const AddCategoryModal = ({ categories }) => {
                 type="submit"
                 className="bg-gray-800 text-gray-100 rounded-full text-lg font-medium py-2"
               >
-                Create Discount
+                Create Redeem Point
               </button>
             </div>
           </form>

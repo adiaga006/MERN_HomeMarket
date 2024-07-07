@@ -36,7 +36,7 @@ const EditProductModal = (props) => {
   const fetchCategoryData = async () => {
     let responseData = await getAllCategory();
     if (responseData.Categories) {
-      setCategories(responseData.Categories);
+      setCategories(responseData.Categories.filter(category => category.cParentCategory !== null).reverse());
     }
   };
 

@@ -8,7 +8,7 @@ const AdminSidebar = (props) => {
   return (
     <Fragment>
       <div
-        style={{ boxShadow: "1px 1px 8px 0.2px #aaaaaa" }}
+        style={{ boxShadow: "1px 1px 8px 0.2px #aaaaaa" , height: "100%"}}
         id="sidebar"
         className="hidden md:block sticky top-0 left-0 h-screen md:w-3/12 lg:w-2/12 sidebarShadow bg-white text-gray-600"
       >
@@ -127,6 +127,19 @@ const AdminSidebar = (props) => {
             <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
           <span className="hover:text-gray-800">Users</span>
+        </div>
+        <hr className="border-b border-gray-200" />
+        <div
+          onClick={(e) => history.push("/admin/dashboard/redeemPoints")}
+          className={`${location.pathname === "/admin/dashboard/redeemPoints"
+              ? "border-r-4 border-gray-800 bg-gray-100"
+              : ""
+            } hover:bg-gray-200 cursor-pointer flex flex-col items-center justify-center py-6`}
+        >
+          <span>
+            <i className="fa fa-gift" style={{ fontSize: "24px" }}></i>
+          </span>
+          <span className="hover:text-gray-800">Redeem Points</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div

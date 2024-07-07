@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { deleteCategory, getAllDiscount_Admin } from "./FetchApi";
+import { deleteRedeemPoint, getAllRedeemPoint_Admin } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
@@ -16,35 +16,35 @@ const AllCategory = (props) => {
 
   const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
-    let responseData = await getAllDiscount_Admin();
+    let responseData = await getAllRedeemPoint_Admin();
     setTimeout(() => {
-      if (responseData && responseData.Discounts) {
+      if (responseData && responseData.redeemPoints) {
         dispatch({
           type: "fetchCategoryAndChangeState",
-          payload: responseData.Discounts.filter(discount => discount.dUser == null),
+          payload: responseData.redeemPoints,
         });
         dispatch({ type: "loading", payload: false });
       }
     }, 1000);
   };
 
-  const deleteCategoryReq = async (dId) => {
-    let deleteC = await deleteCategory(dId);
-    if (deleteC.error) {
-      console.log(deleteC.error);
-    } else if (deleteC.success) {
-      alert(deleteC.success);
+  const deleteRedeemPointReq = async (rId) => {
+    let deleteR = await deleteRedeemPoint(rId);
+    if (deleteR.error) {
+      console.log(deleteR.error);
+    } else if (deleteR.success) {
+      alert(deleteR.success);
       fetchData();
     }
   };
 
   /* This method call the editmodal & dispatch category context */
-  const editCategory = (dId, name, type, method, amount, percent, category, apply, status) => {
+  const editRedeemPoint = (rId, point, type, method, amount, percent, category, apply, status) => {
     if (type) {
       dispatch({
         type: "editCategoryModalOpen",
-        dId: dId,
-        name: name,
+        rId: rId,
+        point: point,
         method: method,
         amount: amount,
         percent: percent,
@@ -89,7 +89,7 @@ const AllCategory = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Code</th>
+              <th className="px-4 py-2 border">Point</th>
               <th className="px-4 py-2 border">Category</th>
               <th className="px-4 py-2 border">Method</th>
               <th className="px-4 py-2 border">Amount</th>
@@ -107,10 +107,10 @@ const AllCategory = (props) => {
                 return (
                   <CategoryTable
                     category={item}
-                    editCat={(dId, name, type, method, amount, percent, category, apply, status) =>
-                      editCategory(dId, name, type, method, amount, percent, category, apply, status)
+                    editRedeem={(rId, point, type, method, amount, percent, category, apply, status) =>
+                      editRedeemPoint(rId, point, type, method, amount, percent, category, apply, status)
                     }
-                    deleteCat={(dId) => deleteCategoryReq(dId)}
+                    deleteRedeem={(rId) => deleteRedeemPointReq(rId)}
                     key={key}
                   />
                 );
@@ -121,7 +121,7 @@ const AllCategory = (props) => {
                   colSpan="9"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No discount found
+                  No redeem point found
                 </td>
               </tr>
             )}
@@ -148,52 +148,50 @@ const AllCategory = (props) => {
 };
 
 /* Single Category Component */
-const CategoryTable = ({ category, deleteCat, editCat }) => {
+const CategoryTable = ({ category, deleteRedeem, editRedeem }) => {
   return (
     <Fragment>
       <tr>
-        <td className="p-2 text-left">
-          {category.dName.length > 20
-            ? category.dName.slice(0, 20) + "..."
-            : category.dName}
-        </td>
-        <td className="p-2 text-center">{category.dCategory.cName}</td>
         <td className="p-2 text-center">
-          {category.dStatus === "Amount" ? (
+          {category.rPoint}
+        </td>
+        <td className="p-2 text-center">{category.rCategory.cName}</td>
+        <td className="p-2 text-center">
+          {category.rMethod === "Amount" ? (
             <span className="bg-green-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dMethod}
+              {category.rMethod}
             </span>
           ) : (
             <span className="bg-red-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dMethod}
+              {category.rMethod}
             </span>
           )}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {category.dAmount}.000 VND
+          {category.rAmount}.000 VND
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {category.dPercent} %
+          {category.rPercent} %
         </td>
         <td className="p-2 text-center">
-          {category.dApply === "Yes" ? (
+          {category.rApply === "Yes" ? (
             <span className="bg-green-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dApply}
+              {category.rApply}
             </span>
           ) : (
             <span className="bg-red-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dApply}
+              {category.rApply}
             </span>
           )}
         </td>
         <td className="p-2 text-center">
-          {category.dStatus === "Active" ? (
+          {category.rStatus === "Active" ? (
             <span className="bg-green-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dStatus}
+              {category.rStatus}
             </span>
           ) : (
             <span className="bg-red-200 rounded-full text-center text-xs px-2 font-semibold">
-              {category.dStatus}
+              {category.rStatus}
             </span>
           )}
         </td>
@@ -206,16 +204,16 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
         <td className="p-2 flex items-center justify-center">
           <span
             onClick={(e) =>
-              editCat(
+              editRedeem(
                 category._id,
-                category.dName,
+                category.rPoint,
                 true,
-                category.dMethod,
-                category.dAmount,
-                category.dPercent,
-                category.dCategory,
-                category.dApply,
-                category.dStatus
+                category.rMethod,
+                category.rAmount,
+                category.rPercent,
+                category.rCategory,
+                category.rApply,
+                category.rStatus
               )
             }
             className="cursor-pointer hover:bg-gray-200 rounded-lg p-2 mx-1"
@@ -235,7 +233,7 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
             </svg>
           </span>
           <span
-            onClick={(e) => deleteCat(category._id)}
+            onClick={(e) => deleteRedeem(category._id)}
             className="cursor-pointer hover:bg-gray-200 rounded-lg p-2 mx-1"
           >
             <svg

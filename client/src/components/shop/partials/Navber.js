@@ -175,7 +175,7 @@ const Navber = (props) => {
                             </span>
                             <span>My Account</span>
                           </span>
-                          <span
+                          {/* <span
                             onClick={(e) => history.push("/wish-list")}
                             className="flex space-x-2 py-2 px-8 hover:bg-gray-400 cursor-pointer"
                           >
@@ -196,6 +196,24 @@ const Navber = (props) => {
                               </svg>
                             </span>
                             <span>My Wishlist</span>
+                          </span> */}
+                          <span
+                            onClick={(e) => history.push("/user/redeem")}
+                            className="flex space-x-2 py-2 px-8 hover:bg-gray-400 cursor-pointer"
+                          >
+                            <span>
+                            <i className="fa fa-gift" style={{ fontSize: "24px" }}></i>
+                            </span>
+                            <span>Redeem Point</span>
+                          </span>
+                          <span
+                            onClick={(e) => history.push("/user/discount")}
+                            className="flex space-x-2 py-2 px-8 hover:bg-gray-400 cursor-pointer"
+                          >
+                            <span>
+                            <i className="fa fa-percent" style={{ fontSize: "24px" }}></i>
+                            </span>
+                            <span>Discount Code</span>
                           </span>
                           <span
                             onClick={(e) => history.push("/user/setting")}

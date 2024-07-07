@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
-const discountSchema = new mongoose.Schema(
+const redeemPointSchema = new mongoose.Schema(
   {
-    dName: {
-      type: String,
+    rPoint: {
+      type: Number,
+      default: 0,
       required: true,
     },
-    dMethod: {
+    rMethod: {
       type: String,
       default: "Amount",
       enum: [
@@ -16,19 +17,19 @@ const discountSchema = new mongoose.Schema(
       ],
       required: true,
     },
-    dAmount: {
+    rAmount: {
       type: Number,
       default: 0,
     },
-    dPercent: {
+    rPercent: {
       type: Number,
       default: 0,
     },
-    dCategory: {
+    rCategory: {
       type: ObjectId,
       ref: "categories",
     },
-    dApply: {
+    rApply: {
       type: String,
       default: "Yes",
       enum: [
@@ -37,11 +38,7 @@ const discountSchema = new mongoose.Schema(
       ],
       required: true,
     },
-    dUser: {
-      type: ObjectId,
-      ref: "users"
-    },
-    dStatus: {
+    rStatus: {
       type: String,
       required: true,
     },
@@ -49,5 +46,5 @@ const discountSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const discountModel = mongoose.model("discounts", discountSchema);
-module.exports = discountModel;
+const redeemPointModel = mongoose.model("redeemPoints", redeemPointSchema);
+module.exports = redeemPointModel;

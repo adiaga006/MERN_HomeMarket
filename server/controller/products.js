@@ -43,6 +43,7 @@ class Product {
       // Chỉ hiển thị sản phẩm có pStatus là "Active"
       let Products = await productModel
         .find({ pStatus: "Active" })
+        .populate("pCategory", "_id cName cParentCategory")
         .sort({ _id: -1 });
   
       if (Products) {
@@ -281,7 +282,7 @@ class Product {
       try {
         let products = await productModel
           .find({ pPrice: { $lte: price } , pStatus: "Active"})
-          .populate("pCategory", "cName")
+          .populate("pCategory", "_id cName cParentCategory")
           .sort({ pPrice: -1 });
         if (products) {
           return res.json({ Products: products });
@@ -442,7 +443,9 @@ class Product {
     }
   
     try {
-      const products = await productModel.find(query).sort(sortQuery);
+      const products = await productModel.find(query)
+      .populate("pCategory", "_id cName cParentCategory")
+      .sort(sortQuery);
       res.json({ Products: products });
     } catch (error) {
       console.error('Error fetching filtered products:', error);

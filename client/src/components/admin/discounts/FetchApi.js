@@ -40,6 +40,7 @@ export const createCategory = async ({
   dStatus
 }) => {
   try {
+    let dUser = null;
     let res = await axios.post(
       `${apiURL}/api/discount/add-discount`,
       {
@@ -49,6 +50,7 @@ export const createCategory = async ({
         dPercent,
         dCategory,
         dApply,
+        dUser,
         dStatus
       },
       {
@@ -63,7 +65,7 @@ export const createCategory = async ({
 };
 
 export const editCategory = async (dId, name, method, amount, percent, category, apply, status) => {
-  let data = { dId: dId, dName: name, dMethod: method, dAmount: amount, dPercent: percent, dCategory: category, dApply: apply, dStatus: status };
+  let data = { dId: dId, dName: name, dMethod: method, dAmount: amount, dPercent: percent, dCategory: category, dApply: apply, dUser: null, dStatus: status };
   try {
     let res = await axios.post(
       `${apiURL}/api/discount/edit-discount`,

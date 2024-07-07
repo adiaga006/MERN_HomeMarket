@@ -19,6 +19,7 @@ router.post("/signle-user", usersController.getSingleUser);
 
 router.post("/edit-user",upload.single("editAvatar"), usersController.postEditUser);
 router.post("/admin-edit-user", usersController.postAdminEditUser);
+router.post("/update-point-user", usersController.postUpdatePointUser);
 router.post("/delete-user", usersController.postDeleteUser);
 
 router.post("/change-password", usersController.changePassword);
