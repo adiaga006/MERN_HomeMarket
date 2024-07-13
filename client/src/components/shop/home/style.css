@@ -368,20 +368,21 @@ card-text:last-child{margin-bottom:0}
 }
 
 .sidebar {
-  background-color: #34495e; /* Màu tối giúp chữ nổi bật */
   padding: 1rem;
-  width: 250px; /* Điều chỉnh độ rộng của sidebar tại đây */
-  max-height: calc(100vh - 100px); /* Đặt kích thước tối đa cho sidebar, trừ điều chỉnh cho header/footer */
-  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước tối đa */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 250px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
   font-family: 'Arial', sans-serif;
+  border-radius: 10px; /* Rounded corners */
   border: 1px solid #7ABA78;
 }
 
 .sidebar h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #ffffff; /* White text for better contrast */
 }
 
 .sidebar ul {
@@ -390,29 +391,39 @@ card-text:last-child{margin-bottom:0}
 }
 
 .sidebar ul li {
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 0.3rem; /* Thêm margin để tăng khoảng cách giữa các mục */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 0.3rem;
+  border-radius: 5px; /* Rounded corners for list items */
 }
 
 .sidebar ul li:hover {
-  background-color: #8DECB4; /* Màu nền khi hover */
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  background-color: #8DECB4;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Slight lift on hover */
 }
 
-/* Tùy chỉnh kiểu chữ và màu chữ của các mục danh mục */
 .sidebar ul li a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff; /* White text for better contrast */
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Space between text and icon */
 }
 
-/* Thêm kiểu chữ in đậm cho các mục danh mục */
-.sidebar ul li a:hover {
+.sidebar ul li a span {
   font-weight: bold;
 }
+
+.sidebar ul li a:hover {
+  color: #333;
+}
+
+.icon {
+  margin-right: 10px; /* Space between icon and text */
+}
+
 .add-to-cart-icon {
   width: 16px; /* Đặt chiều rộng cho icon */
   height: 16px; /* Đặt chiều cao cho icon, giữ cho nó vuông */
