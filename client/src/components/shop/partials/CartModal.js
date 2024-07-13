@@ -15,9 +15,7 @@ const CartModal = () => {
   const [error, setError] = useState(null);
 
   const [fData, setFdata] = useState({
-    dName: "",
-    success: false,
-    error: false,
+    dName: ""
   });
 
   const products = data.cartProduct;
@@ -102,17 +100,13 @@ const CartModal = () => {
         fetchData();
         setFdata({
           ...fData,
-          dName: "",
-          success: responseData.success,
-          error: false,
+          dName: ""
         });
         dispatch({ type: "loading", payload: false });
         setTimeout(() => {
           setFdata({
             ...fData,
-            dName: "",
-            success: false,
-            error: false,
+            dName: ""
           });
         }, 2000);
         clearError()
@@ -120,28 +114,18 @@ const CartModal = () => {
         fetchData();
         setFdata({
           ...fData,
-          dName: "",
-          success: responseData.success,
-          error: false,
+          dName: ""
         });
         dispatch({ type: "loading", payload: false });
         setTimeout(() => {
           setFdata({
             ...fData,
-            dName: "",
-            success: false,
-            error: false,
+            dName: ""
           });
         }, 2000);
         setTimeout(() => {
           clearError();
-        }, 5000);
-      }else if (responseData.error) {
-        setFdata({ ...fData, success: false, error: responseData.error });
-        dispatch({ type: "loading", payload: false });
-        setTimeout(() => {
-          return setFdata({ ...fData, error: false, success: false });
-        }, 2000);
+        }, 5000)
       }
     } catch (error) {
       console.log(error);
@@ -272,9 +256,7 @@ const CartModal = () => {
                   onChange={(e) =>
                     setFdata({
                       ...fData,
-                      success: false,
-                      error: false,
-                      dName: e.target.value,
+                      dName: e.target.value
                     })
                   }
                   value={fData.dName}

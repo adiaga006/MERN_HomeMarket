@@ -30,7 +30,7 @@ export const getAllDiscount_Admin = async () => {
   }
 };
 
-export const createCategory = async ({
+export const createDiscount = async ({
   dName,
   dMethod,
   dAmount,
@@ -64,7 +64,7 @@ export const createCategory = async ({
   }
 };
 
-export const editCategory = async (dId, name, method, amount, percent, category, apply, status) => {
+export const editDiscount = async (dId, name, method, amount, percent, category, apply, status) => {
   let data = { dId: dId, dName: name, dMethod: method, dAmount: amount, dPercent: percent, dCategory: category, dApply: apply, dUser: null, dStatus: status };
   try {
     let res = await axios.post(
@@ -72,13 +72,14 @@ export const editCategory = async (dId, name, method, amount, percent, category,
       data,
       Headers()
     );
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteCategory = async (dId) => {
+export const deleteDiscount = async (dId) => {
   try {
     let res = await axios.post(
       `${apiURL}/api/discount/delete-discount`,

@@ -12,6 +12,7 @@ export const productState = {
     pQuantity: "",
     pPrice: "",
     pOffer: "",
+    pBrand: ""
   },
 };
 
@@ -44,6 +45,7 @@ export const productReducer = (state, action) => {
           pQuantity: action.product.pQuantity,
           pPrice: action.product.pPrice,
           pOffer: action.product.pOffer,
+          pBrand: action.product.pBrand,
         },
       };
     case "editProductModalClose":
@@ -60,6 +62,7 @@ export const productReducer = (state, action) => {
           pQuantity: "",
           pPrice: "",
           pOffer: "",
+          pBrand: "",
         },
       };
     default:

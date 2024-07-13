@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
-import { createCategory, getAllDiscount_Admin } from "./FetchApi";
+import { createDiscount, getAllDiscount_Admin } from "./FetchApi";
 import { getAllCategory } from "../categories/FetchApi";
 
 const AddCategoryModal = ({ categories }) => {
@@ -27,7 +27,7 @@ const AddCategoryModal = ({ categories }) => {
     if (responseData.Discounts) {
       dispatch({
         type: "fetchCategoryAndChangeState",
-        payload: responseData.Discounts,
+        payload: responseData.Discounts.filter(discount => discount.dUser == null),
       });
     }
   };
@@ -49,7 +49,7 @@ const AddCategoryModal = ({ categories }) => {
     e.target.reset();
 
     try {
-      let responseData = await createCategory(fData);
+      let responseData = await createDiscount(fData);
       if (responseData.success) {
         fetchData();
         setFdata({
@@ -137,7 +137,7 @@ const AddCategoryModal = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Discount Name</label>
+              <label htmlFor="name">Discount Name *</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -154,7 +154,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
 
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Discount Method</label>
+              <label htmlFor="method">Discount Method *</label>
               <select
                 name="method"
                 onChange={(e) => {
@@ -175,7 +175,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Discount Amount</label>
+                <label htmlFor="amount">Discount Amount *</label>
                 <input
                   value={fData.dAmount}
                   onChange={(e) => {
@@ -201,7 +201,7 @@ const AddCategoryModal = ({ categories }) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Discount Percent</label>
+                <label htmlFor="percent">Discount Percent *</label>
                 <input
                   value={fData.dPercent}
                   onChange={(e) => {
@@ -259,7 +259,7 @@ const AddCategoryModal = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="apply">Discount Apply</label>
+                <label htmlFor="apply">Discount Apply *</label>
                 <select
                   name="apply"
                   onChange={(e) =>
@@ -279,7 +279,7 @@ const AddCategoryModal = ({ categories }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Discount Status</label>
+              <label htmlFor="status">Discount Status *</label>
               <select
                 name="status"
                 onChange={(e) =>

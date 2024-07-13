@@ -139,7 +139,7 @@ const AddCategoryModal = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Point</label>
+              <label htmlFor="name">Point *</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -156,7 +156,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
 
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Method</label>
+              <label htmlFor="method">Method *</label>
               <select
                 name="method"
                 onChange={(e) => {
@@ -177,7 +177,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Amount</label>
+                <label htmlFor="amount">Amount *</label>
                 <input
                   value={fData.rAmount}
                   onChange={(e) => {
@@ -203,7 +203,7 @@ const AddCategoryModal = ({ categories }) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Percent</label>
+                <label htmlFor="percent">Percent *</label>
                 <input
                   value={fData.rPercent}
                   onChange={(e) => {
@@ -261,7 +261,7 @@ const AddCategoryModal = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="apply">Apply</label>
+                <label htmlFor="apply">Apply *</label>
                 <select
                   name="apply"
                   onChange={(e) =>
@@ -281,7 +281,7 @@ const AddCategoryModal = ({ categories }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Status</label>
+              <label htmlFor="status">Status *</label>
               <select
                 name="status"
                 onChange={(e) =>

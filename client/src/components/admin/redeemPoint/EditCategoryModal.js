@@ -48,13 +48,6 @@ const EditCategoryModal = (props) => {
     fetchCategoryData();
   }, []);
 
-  const fetchCategoryData = async () => {
-    let responseData = await getAllCategory();
-    if (responseData.Categories) {
-      setCategories(responseData.Categories.filter(category => category.cParentCategory !== null).reverse());
-    }
-  };
-
   const fetchData = async () => {
     let responseData = await getAllRedeemPoint_Admin();
     if (responseData.redeemPoints) {
@@ -64,14 +57,22 @@ const EditCategoryModal = (props) => {
       });
     }
   };
+  
+  const fetchCategoryData = async () => {
+    let responseData = await getAllCategory();
+    if (responseData.Categories) {
+      setCategories(responseData.Categories.filter(category => category.cParentCategory !== null).reverse());
+    }
+  };
 
   const submitForm = async () => {
-    dispatch({ type: "loading", payload: true });
-    let edit = await editRedeemPoint(rId, point, method, amount, percent, category, apply, status); // Update this line
+    // dispatch({ type: "loading", payload: true });
+    let edit = await editRedeemPoint(rId, point, method, amount, percent, category, apply, status);
     if (edit.error) {
       setError(edit.error);
-      // dispatch({ type: "loading", payload: false });
-    } else if (edit.success) {
+      dispatch({ type: "loading", payload: false });
+    } 
+    else if (edit.success) {
       console.log(edit.success);
       dispatch({ type: "editCategoryModalClose" });
       setTimeout(() => {
@@ -131,7 +132,7 @@ const EditCategoryModal = (props) => {
           )}
           <form className="w-full">
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="name">Point</label>
+              <label htmlFor="name">Point *</label>
               <input
                 type="text"
                 value={point}
@@ -142,7 +143,7 @@ const EditCategoryModal = (props) => {
               />
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Method</label>
+              <label htmlFor="method">Method *</label>
               <select
                 value={method}
                 name="method"
@@ -160,7 +161,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Amount</label>
+                <label htmlFor="amount">Amount *</label>
                 <input
                   type="text"
                   value={amount}
@@ -182,7 +183,7 @@ const EditCategoryModal = (props) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Percent</label>
+                <label htmlFor="percent">Percent *</label>
                 <input
                   type="text"
                   value={percent}
@@ -245,7 +246,7 @@ const EditCategoryModal = (props) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="apply">Apply</label>
+                <label htmlFor="apply">Apply *</label>
                 <select
                   value={apply}
                   name="apply"
@@ -263,7 +264,7 @@ const EditCategoryModal = (props) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Status</label>
+              <label htmlFor="status">Status *</label>
               <select
                 value={status}
                 name="status"

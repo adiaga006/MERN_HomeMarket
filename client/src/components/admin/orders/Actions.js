@@ -26,6 +26,7 @@ export const deleteOrderReq = async (oId, dispatch) => {
   let responseData = await deleteOrder(oId);
   console.log(responseData);
   if (responseData && responseData.success) {
+    alert(responseData.success);
     fetchData(dispatch);
   }
 };

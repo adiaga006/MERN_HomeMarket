@@ -69,9 +69,10 @@ const EditCategoryModal = (props) => {
 
       {/* Modal Start */}
       <div
-        className={`${data.editCategoryModal.modal ? "" : "hidden"} fixed inset-0 m-4 flex items-center z-30 justify-center`}
+        className={`${data.editCategoryModal.modal ? "" : "hidden"} 
+        fixed inset-0 m-4 flex items-center z-30 justify-center`}
       >
-        <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4 overflow-y-auto px-4 py-4 md:px-8">
+        <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4 overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
               Edit Category
@@ -98,8 +99,14 @@ const EditCategoryModal = (props) => {
               </svg>
             </span>
           </div>
+          {/* Display error */}
+                    {error && (
+            <div className="text-red-500 text-sm">
+              <span>Error: {error}</span>
+            </div>
+          )}
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="name">Category Name</label>
+            <label htmlFor="name">Category Name *</label>
             <input
               type="text"
               value={name}
@@ -109,14 +116,8 @@ const EditCategoryModal = (props) => {
               id="name"
             />
           </div>
-          {/* Display error */}
-          {error && (
-            <div className="text-red-500 text-sm">
-              <span>Error: {error}</span>
-            </div>
-          )}
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="description">Category Description</label>
+            <label htmlFor="description">Category Description *</label>
             <textarea
               value={des}
               onChange={(e) => setDes(e.target.value)}
@@ -129,7 +130,7 @@ const EditCategoryModal = (props) => {
           </div>
           <div className="flex space-x-1 py-4">
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="parent">Parent Category *</label>
+              <label htmlFor="parent">Parent Category</label>
               <select
                 value={parent ? parent._id : ""}
                 onChange={(e) => {
@@ -156,7 +157,7 @@ const EditCategoryModal = (props) => {
               </select>
             </div>
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="status">Category Status</label>
+              <label htmlFor="status">Category Status *</label>
               <select
                 value={status}
                 name="status"

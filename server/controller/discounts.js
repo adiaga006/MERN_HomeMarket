@@ -123,10 +123,12 @@ class Discount {
             dName: `${oldName} (Discount deleted)`,},
           { new: true } // Trả về bản ghi đã được cập nhật
         );
-
+        if (deleteDiscount) {
+          return res.json({ success: "Discount deleted successfully" });
+        }
       } catch (err) {
         console.log(err);
-        return res.json({ error: "An error occurred while deleting the category and associated products" });
+        return res.json({ error: "An error occurred while deleting the discount" });
       }
     }
   }

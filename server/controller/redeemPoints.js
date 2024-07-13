@@ -31,8 +31,7 @@ class redeemPoint {
   }
   async postAddRedeemPoint(req, res) {
     let { rPoint,  rMethod, rAmount, rPercent, rCategory, rApply, rStatus} = req.body;
-    
-    console.log(rCategory);
+    console.log( rPoint, rMethod, rAmount, rPercent, rCategory, rApply, rStatus );  
     if (!rPoint || !rMethod || !rCategory || !rApply || !rStatus) {
         return res.json({ error: "All filled must be required" });
     } else {
@@ -83,7 +82,7 @@ class redeemPoint {
       }
     } catch (err) {
       console.log(err);
-      return res.json({ error: "Error editing Redeem point" });
+      return res.json({ error: "Error editing redeem point" });
     }
   }
   
@@ -100,7 +99,9 @@ class redeemPoint {
           { rStatus: "Not available" ,},
           { new: true } // Trả về bản ghi đã được cập nhật
         );
-
+        if (deleteRedeemPoint) {
+          return res.json({ success: "Redeem point deleted successfully" });
+        }
       } catch (err) {
         console.log(err);
         return res.json({ error: "An error occurred while deleting the redeem point " });

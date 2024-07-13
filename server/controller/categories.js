@@ -36,7 +36,7 @@ class Category {
     // let cImage = req.file.filename;
     // const filePath = `../server/public/uploads/categories/${cImage}`;
     if (!cName || !cDescription || !cStatus) {
-      return res.json({ error: "All filled must be required o add category" });
+      return res.json({ error: "All filled must be required to add category" });
 
     } else {
       cName = toTitleCase(cName);
@@ -69,7 +69,7 @@ class Category {
     let { cId, cName, cDescription, cStatus, cParentCategory } = req.body;
 
     if (!cId || !cName || !cDescription || !cStatus) {
-      return res.json({ error: "All fields must be required o edit" });
+      return res.json({ error: "All fields must be required to edit" });
     }
 
     // Trim trailing spaces from category name

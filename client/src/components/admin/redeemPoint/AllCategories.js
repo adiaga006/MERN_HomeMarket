@@ -30,6 +30,7 @@ const AllCategory = (props) => {
 
   const deleteRedeemPointReq = async (rId) => {
     let deleteR = await deleteRedeemPoint(rId);
+    console.log(deleteR.success);
     if (deleteR.error) {
       console.log(deleteR.error);
     } else if (deleteR.success) {

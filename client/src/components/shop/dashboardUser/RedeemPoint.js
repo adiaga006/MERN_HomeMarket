@@ -27,25 +27,30 @@ const TableBody = ({ order, points, spendPoints }) => {
 
   const handleDiscountClick = async () => {
     if (points >= order.rPoint) {
-      try {
-        let dName = generateRandomCode(10)
-        const response = await createDiscount({
-          dName: dName,
-          dMethod : order.rMethod,
-          dAmount: order.rAmount,
-          dPercent: order.rPercent,
-          dCategory: order.rCategory,
-          dApply: "Yes",
-          dUser: JSON.parse(localStorage.getItem("jwt")).user,
-          dStatus: "Active",
-          point: spendPoints + order.rPoint
-        });
-        window.location.reload()
-      } catch (error) {
-        console.error(error);
+      const confirmRedeem = window.confirm("Are you sure you want to redeem points?");
+      if (confirmRedeem) {
+        try {
+          let dName = generateRandomCode(10)
+          const response = await createDiscount({
+            dName: dName,
+            dMethod : order.rMethod,
+            dAmount: order.rAmount,
+            dPercent: order.rPercent,
+            dCategory: order.rCategory,
+            dApply: "Yes",
+            dUser: JSON.parse(localStorage.getItem("jwt")).user,
+            dStatus: "Active",
+            point: spendPoints + order.rPoint
+          });
+          alert("Points redeemed successfully!");
+          window.location.reload()
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
+
   return (
     <Fragment>
       <tr className="border-b">
@@ -120,6 +125,7 @@ const OrdersComponent = () => {
       </div>
     );
   }
+
   return (
     <Fragment>
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">

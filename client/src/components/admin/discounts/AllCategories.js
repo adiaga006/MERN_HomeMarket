@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { deleteCategory, getAllDiscount_Admin } from "./FetchApi";
+import { deleteDiscount, getAllDiscount_Admin } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
@@ -29,7 +29,8 @@ const AllCategory = (props) => {
   };
 
   const deleteCategoryReq = async (dId) => {
-    let deleteC = await deleteCategory(dId);
+    let deleteC = await deleteDiscount(dId);
+    window.location.reload();
     if (deleteC.error) {
       console.log(deleteC.error);
     } else if (deleteC.success) {
