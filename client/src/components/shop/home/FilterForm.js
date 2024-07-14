@@ -53,14 +53,14 @@ const FilterForm = () => {
 
   return (
     <div className="advanced-filter-form">
-      <select name="category" value={filters.category} onChange={handleInputChange} disabled={filters.brand}>
+      <select name="category" value={filters.category} onChange={handleInputChange}>
         <option value="">Select Category</option>
         {categories.map(category => (
           <option key={category._id} value={category._id}>{category.cName}</option>
         ))}
       </select>
 
-      <select name="brand" value={filters.brand} onChange={handleInputChange} disabled={filters.category}>
+      <select name="brand" value={filters.brand} onChange={handleInputChange}>
         <option value="">Select Brand</option>
         {brands.map((brand, index) => (
           <option key={index} value={brand}>{brand}</option>
