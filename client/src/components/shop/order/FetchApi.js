@@ -37,6 +37,7 @@ export const getPaymentProcess = async (paymentData) => {
 export const createOrder = async (orderData, allDiscount) => {
   try {
     let res = await axios.post(`${apiURL}/api/order/create-order`, orderData);
+    if (allDiscount != null) {
     allDiscount.forEach(discount => {
       if (discount.user !== null) {
         editDiscount(
@@ -51,7 +52,8 @@ export const createOrder = async (orderData, allDiscount) => {
           "Active"
         )
       }
-    });
+    }
+    )};
     return res.data;
   } catch (error) {
     console.log(error);
