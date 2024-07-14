@@ -85,7 +85,8 @@ const ShopComponent = () => {
                 {/* Child Categories */}
                 {selectedParentCategory === parentCategory._id && (
                   <ul>
-                    {childCategories.map(childCategory => (
+                    {childCategories
+                      .map(childCategory => (
                       <CategoryItem
                         key={childCategory._id}
                         category={childCategory}
