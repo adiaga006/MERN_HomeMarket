@@ -53,7 +53,7 @@ export const getTotalPoint = async (uId) => {
     let totalAmount = 0
     for (const order of filterOrder) {
       for (const product of order.allProduct) {
-        totalAmount += product.quantitiy * product.oldPrice;
+        totalAmount += product.quantitiy * (product.oldPrice * product.offer);
       }
     }
     let totalPoint = Math.round(totalAmount / 10);
