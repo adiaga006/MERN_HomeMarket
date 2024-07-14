@@ -1,26 +1,28 @@
 .category-header {
   align-items: center;
-  background-color: rgb(246, 246, 246);
-  box-sizing: border-box;
-  color: rgb(51, 51, 51);
+  background-color:  #d4edda; /* Màu nền sáng hơn để tạo độ tương phản tốt */
+  border-bottom: 2px solid #7ABA78; /* Thêm đường viền phía dưới để phân cách */
+  color: #155724; /* Màu chữ đậm hơn để dễ đọc */
   display: flex;
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px; /* Tăng kích thước chữ một chút */
   font-weight: bold;
-  height: 48px;
-  justify-content: space-between;
-  line-height: 19.5px;
+  height: 60px; /* Tăng chiều cao để tạo không gian thoáng */
+  justify-content: center; /* Canh giữa chữ */
+  line-height: 22px; /* Điều chỉnh line-height cho phù hợp với kích thước chữ mới */
   margin: 0;
-  padding: 12px 16px;
-  text-shadow: rgba(0, 0, 0, 0.004) 1px 1px 1px;
-  text-size-adjust: 100%;
-  unicode-bidi: isolate;
-  width: 1100px;
-  -webkit-box-align: center;
-  -webkit-box-pack: justify;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  padding: 0 20px; /* Điều chỉnh padding để có không gian đều hơn */
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ nhẹ cho chữ */
+  width: 1100px;/* Đặt chiều rộng 100% để nó chiếm toàn bộ không gian */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ để tạo độ nổi */
+  border-radius: 10px; /* Bo tròn các góc cho hiện đại */
 }
+
+.category-header h3 {
+  margin: 0; /* Loại bỏ margin của h3 */
+  padding: 0; /* Loại bỏ padding của h3 */
+}
+
 .product-list {
   box-sizing: border-box;
   color: rgb(51, 51, 51);
