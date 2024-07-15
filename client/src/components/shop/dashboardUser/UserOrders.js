@@ -17,7 +17,7 @@ const TableHeader = () => {
           <th className="px-4 py-2 border">Address</th>
           <th className="px-4 py-2 border">Transaction Id</th>
           <th className="px-4 py-2 border">Checkout</th>
-          <th className="px-4 py-2 border">Processing</th>
+          <th className="px-4 py-2 border">Discount</th>
         </tr>
       </thead>
     </Fragment>
@@ -82,8 +82,17 @@ const TableBody = ({ order }) => {
           {moment(order.createdAt).format("lll")}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {moment(order.updatedAt).format("lll")}
-        </td>
+  {order.allDiscount && order.allDiscount.length > 0 ? (
+    order.allDiscount.map((discount, i) => (
+      <span key={i} className="block">
+        {discount.method}: {discount.amount ? `${discount.amount}.000 VND` : `${discount.percent}%`}
+      </span>
+    ))
+  ) : (
+    <span>None</span>
+  )}
+</td>
+
       </tr>
     </Fragment>
   );
@@ -92,7 +101,7 @@ const TableBody = ({ order }) => {
 const OrdersComponent = () => {
   const { data, dispatch } = useContext(DashboardUserContext);
   const { OrderByUser: orders } = data;
-  
+
   useEffect(() => {
     fetchOrderByUser(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,6 +127,7 @@ const OrdersComponent = () => {
       </div>
     );
   }
+
   return (
     <Fragment>
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
