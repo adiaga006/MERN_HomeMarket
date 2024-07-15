@@ -99,7 +99,7 @@ const EditCategoryModal = (props) => {
             </span>
           </div>
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="name">Tên</label>
+            <label htmlFor="name">Tên *</label>
             <input
               type="text"
               value={name}
@@ -116,7 +116,7 @@ const EditCategoryModal = (props) => {
             </div>
           )}
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="description">Mô tả</label>
+            <label htmlFor="description">Mô tả *</label>
             <textarea
               value={des}
               onChange={(e) => setDes(e.target.value)}
@@ -156,7 +156,7 @@ const EditCategoryModal = (props) => {
               </select>
             </div>
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="status">Trạng thái</label>
+              <label htmlFor="status">Trạng thái *</label>
               <select
                 value={status}
                 name="status"

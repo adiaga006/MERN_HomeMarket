@@ -132,7 +132,7 @@ const AddCategryDetail = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Tên</label>
+              <label htmlFor="name">Tên *</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -148,7 +148,7 @@ const AddCategryDetail = ({ categories }) => {
               />
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="description">Mô tả</label>
+              <label htmlFor="description">Mô tả *</label>
               <textarea
                 onChange={(e) =>
                   setFdata({
@@ -185,7 +185,7 @@ const AddCategryDetail = ({ categories }) => {
               </div>*/}
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="status">Danh mục cha *</label>
+                <label htmlFor="status">Danh mục cha</label>
                 <select
                   value={fData.cParentCategory}
                   onChange={(e) =>
@@ -215,7 +215,7 @@ const AddCategryDetail = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="status">Trạng thái</label>
+                <label htmlFor="status">Trạng thái *</label>
                 <select
                   name="status"
                   onChange={(e) =>
