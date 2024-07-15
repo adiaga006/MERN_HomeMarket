@@ -125,8 +125,12 @@ class Discount {
         );
         if (deleteDiscount) {
           return res.json({ success: "Discount deleted successfully" });
+        } 
+        if (deleteDiscount) {
+          return res.json({ success: "Discount deleted successfully" });
         }
-      } catch (err) {
+      }
+       catch (err) {
         console.log(err);
         return res.json({ error: "An error occurred while deleting the discount" });
       }

@@ -102,7 +102,10 @@ class redeemPoint {
         if (deleteRedeemPoint) {
           return res.json({ success: "Redeem point deleted successfully" });
         }
-      } catch (err) {
+        if (deleteRedeemPoint) {
+          return res.json({ success: "Redeem point deleted successfully" });
+      }
+     } catch (err) {
         console.log(err);
         return res.json({ error: "An error occurred while deleting the redeem point " });
       }
