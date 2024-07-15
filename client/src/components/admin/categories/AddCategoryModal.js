@@ -102,7 +102,7 @@ const AddCategryDetail = ({ categories }) => {
         <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Add Category
+              Thêm Danh Mục
             </span>
             {/* Close Modal */}
             <span
@@ -132,7 +132,7 @@ const AddCategryDetail = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Category Name</label>
+              <label htmlFor="name">Tên</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -148,7 +148,7 @@ const AddCategryDetail = ({ categories }) => {
               />
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="description">Category Description</label>
+              <label htmlFor="description">Mô tả</label>
               <textarea
                 onChange={(e) =>
                   setFdata({
@@ -185,7 +185,7 @@ const AddCategryDetail = ({ categories }) => {
               </div>*/}
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="status">Parent Category *</label>
+                <label htmlFor="status">Danh mục cha *</label>
                 <select
                   value={fData.cParentCategory}
                   onChange={(e) =>
@@ -201,7 +201,7 @@ const AddCategryDetail = ({ categories }) => {
                   id="status"
                 >
                   <option disabled value="">
-                    Select a category
+                    Chọn danh mục
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {
@@ -215,7 +215,7 @@ const AddCategryDetail = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="status">Category Status</label>
+                <label htmlFor="status">Trạng thái</label>
                 <select
                   name="status"
                   onChange={(e) =>
@@ -244,7 +244,7 @@ const AddCategryDetail = ({ categories }) => {
                 type="submit"
                 className="bg-gray-800 text-gray-100 rounded-full text-lg font-medium py-2"
               >
-                Create Category
+                Tạo Danh Mục
               </button>
             </div>
           </form>

@@ -74,7 +74,7 @@ const EditCategoryModal = (props) => {
         <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4 overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Edit Category
+              Chỉnh Sửa Danh Mục
             </span>
             {/* Close Modal */}
             <span
@@ -99,7 +99,7 @@ const EditCategoryModal = (props) => {
             </span>
           </div>
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="name">Category Name</label>
+            <label htmlFor="name">Tên</label>
             <input
               type="text"
               value={name}
@@ -116,7 +116,7 @@ const EditCategoryModal = (props) => {
             </div>
           )}
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="description">Category Description</label>
+            <label htmlFor="description">Mô tả</label>
             <textarea
               value={des}
               onChange={(e) => setDes(e.target.value)}
@@ -129,7 +129,7 @@ const EditCategoryModal = (props) => {
           </div>
           <div className="flex space-x-1 py-4">
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="parent">Parent Category *</label>
+              <label htmlFor="parent">Danh mục cha</label>
               <select
                 value={parent ? parent._id : ""}
                 onChange={(e) => {
@@ -141,7 +141,7 @@ const EditCategoryModal = (props) => {
                 id="parent"
               >
                 <option disabled value="">
-                  Select a category
+                  Chọn danh mục
                 </option>
                 {categories && categories.length > 0
                   ? categories.map((elem) => (
@@ -156,7 +156,7 @@ const EditCategoryModal = (props) => {
               </select>
             </div>
             <div className="w-1/2 flex flex-col space-y-1">
-              <label htmlFor="status">Category Status</label>
+              <label htmlFor="status">Trạng thái</label>
               <select
                 value={status}
                 name="status"
@@ -179,7 +179,7 @@ const EditCategoryModal = (props) => {
               onClick={(e) => submitForm()}
               className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
             >
-              Update Category
+              Cập Nhật Danh Mục
             </button>
           </div>
         </div>
