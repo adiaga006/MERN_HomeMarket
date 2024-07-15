@@ -57,7 +57,7 @@ const FilterList = () => {
       <div className="w-full flex flex-col">
         <div className="font-medium py-2">Filter by price</div>
         <div className="flex justify-between items-center">
-          <div className="flex flex-col space-y-2  w-2/3 lg:w-2/4">
+          <div className="flex flex-col space-y-2 w-2/3 lg:w-2/4">
             <label htmlFor="points" className="text-sm">
               Price (between 0 and 1 000 000):{" "}
               <span className="font-semibold text-yellow-700">{range}.000 VND</span>{" "}
@@ -94,9 +94,11 @@ const FilterList = () => {
     </div>
   );
 };
+
 const removeDiacritics = (str) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
+
 const Search = () => {
   const { data, dispatch } = useContext(HomeContext);
   const [search, setSearch] = useState("");
@@ -116,6 +118,7 @@ const Search = () => {
       console.log(error);
     }
   };
+
   const searchHandle = (e) => {
     setSearch(e.target.value);
     fetchData();
@@ -144,10 +147,7 @@ const Search = () => {
   };
 
   return (
-    <div
-      className={`${data.searchDropdown ? "" : "hidden"
-        } my-4 flex items-center justify-between`}
-    >
+    <div className={`${data.searchDropdown ? "" : "hidden"} my-4 flex items-center justify-between`}>
       <input
         value={search}
         onChange={(e) => searchHandle(e)}

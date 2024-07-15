@@ -41,24 +41,36 @@ const SingleProduct = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchData = async () => {
+     const fetchData = async () => {
     dispatch({ type: "loading", payload: true });
+
     try {
+      let timeout = false;
+      const timeoutId = setTimeout(() => {
+        timeout = true;
+        dispatch({ type: "setProducts", payload: [] });
+        dispatch({ type: "loading", payload: false });
+      }, 5000); // 5 seconds timeout
+
       let responseData = await getAllProduct();
 
-      setTimeout(() => {
-        if (responseData && responseData.Products) {
-          dispatch({ type: "setProducts", payload: responseData.Products });
-          dispatch({ type: "loading", payload: false });
-          layoutDispatch({ type: "inCart", payload: cartList() });
-        }
-      }, 500);
+      clearTimeout(timeoutId);
+
+      if (!timeout && responseData && responseData.Products) {
+        dispatch({ type: "setProducts", payload: responseData.Products });
+        layoutDispatch({ type: "inCart", payload: cartList() });
+      } else if (!timeout) {
+        dispatch({ type: "setProducts", payload: [] });
+      }
+
+      dispatch({ type: "loading", payload: false });
     } catch (error) {
       console.log(error);
+      dispatch({ type: "loading", payload: false });
     }
+
     fetchCartProduct(); // Updating cart total
   };
-
   const fetchCartProduct = async () => {
     try {
       let responseData = await cartListProduct();
@@ -100,25 +112,28 @@ const SingleProduct = (props) => {
       </div>
     );
   }
+  const allProductsInCategories = categories.flatMap(category => 
+    products.filter(product => product.pCategory.cParentCategory === category._id)
+  );
 
   return (
     <Fragment>
       <div>
-        {categories.map((category) => {
-          const productsInCategory = products.filter((product) => product.pCategory.cParentCategory === category._id);
-          const visibleProductCount = visibleProducts[category._id] || 8;
-          const remainingProductsCount = productsInCategory.length - visibleProductCount;
+        {allProductsInCategories.length > 0 ? (
+          categories.map((category) => {
+            const productsInCategory = products.filter((product) => product.pCategory.cParentCategory === category._id);
+            const visibleProductCount = visibleProducts[category._id] || 8;
+            const remainingProductsCount = productsInCategory.length - visibleProductCount;
 
-          return (
-            <div id={category.cName} key={category._id}>
-              {productsInCategory.length > 0 && (
-                <div className="category-header">
-                  <h2>{category.cName}</h2>
-                </div>
-              )}
-              <div className="product-list">
-                {products && products.length > 0 ? (
-                  productsInCategory
+            return (
+              <div id={category.cName} key={category._id}>
+                {productsInCategory.length > 0 && (
+                  <div className="category-header">
+                    <h2>{category.cName}</h2>
+                  </div>
+                )}
+                <div className="product-list">
+                  {productsInCategory
                     .slice(0, visibleProductCount)
                     .map((item, index) => (
                       <Fragment key={index}>
@@ -271,41 +286,28 @@ const SingleProduct = (props) => {
                         </div>
                       </Fragment>
                     ))
-                ) : (
-                  <div className="col-span-12 md:col-span-3 lg:col-span-4 flex items-center justify-center py-24">
-                    <svg
-                      className="w-12 h-12 animate-spin text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      ></path>
-                    </svg>
-                  </div>
-
-                )}
-                {remainingProductsCount > 0 && (
-                  <div className="product-footer">
-                    <div className="show-more">
-                      <button style={{ backgroundColor: "green" }} onClick={() => handleShowMore(category._id)}>
-                        Xem thêm {remainingProductsCount} sản phẩm {category.cName}
-                      </button>
+                  }
+                  {remainingProductsCount > 0 && (
+                    <div className="product-footer">
+                      <div className="show-more">
+                        <button style={{ backgroundColor: "green" }} onClick={() => handleShowMore(category._id)}>
+                          Xem thêm {remainingProductsCount} sản phẩm {category.cName}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-    </Fragment>
-  );
+            );
+          })
+        ) : (
+          <div className="col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-center py-24 text-2xl">
+            No product found
+          </div>
+      )}
+    </div>
+  </Fragment>
+);
 };
 
 export default SingleProduct;
