@@ -43,7 +43,7 @@ const ProductMenu = (props) => {
                 clipRule="evenodd"
               />
             </svg>
-            Add Product
+            Thêm Sản Phẩm
           </span>
         </div>
 

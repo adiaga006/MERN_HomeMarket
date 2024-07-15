@@ -135,7 +135,7 @@ const AllCategory = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {categories && categories.length} category found
+          Tổng có {categories && categories.length} danh mục
         </div>
       </div>
     </Fragment>
