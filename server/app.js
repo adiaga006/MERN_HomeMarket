@@ -49,7 +49,7 @@ CreateAllFolder();
 
 // Database Connection
 mongoose
-  .connect(process.env.DB_CLOUD, {
+  .connect(process.env.DB_LOCAL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

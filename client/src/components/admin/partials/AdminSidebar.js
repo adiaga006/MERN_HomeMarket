@@ -61,7 +61,7 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Categories</span>
+          <span className="hover:text-gray-800">Danh mục</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -87,7 +87,7 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Products</span>
+          <span className="hover:text-gray-800">Sản phẩm</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -113,7 +113,7 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Orders</span>
+          <span className="hover:text-gray-800">Đơn hàng</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -126,7 +126,7 @@ const AdminSidebar = (props) => {
           <span>
             <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
-          <span className="hover:text-gray-800">Users</span>
+          <span className="hover:text-gray-800">Người dùng</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -139,7 +139,7 @@ const AdminSidebar = (props) => {
           <span>
             <i className="fa fa-gift" style={{ fontSize: "24px" }}></i>
           </span>
-          <span className="hover:text-gray-800">Redeem Points</span>
+          <span className="hover:text-gray-800">Đổi thưởng</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -152,7 +152,7 @@ const AdminSidebar = (props) => {
           <span>
             <i className="fa fa-percent" style={{ fontSize: "24px" }}></i>
           </span>
-          <span className="hover:text-gray-800">Discounts</span>
+          <span className="hover:text-gray-800">Giảm giá</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -178,7 +178,7 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Product Statistics</span>
+          <span className="hover:text-gray-800">Thống kê sản phẩm</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -191,7 +191,7 @@ const AdminSidebar = (props) => {
           <span>
             <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
-          <span className="hover:text-gray-800">User Statistics</span>
+          <span className="hover:text-gray-800">Thống kê người dùng</span>
         </div>
         <hr className="border-b border-gray-200" />
       </div>

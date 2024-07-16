@@ -143,7 +143,7 @@ const AdminNavber = (props) => {
                       />
                     </svg>
                   </span>
-                  <span>Shop</span>
+                  <span>Cửa hàng</span>
                 </span>
                 {/* <span className="flex space-x-1 py-2 px-8 hover:bg-gray-400 cursor-pointer">
                   <span>
@@ -190,7 +190,7 @@ const AdminNavber = (props) => {
                       />
                     </svg>
                   </span>
-                  <span>Logout</span>
+                  <span>Đăng xuất</span>
                 </span>
               </li>
             </div>

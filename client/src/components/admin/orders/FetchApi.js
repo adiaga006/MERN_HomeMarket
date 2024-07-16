@@ -1,6 +1,15 @@
 import axios from "axios";
 const apiURL = process.env.REACT_APP_API_URL;
 
+export const getAllUser = async () => {
+  try {
+    let res = await axios.get(`${apiURL}/api/user/all-user`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getAllOrder = async () => {
   try {
     let res = await axios.get(`${apiURL}/api/order/get-all-orders`);
@@ -10,8 +19,8 @@ export const getAllOrder = async () => {
   }
 };
 
-export const editCategory = async (oId, status) => {
-  let data = { oId: oId, status: status };
+export const editCategory = async (oId, shipper, status) => {
+  let data = { oId: oId, shipper: shipper, status: status };
   console.log(data);
   try {
     let res = await axios.post(`${apiURL}/api/order/update-order`, data);

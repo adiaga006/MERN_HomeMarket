@@ -200,7 +200,7 @@ const CheckoutProducts = ({ products }) => {
                     {product.pName}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
-                    Price : {product.pPrice} .000 VND{" "}
+                    Price : {product.pPrice * (product.pOffer / 100)}.000 VND{" "}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
                     Quantitiy : {quantity(product._id)}

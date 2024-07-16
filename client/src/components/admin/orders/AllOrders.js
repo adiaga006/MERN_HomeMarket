@@ -53,17 +53,17 @@ const AllOrders = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Products</th>
-              <th className="px-4 py-2 border">Status</th>
-              <th className="px-4 py-2 border">Total</th>
+              <th className="px-4 py-2 border">Sản phẩm</th>
+              <th className="px-4 py-2 border">Trạng thái</th>
+              <th className="px-4 py-2 border">Tổng tiền</th>
               <th className="px-4 py-2 border">Transaction Id</th>
-              <th className="px-4 py-2 border">Customer</th>
+              <th className="px-4 py-2 border">Khách hàng</th>
               <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Phone</th>
-              <th className="px-4 py-2 border">Address</th>
-              <th className="px-4 py-2 border">Created at</th>
-              <th className="px-4 py-2 border">Updated at</th>
-              <th className="px-4 py-2 border">Actions</th>
+              <th className="px-4 py-2 border">Số điên thoại</th>
+              <th className="px-4 py-2 border">Địa chỉ</th>
+              <th className="px-4 py-2 border">Ngày tạo</th>
+              <th className="px-4 py-2 border">Ngày cập nhật</th>
+              <th className="px-4 py-2 border">Chức năng</th>
             </tr>
           </thead>
           <tbody>
@@ -73,8 +73,8 @@ const AllOrders = (props) => {
                   <CategoryTable
                     key={i}
                     order={item}
-                    editOrder={(oId, type, status) =>
-                      editOrderReq(oId, type, status, dispatch)
+                    editOrder={(oId, type, shipper, status) =>
+                      editOrderReq(oId, type, shipper, status, dispatch)
                     }
                   />
                 );
@@ -85,7 +85,7 @@ const AllOrders = (props) => {
                   colSpan="12"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No order found
+                  Không có đơn hàng
                 </td>
               </tr>
             )}
@@ -104,7 +104,7 @@ const AllOrders = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {orders && orders.length} order found
+          Tổng có {orders && orders.length} đơn hàng
         </div>
       </div>
     </Fragment>
@@ -180,7 +180,7 @@ const CategoryTable = ({ order, editOrder }) => {
         </td>
         <td className="p-2 flex items-center justify-center">
           <span
-            onClick={(e) => editOrder(order._id, true, order.status)}
+            onClick={(e) => editOrder(order._id, true, order.shipper, order.status)}
             className="cursor-pointer hover:bg-gray-200 rounded-lg p-2 mx-1"
           >
             <svg

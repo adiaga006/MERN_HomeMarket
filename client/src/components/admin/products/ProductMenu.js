@@ -43,7 +43,7 @@ const ProductMenu = (props) => {
                 clipRule="evenodd"
               />
             </svg>
-            Add Product
+            Thêm Sản Phẩm
           </span>
         </div>
 
@@ -64,7 +64,7 @@ const ProductMenu = (props) => {
               </svg>
             </span>
             <input
-              placeholder="Product name..."
+              placeholder="Tên sản phẩm..."
               className="py-2 px-2 focus:outline-none rounded-r-full w-full"
               type="text"
               value={productName}

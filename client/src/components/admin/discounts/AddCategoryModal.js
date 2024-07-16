@@ -107,7 +107,7 @@ const AddCategoryModal = ({ categories }) => {
         <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Add Discount
+              Thêm Giá Giá
             </span>
             {/* Close Modal */}
             <span
@@ -137,7 +137,7 @@ const AddCategoryModal = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Discount Name *</label>
+              <label htmlFor="name">Mã *</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -154,7 +154,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
 
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Discount Method *</label>
+              <label htmlFor="method">Phương Thức *</label>
               <select
                 name="method"
                 onChange={(e) => {
@@ -175,7 +175,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Discount Amount *</label>
+                <label htmlFor="amount">Giá tiền *</label>
                 <input
                   value={fData.dAmount}
                   onChange={(e) => {
@@ -201,7 +201,7 @@ const AddCategoryModal = ({ categories }) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Discount Percent *</label>
+                <label htmlFor="percent">Phần trăm *</label>
                 <input
                   value={fData.dPercent}
                   onChange={(e) => {
@@ -229,7 +229,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="status">Discount Category *</label>
+                <label htmlFor="status">Danh mục *</label>
                 <select
                   value={fData.dCategory}
                   onChange={(e) =>
@@ -245,7 +245,7 @@ const AddCategoryModal = ({ categories }) => {
                   id="status"
                 >
                   <option disabled value="">
-                    Select a category
+                    Chọn danh mục
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {
@@ -259,7 +259,7 @@ const AddCategoryModal = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="apply">Discount Apply *</label>
+                <label htmlFor="apply">Áp dụng *</label>
                 <select
                   name="apply"
                   onChange={(e) =>
@@ -279,7 +279,7 @@ const AddCategoryModal = ({ categories }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Discount Status *</label>
+              <label htmlFor="status">Trạng thái *</label>
               <select
                 name="status"
                 onChange={(e) =>
@@ -303,7 +303,7 @@ const AddCategoryModal = ({ categories }) => {
                 type="submit"
                 className="bg-gray-800 text-gray-100 rounded-full text-lg font-medium py-2"
               >
-                Create Discount
+                Tạo Giảm Giá
               </button>
             </div>
           </form>

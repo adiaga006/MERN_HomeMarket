@@ -46,9 +46,9 @@ const AllOrders = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Tên</th>
               <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Total Amount</th>
+              <th className="px-4 py-2 border">Tổng tiền</th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +70,7 @@ const AllOrders = (props) => {
                   colSpan="12"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No user found
+                  Không có người dùng
                 </td>
               </tr>
             )}
@@ -89,7 +89,7 @@ const AllOrders = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {orders && orders.length} user found
+          Tổng có {orders && orders.length} người dùng đã mua hàng
         </div>
       </div>
     </Fragment>

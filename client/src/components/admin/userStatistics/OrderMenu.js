@@ -67,7 +67,7 @@ const OrderMenu = (props) => {
             </div>
 
             <div>
-              <span style={{ color: "black" }} >Total User Amount</span>
+              <span style={{ color: "black" }} >Tổng tiền người dùng</span>
               <div className="rounded-full flex items-center justify-between overflow-hidden">
                 <input
                   className="py-2 px-2 focus:outline-none rounded-r-full w-full"

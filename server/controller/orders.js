@@ -9,6 +9,7 @@ class Order {
         .populate("allProduct.id", "pName pImages pPrice pOffer pQuantity")
         .populate("allDiscount.id", "_id dName dMethod dAmount dPercent dApply dCategory")
         .populate("user", "name email")
+        .populate("shipper", "name email")
         .sort({ _id: -1 });
       if (Orders) {
         return res.json({ Orders });
@@ -116,12 +117,13 @@ class Order {
   }  
 
   async postUpdateOrder(req, res) {
-    let { oId, status } = req.body;
+    let { oId, shipper, status } = req.body;
     if (!oId || !status) {
       return res.json({ message: "All filled must be required" });
     } else {
       let currentOrder = orderModel.findByIdAndUpdate(oId, {
         status: status,
+        shipper: shipper,
         updatedAt: Date.now(),
       });
       currentOrder.exec((err, result) => {

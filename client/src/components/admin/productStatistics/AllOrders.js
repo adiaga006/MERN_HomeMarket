@@ -43,11 +43,11 @@ const AllOrders = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Image</th>
-              <th className="px-4 py-2 border">Product</th>
-              <th className="px-4 py-2 border">Quantity</th>
-              <th className="px-4 py-2 border">Stock</th>
-              <th className="px-4 py-2 border">Total Amount</th>
+              <th className="px-4 py-2 border">Hình ảnh</th>
+              <th className="px-4 py-2 border">Sản phẩm</th>
+              <th className="px-4 py-2 border">Số lượng bán</th>
+              <th className="px-4 py-2 border">Số lượng tồn</th>
+              <th className="px-4 py-2 border">Tổng tiền</th>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +69,7 @@ const AllOrders = (props) => {
                   colSpan="12"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No product found
+                  Không có sản phẩm
                 </td>
               </tr>
             )}
@@ -88,7 +88,7 @@ const AllOrders = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {orders && orders.length} product found
+          Tổng có {orders && orders.length} sản phẩm đã bán
         </div>
       </div>
     </Fragment>

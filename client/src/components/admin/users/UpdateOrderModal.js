@@ -95,6 +95,9 @@ const UpdateOrderModal = (props) => {
               <option name="role" value={1}>
                 Admin
               </option>
+              <option name="role" value={2}>
+                Shipper
+              </option>
             </select>
           </div>
           <div className="flex flex-col space-y-1 w-full pb-4 md:pb-6">

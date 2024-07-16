@@ -40,7 +40,7 @@ const CategoryMenu = (props) => {
                 clipRule="evenodd"
               />
             </svg>
-            Add Category
+            Thêm Danh Mục
           </div>
           <div>
             <div className="rounded-full flex items-center justify-between overflow-hidden">
@@ -59,7 +59,7 @@ const CategoryMenu = (props) => {
                 </svg>
               </span>
               <input
-                placeholder="Category name..."
+                placeholder="Tên danh mục..."
                 className="py-2 px-2 focus:outline-none rounded-r-full w-full"
                 type="text"
                 value={categoryName}

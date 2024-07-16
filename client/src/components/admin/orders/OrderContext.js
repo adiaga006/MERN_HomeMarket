@@ -4,6 +4,7 @@ export const orderState = {
   updateOrderModal: {
     modal: false,
     oId: null,
+    shipper: null,
     status: "",
   },
   loading: false,
@@ -30,6 +31,7 @@ export const orderReducer = (state, action) => {
         updateOrderModal: {
           modal: true,
           oId: action.oId,
+          shipper: action.shipper,
           status: action.status,
         },
       };
@@ -39,6 +41,7 @@ export const orderReducer = (state, action) => {
         updateOrderModal: {
           modal: false,
           oId: null,
+          shipper: null,
           status: "",
         },
       };

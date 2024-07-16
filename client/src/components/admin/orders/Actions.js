@@ -15,10 +15,10 @@ export const fetchData = async (dispatch) => {
 };
 
 /* This method call the editmodal & dispatch category context */
-export const editOrderReq = (oId, type, status, dispatch) => {
+export const editOrderReq = (oId, type, shipper, status, dispatch) => {
   if (type) {
     console.log("click update");
-    dispatch({ type: "updateOrderModalOpen", oId: oId, status: status });
+    dispatch({ type: "updateOrderModalOpen", oId: oId, shipper: shipper, status: status });
   }
 };
 

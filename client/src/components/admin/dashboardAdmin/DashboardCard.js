@@ -133,7 +133,7 @@ const DashboardCard = (props) => {
           <div className="text-2xl font-semibold">
             {data ? data.totalData.Users : 0}
           </div>
-          <div className="text-lg font-medium">Customers</div>
+          <div className="text-lg font-medium">Khách hàng</div>
           <div className="flex items-center space-x-1 text-green-500">
             {/* <span>7%</span>
             <span>
@@ -174,7 +174,7 @@ const DashboardCard = (props) => {
           <div className="text-2xl font-semibold">
             {data ? data.totalData.Orders : 0}
           </div>
-          <div className="text-lg font-medium">Orders</div>
+          <div className="text-lg font-medium">Đơn hàng</div>
           <div className="flex items-center space-x-1 text-green-500">
             {/* <span>10%</span>
             <span>
@@ -213,7 +213,7 @@ const DashboardCard = (props) => {
           <div className="text-2xl font-semibold">
             {data ? data.totalData.Products : 0}
           </div>
-          <div className="text-lg font-medium">Product</div>
+          <div className="text-lg font-medium">Sản phẩm</div>
         </div>
         <div className="flex flex-col justify-center items-center col-span-1 bg-white p-6 shadow-lg hover:shadow-none cursor-pointer transition-all duration-300 ease-in border-b-4 border-opacity-0 hover:border-opacity-100 border-orange-200">
           <div className="bg-orange-200 p-2 cursor-pointer rounded-full">
@@ -235,13 +235,13 @@ const DashboardCard = (props) => {
           <div className="text-2xl font-semibold">
             {data ? data.totalData.Categories : 0}
           </div>
-          <div className="text-lg font-medium">Categories</div>
+          <div className="text-lg font-medium">Danh mục</div>
         </div>
          {/* Existing cards... */}
          {/* DatePicker and Total Annual Revenue */}
          <div className="flex justify-between items-center col-span-1 md:col-span-4 bg-white p-6 shadow-lg hover:shadow-none cursor-pointer transition-all duration-300 ease-in border-b-4 border-opacity-0 hover:border-opacity-100 border-blue-200">
          <div className="font-semibold"> 
-           <div className="mb-2">Select Year</div>
+           <div className="mb-2">Chọn năm</div>
            <DatePicker
              selected={new Date(selectedYear, 0)}
              onChange={handleYearChange}
@@ -251,14 +251,14 @@ const DashboardCard = (props) => {
            />
          </div>
          <div className="text-right">
-           <div className="text-lg font-semibold mb-1">Total Annual Revenue</div>
+           <div className="text-lg font-semibold mb-1">Tổng doanh thu trong năm</div>
            <div className="text-xl font-bold">{totalAnnualRevenue.toLocaleString()},000 VND</div>
          </div>
        </div>
 
        {/* Chart */}
        <div className="col-span-1 md:col-span-4 bg-white p-6 shadow-lg hover:shadow-none cursor-pointer transition-all duration-300 ease-in border-b-4 border-opacity-0 hover:border-opacity-100 border-blue-200">
-         <div className="text-xl font-semibold mb-2">Monthly Revenue Chart</div>
+         <div className="text-xl font-semibold mb-2">Biểu đồ doanh thu hàng tháng</div>
          <div className="w-full h-64">
            <Bar data={chartData} options={chartOptions} />
          </div>

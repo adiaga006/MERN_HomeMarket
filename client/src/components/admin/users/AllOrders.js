@@ -53,13 +53,13 @@ const AllOrders = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Tên</th>
               <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Phone</th>
-              <th className="px-4 py-2 border">Role</th>
-              <th className="px-4 py-2 border">Created at</th>
-              <th className="px-4 py-2 border">Updated at</th>
-              <th className="px-4 py-2 border">Actions</th>
+              <th className="px-4 py-2 border">Số điên thoại</th>
+              <th className="px-4 py-2 border">Vai trò</th>
+              <th className="px-4 py-2 border">Ngày tạo</th>
+              <th className="px-4 py-2 border">Ngày cập nhật</th>
+              <th className="px-4 py-2 border">Chức năng</th>
             </tr>
           </thead>
           <tbody>
@@ -81,7 +81,7 @@ const AllOrders = (props) => {
                   colSpan="12"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No user found
+                  Không có người dùng
                 </td>
               </tr>
             )}
@@ -100,7 +100,7 @@ const AllOrders = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {orders && orders.length} user found
+          Tổng có {orders && orders.length} người dùng
         </div>
       </div>
     </Fragment>
@@ -128,6 +128,11 @@ const CategoryTable = ({ order, editOrder }) => {
           {order.userRole === 1 && (
             <span className="hover:bg-gray-200 p-2 text-center">
               Admin
+            </span>
+          )}
+          {order.userRole === 2 && (
+            <span className="hover:bg-gray-200 p-2 text-center">
+              Shipper
             </span>
           )}
         </td>

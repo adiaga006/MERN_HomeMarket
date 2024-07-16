@@ -109,7 +109,7 @@ const AddCategoryModal = ({ categories }) => {
         <div className="relative bg-white w-12/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Add Redeem Point
+              Thêm Đổi Thưởng
             </span>
             {/* Close Modal */}
             <span
@@ -139,7 +139,7 @@ const AddCategoryModal = ({ categories }) => {
           {fData.success ? alert(fData.success, "green") : ""}
           <form className="w-full" onSubmit={(e) => submitForm(e)}>
             <div className="flex flex-col space-y-1 w-full py-4">
-              <label htmlFor="name">Point *</label>
+              <label htmlFor="name">Điểm *</label>
               <input
                 onChange={(e) =>
                   setFdata({
@@ -156,7 +156,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
 
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Method *</label>
+              <label htmlFor="method">Phương thức *</label>
               <select
                 name="method"
                 onChange={(e) => {
@@ -177,7 +177,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Amount *</label>
+                <label htmlFor="amount">Giá tiền *</label>
                 <input
                   value={fData.rAmount}
                   onChange={(e) => {
@@ -203,7 +203,7 @@ const AddCategoryModal = ({ categories }) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Percent *</label>
+                <label htmlFor="percent">Phần trăm *</label>
                 <input
                   value={fData.rPercent}
                   onChange={(e) => {
@@ -231,7 +231,7 @@ const AddCategoryModal = ({ categories }) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="status">Category *</label>
+                <label htmlFor="status">Danh mục *</label>
                 <select
                   value={fData.rCategory}
                   onChange={(e) =>
@@ -247,7 +247,7 @@ const AddCategoryModal = ({ categories }) => {
                   id="status"
                 >
                   <option disabled value="">
-                    Select a category
+                    Chọn danh mục
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {
@@ -261,7 +261,7 @@ const AddCategoryModal = ({ categories }) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="apply">Apply *</label>
+                <label htmlFor="apply">Áp dụng *</label>
                 <select
                   name="apply"
                   onChange={(e) =>
@@ -281,7 +281,7 @@ const AddCategoryModal = ({ categories }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Status *</label>
+              <label htmlFor="status">Trạng thái *</label>
               <select
                 name="status"
                 onChange={(e) =>
@@ -305,7 +305,7 @@ const AddCategoryModal = ({ categories }) => {
                 type="submit"
                 className="bg-gray-800 text-gray-100 rounded-full text-lg font-medium py-2"
               >
-                Create Redeem Point
+                Tạo Đổi Thưởng
               </button>
             </div>
           </form>

@@ -88,12 +88,12 @@ const AllCategory = (props) => {
         <table className="table-auto border w-full my-2">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Category</th>
-              <th className="px-4 py-2 border">Description</th>
-              <th className="px-4 py-2 border">Status</th>
-              <th className="px-4 py-2 border">Created at</th>
-              <th className="px-4 py-2 border">Updated at</th>
-              <th className="px-4 py-2 border">Actions</th>
+              <th className="px-4 py-2 border">Tên</th>
+              <th className="px-4 py-2 border">Mô tả</th>
+              <th className="px-4 py-2 border">Trạng thái</th>
+              <th className="px-4 py-2 border">Ngày tạo</th>
+              <th className="px-4 py-2 border">Ngày cập nhật</th>
+              <th className="px-4 py-2 border">Chức năng</th>
             </tr>
           </thead>
           <tbody>
@@ -116,7 +116,7 @@ const AllCategory = (props) => {
                   colSpan="7"
                   className="text-xl text-center font-semibold py-8"
                 >
-                  No category found
+                  Không có danh mục
                 </td>
               </tr>
             )}
@@ -135,7 +135,7 @@ const AllCategory = (props) => {
           ))}
         </div>
         <div className="text-sm text-gray-600 mt-2">
-          Total {categories && categories.length} category found
+          Tổng có {categories && categories.length} danh mục
         </div>
       </div>
     </Fragment>

@@ -1,17 +1,20 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { OrderContext } from "./index";
-import { getAllOrder, editCategory } from "./FetchApi";
+import { getAllOrder, editCategory, getAllUser } from "./FetchApi";
 
 const UpdateOrderModal = (props) => {
   const { data, dispatch } = useContext(OrderContext);
-
   const [status, setStatus] = useState("");
-
+  const [user, setUser] = useState((null))
+  const [shipper, setShipper] = useState(null);
   const [oId, setOid] = useState("");
+  
 
   useEffect(() => {
     setOid(data.updateOrderModal.oId);
+    setShipper(data.updateOrderModal.shipper);
     setStatus(data.updateOrderModal.status);
+    fetchCategoryData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.updateOrderModal.modal]);
 
@@ -25,9 +28,18 @@ const UpdateOrderModal = (props) => {
     }
   };
 
+  const fetchCategoryData = async () => {
+    let responseData = await getAllUser();
+    if (responseData.Users) {
+      const filteredShipper = responseData.Users.filter(user => user.userRole === 2);
+      setUser(filteredShipper);
+    }
+  };
+
+
   const submitForm = async () => {
     dispatch({ type: "loading", payload: true });
-    let responseData = await editCategory(oId, status);
+    let responseData = await editCategory(oId, shipper, status);
     if (responseData.error) {
       dispatch({ type: "loading", payload: false });
     } else if (responseData.success) {
@@ -56,7 +68,7 @@ const UpdateOrderModal = (props) => {
         <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Edit Order
+              Chỉnh Sửa Đơn Hàng
             </span>
             {/* Close Modal */}
             <span
@@ -81,7 +93,50 @@ const UpdateOrderModal = (props) => {
             </span>
           </div>
           <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="status">Order Status</label>
+            <label htmlFor="parent">Người giao hàng</label>
+            <select
+              value={shipper ? shipper._id : ""}
+              onChange={(e) => {
+                setShipper(e.target.value);
+              }}
+              name="parent"
+              className="px-4 py-2 border focus:outline-none"
+              id="parent"
+            >
+              <option disabled value="">
+                Chọn người giao hàng
+              </option>
+              {user && user.length > 0
+                ? user.map((elem) => {
+                  return (
+                    <Fragment key={elem._id}>
+                      {shipper && shipper &&
+                        shipper === elem._id ? (
+                        <option
+                          name="status"
+                          value={elem._id}
+                          key={elem._id}
+                          selected
+                        >
+                          {elem.name}
+                        </option>
+                      ) : (
+                        <option
+                          name="status"
+                          value={elem._id}
+                          key={elem._id}
+                        >
+                          {elem.name}
+                        </option>
+                      )}
+                    </Fragment>
+                  );
+                })
+                : ""}
+            </select>
+          </div>
+          <div className="flex flex-col space-y-1 w-full">
+            <label htmlFor="status">Trạng thái</label>
             <select
               value={status}
               name="status"
@@ -112,7 +167,7 @@ const UpdateOrderModal = (props) => {
               onClick={(e) => submitForm()}
               className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
             >
-              Update Order
+              Cập Nhật Đơn Hàng
             </button>
           </div>
         </div>

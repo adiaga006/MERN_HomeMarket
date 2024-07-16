@@ -100,7 +100,7 @@ const EditCategoryModal = (props) => {
         <div className="relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4  overflow-y-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
             <span className="text-left font-semibold text-2xl tracking-wider">
-              Edit Redeem Point
+              Chỉnh Sửa Đổi Thưởng
             </span>
             {/* Close Modal */}
             <span
@@ -132,7 +132,7 @@ const EditCategoryModal = (props) => {
           )}
           <form className="w-full">
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="name">Point *</label>
+              <label htmlFor="name">Điểm *</label>
               <input
                 type="text"
                 value={point}
@@ -143,7 +143,7 @@ const EditCategoryModal = (props) => {
               />
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="method">Method *</label>
+              <label htmlFor="method">Phương thức *</label>
               <select
                 value={method}
                 name="method"
@@ -161,7 +161,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="amount">Amount *</label>
+                <label htmlFor="amount">Giá tiền *</label>
                 <input
                   type="text"
                   value={amount}
@@ -183,7 +183,7 @@ const EditCategoryModal = (props) => {
                 />
               </div>
               <div className="w-1/2 flex flex-col space-y-1 space-x-1">
-                <label htmlFor="percent">Percent *</label>
+                <label htmlFor="percent">Phần trăm *</label>
                 <input
                   type="text"
                   value={percent}
@@ -206,7 +206,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className="flex space-x-1 py-4">
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="discount">Category *</label>
+                <label htmlFor="discount">Danh mục *</label>
                 <select
                   onChange={(e) => setCategory(e.target.value)}
                   name="discount"
@@ -214,7 +214,7 @@ const EditCategoryModal = (props) => {
                   id="discount"
                 >
                   <option disabled value="">
-                    Select a category
+                    Chọn danh mục
                   </option>
                   {categories && categories.length > 0
                     ? categories.map((elem) => {
@@ -246,7 +246,7 @@ const EditCategoryModal = (props) => {
                 </select>
               </div>
               <div className="w-1/2 flex flex-col space-y-1">
-                <label htmlFor="apply">Apply *</label>
+                <label htmlFor="apply">Áp dụng *</label>
                 <select
                   value={apply}
                   name="apply"
@@ -264,7 +264,7 @@ const EditCategoryModal = (props) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 w-full">
-              <label htmlFor="status">Status *</label>
+              <label htmlFor="status">Trạng thái *</label>
               <select
                 value={status}
                 name="status"
@@ -286,7 +286,7 @@ const EditCategoryModal = (props) => {
                 onClick={(e) => submitForm()}
                 className="rounded-full bg-gray-800 text-gray-100 text-lg font-medium py-2"
               >
-                Update Redeem Point
+                Cập Nhật Đổi Thưởng
               </button>
             </div>
           </form>

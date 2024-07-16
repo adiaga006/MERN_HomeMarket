@@ -30,7 +30,7 @@ const CategoryMenu = (props) => {
                 clipRule="evenodd"
               />
             </svg>
-            Add Redeem Point
+            Thêm Đổi Thưởng
           </div>
         </div>
         <AddCategoryModal />

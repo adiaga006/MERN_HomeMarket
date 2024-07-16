@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema(
         percent: { type: Number }
       },
     ],
+    shipper: {
+      type: ObjectId,
+      ref: "users"
+    },
     status: {
       type: String,
       default: "Not processed",
