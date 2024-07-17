@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema(
     allProduct: [
       {
         id: { type: ObjectId, ref: "products" },
-        category: { type: ObjectId, ref: "categories"},
+        category: { type: ObjectId, ref: "categories" },
         quantitiy: Number,
         oldPrice: Number,
         offer: Number,
@@ -33,18 +33,22 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    deliveryDateTime: {
+      type: Date,
+      required: true,
+    },
     allDiscount: [
       {
         id: { type: ObjectId, ref: "discounts" },
-        category: { type: ObjectId, ref: "categories"},
+        category: { type: ObjectId, ref: "categories" },
         method: { type: String },
         amount: { type: Number },
-        percent: { type: Number }
+        percent: { type: Number },
       },
     ],
     shipper: {
       type: ObjectId,
-      ref: "users"
+      ref: "users",
     },
     status: {
       type: String,

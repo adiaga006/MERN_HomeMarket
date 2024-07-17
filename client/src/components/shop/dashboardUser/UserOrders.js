@@ -79,7 +79,7 @@ const TableBody = ({ order }) => {
           {order.transactionId}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {moment(order.createdAt).format("lll")}
+          {order.deliveryDateTime ? moment(order.deliveryDateTime).format("lll") : "Không có thông tin"}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
   {order.allDiscount && order.allDiscount.length > 0 ? (

@@ -40,9 +40,9 @@ class Order {
   }
 
   async postCreateOrder(req, res) {
-    let { allProduct, user, amount, transactionId, address, phone, allDiscount} = req.body;
+    let { allProduct, user, amount, transactionId, address, phone, deliveryDateTime, allDiscount} = req.body;
   
-    if (!allProduct || !user || !amount || !transactionId || !address || !phone ) {
+    if (!allProduct || !user || !amount || !transactionId || !address || !phone || !deliveryDateTime) {
       return res.json({ message: "All fields must be required" });
       
     } else {
@@ -82,6 +82,7 @@ class Order {
           transactionId,
           address,
           phone,
+          deliveryDateTime,
           allDiscount
         });
   

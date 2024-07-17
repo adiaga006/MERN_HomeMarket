@@ -60,6 +60,7 @@ const AllOrders = (props) => {
               <th className="px-4 py-2 border">Khách hàng</th>
               <th className="px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Số điên thoại</th>
+              <th className="px-4 py-2 border">Ngày giao</th>
               <th className="px-4 py-2 border">Địa chỉ</th>
               <th className="px-4 py-2 border">Ngày tạo</th>
               <th className="px-4 py-2 border">Ngày cập nhật</th>
@@ -171,6 +172,9 @@ const CategoryTable = ({ order, editOrder }) => {
           {order.user.email}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">{order.phone}</td>
+        <td className="hover:bg-gray-200 p-2 text-center">
+          {order.deliveryDateTime ? moment(order.deliveryDateTime).format("lll") : "Không có thông tin"}
+        </td>
         <td className="hover:bg-gray-200 p-2 text-center">{order.address}</td>
         <td className="hover:bg-gray-200 p-2 text-center">
           {moment(order.createdAt).format("lll")}

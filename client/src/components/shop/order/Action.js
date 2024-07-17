@@ -44,6 +44,10 @@ export const pay = async (
     setState({ ...state, error: "Please provide your address" });
   } else if (!state.phone) {
     setState({ ...state, error: "Please provide your phone number" });
+  } else if (!state.deliveryDate) {
+    setState({ ...state, error: "Please provide delivery date" });
+  } else if (!state.deliveryTime) {
+    setState({ ...state, error: "Please provide delivery time" });
   } else {
     let nonce;
     state.instance
@@ -65,6 +69,7 @@ export const pay = async (
                 transactionId: res.transaction.id,
                 address: state.address,
                 phone: state.phone,
+                deliveryDateTime: new Date(`${state.deliveryDate}T${state.deliveryTime}`),
                 allDiscount: JSON.parse(localStorage.getItem("discount")),
               };
               try {

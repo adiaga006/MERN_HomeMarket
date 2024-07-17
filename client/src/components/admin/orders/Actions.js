@@ -96,9 +96,9 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch, setError) 
         // Filter orders based on timestamps (createdAt) between start and end dates
         filteredOrders = responseData.Orders.filter(
           (item) =>
-            new Date(item.createdAt).setHours(0, 0, 0, 0) >=
+            new Date(item.deliveryDateTime).setHours(0, 0, 0, 0) >=
             new Date(startDate).setHours(0, 0, 0, 0) &&
-            new Date(item.createdAt).setHours(23, 59, 59, 999) <=
+            new Date(item.deliveryDateTime).setHours(23, 59, 59, 999) <=
             new Date(endDate).setHours(23, 59, 59, 999)
         );
       } else {

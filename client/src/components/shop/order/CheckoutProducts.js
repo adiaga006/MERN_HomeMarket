@@ -18,13 +18,14 @@ export const CheckoutComponent = (props) => {
   const [state, setState] = useState({
     address: "",
     phone: "",
+    deliveryDate: "",
+    deliveryTime: "",
     error: false,
     success: false,
     clientToken: null,
     instance: {},
   });
-  const [paymentError, setPaymentError] = useState("");
-
+  const [paymentError, setPaymentError] = useState("")
 
   useEffect(() => {
     fetchData(cartListProduct, dispatch);
@@ -32,9 +33,49 @@ export const CheckoutComponent = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < currentDate) {
+      setState({
+        ...state,
+        deliveryDate: "",
+        error: "Delivery date cannot be in the past",
+      });
+    } else {
+      setState({
+        ...state,
+        deliveryDate: e.target.value,
+        error: false,
+      });
+    }
+  };
+
+  // const handleTimeChange = (e) => {
+  //   const selectedDate = new Date(e.target.value);
+  //   const currentDate = new Date();
+  //   currentDate.setHours(0, 0, 0, 0);
+
+  //   if (selectedDate < currentDate) {
+  //     setState({
+  //       ...state,
+  //       deliveryDate: "",
+  //       error: "Delivery date cannot be in the past",
+  //     });
+  //   } else {
+  //     setState({
+  //       ...state,
+  //       deliveryDate: e.target.value,
+  //       error: false,
+  //     });
+  //   }
+  // };
+
   if (data.loading) {
     return (
-
       <div className="flex items-center justify-center h-screen">
         <svg
           className="w-12 h-12 animate-spin text-gray-600"
@@ -54,6 +95,7 @@ export const CheckoutComponent = (props) => {
       </div>
     );
   }
+
   return (
     <Fragment>
       <section className="mx-4 mt-20 md:mx-12 md:mt-32 lg:mt-24">
@@ -115,6 +157,36 @@ export const CheckoutComponent = (props) => {
                       placeholder="+880"
                     />
                   </div>
+                  <div className="flex flex-col py-2 mb-2">
+                    <label htmlFor="deliveryDate" className="pb-2">
+                      Delivery Date
+                    </label>
+                    <input
+                      value={state.deliveryDate}
+                      onChange={handleDateChange}
+                      type="date"
+                      id="deliveryDate"
+                      className="border px-4 py-2"
+                    />
+                  </div>
+                  <div className="flex flex-col py-2 mb-2">
+                    <label htmlFor="deliveryTime" className="pb-2">
+                      Delivery Time
+                    </label>
+                    <input
+                      value={state.deliveryTime}
+                      onChange={(e) =>
+                        setState({
+                          ...state,
+                          deliveryTime: e.target.value,
+                          error: false,
+                        })
+                      }
+                      type="time"
+                      id="deliveryTime"
+                      className="border px-4 py-2"
+                    />
+                  </div>
                   <DropIn
                     options={{
                       authorization: state.clientToken,
@@ -141,7 +213,7 @@ export const CheckoutComponent = (props) => {
                         setState,
                         getPaymentProcess,
                         totalCost,
-                        history,
+                        history
                       )
                     }
                     className="w-full px-4 py-2 text-center text-white font-semibold cursor-pointer"

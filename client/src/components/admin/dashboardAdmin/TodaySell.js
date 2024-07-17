@@ -135,7 +135,7 @@ const TodayOrderTable = ({ order }) => {
         </td>
         <td className="p-2 text-center">{order.address}</td>
         <td className="p-2 text-center">
-          {moment(order.createdAt).format("lll")}
+          {order.deliveryDateTime ? moment(order.deliveryDateTime).format("lll") : "Không có thông tin"}
         </td>
       </tr>
     </Fragment>
