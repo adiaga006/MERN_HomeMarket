@@ -95,6 +95,7 @@ const OrdersComponent = () => {
     fetchRedeemPoint(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(totalPoints);
 
   let spendPoints;
   if (user !== null && user.point !== undefined) {

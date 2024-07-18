@@ -5,12 +5,12 @@ const OrderSuccessMessage = (props) => {
   const { data, dispatch } = useContext(LayoutContext);
   return (
     <Fragment>
-      {/* <div
+      <div
         className={`${data.orderSuccess ? "" : "hidden"
           } fixed bottom-0 flex justify-between items-center z-30 w-full bg-gray-800 text-white text-lg py-8 md:py-16 md:text-xl px-4 text-center`}
       >
         <span className="w-10/12 md:w-full">
-          Your Order in process. Wait 2 days to deliver.
+        Đơn hàng của bạn đã thành công.
         </span>
         <span
           onClick={(e) => dispatch({ type: "orderSuccess", payload: false })}
@@ -29,7 +29,7 @@ const OrderSuccessMessage = (props) => {
             />
           </svg>
         </span>
-      </div> */}
+      </div>
     </Fragment>
   );
 };

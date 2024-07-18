@@ -17,9 +17,9 @@ const SellTable = () => {
 
   const ordersList = () => {
     let newList = [];
-    if (data.totalOrders.Orders !== undefined) {
-      data.totalOrders.Orders.forEach(function (elem) {
-        if (moment(elem.createdAt).format("LL") === moment().format("LL")) {
+    if (data.totalOrders !== undefined) {
+      data.totalOrders.forEach(function (elem) {
+        if (moment(elem.deliveryDateTime).format("LL") === moment().format("LL")) {
           newList = [...newList, elem];
         }
       });
@@ -31,8 +31,8 @@ const SellTable = () => {
     <Fragment>
       <div className="col-span-1 overflow-auto bg-white shadow-lg p-4">
         <div className="text-2xl font-semibold mb-6 text-center">
-          Tổng số đơn hàng trong ngày: {" "}
-          {data.totalOrders.Orders !== undefined ? ordersList().length : 0}
+          Tổng đơn hàng trong ngày: {" "}
+          {data.totalOrders !== undefined ? ordersList().length : 0}
         </div>
         <table className="table-auto border w-full my-2">
           <thead>
@@ -45,7 +45,7 @@ const SellTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.totalOrders.Orders !== undefined ? (
+            {data.totalOrders !== undefined ? (
               ordersList().map((item, key) => {
                 return <TodayOrderTable order={item} key={key} />;
               })
@@ -63,12 +63,12 @@ const SellTable = () => {
         </table>
         <div className="text-sm text-gray-600 mt-2">
           Tổng có{" "}
-          {data.totalOrders.Orders !== undefined ? ordersList().length : 0}{" "}
+          {data.totalOrders !== undefined ? ordersList().length : 0}{" "}
             đơn hàng trong ngày
         </div>
         <div className="flex justify-center">
           <span
-            onClick={(e) => history.push("/admin/dashboard/orders")}
+            onClick={(e) => history.push("/shipper/dashboard/orders")}
             style={{ background: "#303031" }}
             className="cursor-pointer px-4 py-2 text-white rounded-full"
           >

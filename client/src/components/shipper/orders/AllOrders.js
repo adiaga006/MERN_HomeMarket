@@ -61,9 +61,6 @@ const AllOrders = (props) => {
               <th className="px-4 py-2 border">Số điên thoại</th>
               <th className="px-4 py-2 border">Ngày giao</th>
               <th className="px-4 py-2 border">Địa chỉ</th>
-              <th className="px-4 py-2 border">Người giao hàng</th>
-              <th className="px-4 py-2 border">Ngày tạo</th>
-              <th className="px-4 py-2 border">Ngày cập nhật</th>
               <th className="px-4 py-2 border">Chức năng</th>
             </tr>
           </thead>
@@ -173,15 +170,6 @@ const CategoryTable = ({ order, editOrder }) => {
           {order.deliveryDateTime ? moment(order.deliveryDateTime).format("lll") : "Không có thông tin"}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">{order.address}</td>
-        <td className="hover:bg-gray-200 p-2 text-center">
-          {order.shipper ? order.shipper.name : "Không có thông tin"}
-        </td>
-        <td className="hover:bg-gray-200 p-2 text-center">
-          {moment(order.createdAt).format("lll")}
-        </td>
-        <td className="hover:bg-gray-200 p-2 text-center">
-          {moment(order.updatedAt).format("lll")}
-        </td>
         <td className="p-2 flex items-center justify-center">
           <span
             onClick={(e) => editOrder(order._id, true, order.shipper, order.status)}
@@ -198,25 +186,6 @@ const CategoryTable = ({ order, editOrder }) => {
                 fillRule="evenodd"
                 d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
                 clipRule="evenodd"
-              />
-            </svg>
-          </span>
-          <span
-            onClick={(e) => deleteOrderReq(order._id, dispatch)}
-            className="cursor-pointer hover:bg-gray-200 rounded-lg p-2 mx-1"
-          >
-            <svg
-              className="w-6 h-6 text-red-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
           </span>

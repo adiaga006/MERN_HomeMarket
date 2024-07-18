@@ -54,26 +54,91 @@ export const CheckoutComponent = (props) => {
     }
   };
 
-  // const handleTimeChange = (e) => {
-  //   const selectedDate = new Date(e.target.value);
-  //   const currentDate = new Date();
-  //   currentDate.setHours(0, 0, 0, 0);
-
-  //   if (selectedDate < currentDate) {
-  //     setState({
-  //       ...state,
-  //       deliveryDate: "",
-  //       error: "Delivery date cannot be in the past",
-  //     });
-  //   } else {
-  //     setState({
-  //       ...state,
-  //       deliveryDate: e.target.value,
-  //       error: false,
-  //     });
-  //   }
-  // };
-
+  const handleTimeChange = (e) => {
+    const selectedTime = e.target.value;
+    const currentDate = new Date();
+    const currentTime = currentDate.toTimeString().slice(0, 5); // "HH:MM"
+  
+    const [selectedHours, selectedMinutes] = selectedTime.split(":");
+    const [currentHours, currentMinutes] = currentTime.split(":");
+  
+    const selectedTimeInMinutes = parseInt(selectedHours) * 60 + parseInt(selectedMinutes);
+    const currentTimeInMinutes = parseInt(currentHours) * 60 + parseInt(currentMinutes);
+  
+    const eightAMInMinutes = 8 * 60;
+    const eightPMInMinutes = 20 * 60;
+  
+    // Check if the selected time is within 8 AM to 8 PM
+    if (selectedTimeInMinutes < eightAMInMinutes || selectedTimeInMinutes > eightPMInMinutes) {
+      setState({
+        ...state,
+        deliveryTime: "",
+        error: "Delivery time must be between 08:00 and 20:00",
+      });
+    } else {
+      // Apply constraints based on the current time
+      if (currentTimeInMinutes >= eightAMInMinutes && currentTimeInMinutes < 10 * 60) {
+        if (selectedTimeInMinutes < 10 * 60) {
+          setState({
+            ...state,
+            deliveryTime: "",
+            error: "Delivery time must be between 10:00 and 20:00",
+          });
+          return;
+        }
+      } else if (currentTimeInMinutes >= 10 * 60 && currentTimeInMinutes < 12 * 60) {
+        if (selectedTimeInMinutes < 12 * 60) {
+          setState({
+            ...state,
+            deliveryTime: "",
+            error: "Delivery time must be between 12:00 and 20:00",
+          });
+          return;
+        }
+      } else if (currentTimeInMinutes >= 12 * 60 && currentTimeInMinutes < 14 * 60) {
+        if (selectedTimeInMinutes < 14 * 60) {
+          setState({
+            ...state,
+            deliveryTime: "",
+            error: "Delivery time must be between 14:00 and 20:00",
+          });
+          return;
+        }
+      } else if (currentTimeInMinutes >= 14 * 60 && currentTimeInMinutes < 16 * 60) {
+        if (selectedTimeInMinutes < 16 * 60) {
+          setState({
+            ...state,
+            deliveryTime: "",
+            error: "Delivery time must be between 16:00 and 20:00",
+          });
+          return;
+        }
+      } else if (currentTimeInMinutes >= 16 * 60 && currentTimeInMinutes < 18 * 60) {
+        if (selectedTimeInMinutes < 18 * 60) {
+          setState({
+            ...state,
+            deliveryTime: "",
+            error: "Delivery time must be between 18:00 and 20:00",
+          });
+          return;
+        }
+      } else if (currentTimeInMinutes >= 20 * 60) {
+        setState({
+          ...state,
+          deliveryTime: "",
+          error: "Current time is past 20:00, delivery cannot be scheduled today",
+        });
+        return;
+      }
+  
+      setState({
+        ...state,
+        deliveryTime: selectedTime,
+        error: false,
+      });
+    }
+  };
+  
   if (data.loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -175,13 +240,7 @@ export const CheckoutComponent = (props) => {
                     </label>
                     <input
                       value={state.deliveryTime}
-                      onChange={(e) =>
-                        setState({
-                          ...state,
-                          deliveryTime: e.target.value,
-                          error: false,
-                        })
-                      }
+                      onChange={handleTimeChange}
                       type="time"
                       id="deliveryTime"
                       className="border px-4 py-2"
@@ -272,7 +331,7 @@ const CheckoutProducts = ({ products }) => {
                     {product.pName}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
-                    Price : {product.pPrice * (product.pOffer / 100)}.000 VND{" "}
+                    Price : {Math.round(product.pPrice - (product.pPrice * product.pOffer) / 100)}.000 VND{" "}
                   </div>
                   <div className="md:ml-6 font-semibold text-gray-600 text-sm">
                     Quantitiy : {quantity(product._id)}

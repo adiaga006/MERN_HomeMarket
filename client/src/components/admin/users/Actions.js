@@ -39,72 +39,51 @@ export const filterOrder = async (
   setDropdown
 ) => {
   let responseData = await getAllOrder();
-  if (responseData && responseData.Orders) {
+  if (responseData && responseData.Users) {
     let newData;
-    if (type === "All STATUS") {
+    if (type === "All ROLE") {
       dispatch({
         type: "fetchOrderAndChangeState",
-        payload: responseData.Orders,
+        payload: responseData.Users,
       });
       setDropdown(!dropdown);
-    } else if (type === "Not processed") {
-      newData = responseData.Orders.filter(
-        (item) => item.status === "Not processed"
+    } else if (type === "USER") {
+      newData = responseData.Users.filter(
+        (item) => item.userRole === 0
       );
       dispatch({ type: "fetchOrderAndChangeState", payload: newData });
       setDropdown(!dropdown);
-    } else if (type === "Processing") {
-      newData = responseData.Orders.filter(
-        (item) => item.status === "Processing"
+    } else if (type === "ADMIN") {
+      newData = responseData.Users.filter(
+        (item) => item.userRole === 1
       );
       dispatch({ type: "fetchOrderAndChangeState", payload: newData });
       setDropdown(!dropdown);
-    } else if (type === "Shipped") {
-      newData = responseData.Orders.filter((item) => item.status === "Shipped");
-      dispatch({ type: "fetchOrderAndChangeState", payload: newData });
-      setDropdown(!dropdown);
-    } else if (type === "Delivered") {
-      newData = responseData.Orders.filter(
-        (item) => item.status === "Delivered"
-      );
-      dispatch({ type: "fetchOrderAndChangeState", payload: newData });
-      setDropdown(!dropdown);
-    } else if (type === "Cancelled") {
-      newData = responseData.Orders.filter(
-        (item) => item.status === "Cancelled"
-      );
+    } else if (type === "SHIPPER") {
+      newData = responseData.Users.filter((item) => item.userRole === 2);
       dispatch({ type: "fetchOrderAndChangeState", payload: newData });
       setDropdown(!dropdown);
     }
   }
 };
 
-export const fetchOrdersByDate = async (startDate, endDate, dispatch, setError) => {
+
+export const fetchOrdersByTransactionId = async (transactionId, dispatch, setError) => {
   try {
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-      const errorMessage = "Start date cannot be greater than end date";
-      setError(errorMessage);
-      return;
-    }
 
     let responseData = await getAllOrder();
-    if (responseData && responseData.Orders) {
+    if (responseData && responseData.Users) {
       let filteredOrders;
 
-      if (startDate && endDate) {
+      if (transactionId) {
         // Filter orders based on timestamps (createdAt) between start and end dates
-        filteredOrders = responseData.Orders.filter(
-          (item) =>
-            new Date(item.createdAt).setHours(0, 0, 0, 0) >=
-            new Date(startDate).setHours(0, 0, 0, 0) &&
-            new Date(item.createdAt).setHours(23, 59, 59, 999) <=
-            new Date(endDate).setHours(23, 59, 59, 999)
+        filteredOrders = responseData.Users.filter(
+          (item) => item.name.startsWith(transactionId)
         );
       } else {
         // If start or end date is not provided, return all orders
-        filteredOrders = responseData.Orders;
+        filteredOrders = responseData.Users;
       }
-
       dispatch({
         type: "fetchOrderAndChangeState",
         payload: filteredOrders,

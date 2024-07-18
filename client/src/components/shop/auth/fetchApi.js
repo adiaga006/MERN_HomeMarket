@@ -9,6 +9,11 @@ export const isAdmin = () =>
     ? JSON.parse(localStorage.getItem("jwt")).user.role === 1
     : false;
 
+export const isShipper = () =>
+  localStorage.getItem("jwt")
+    ? JSON.parse(localStorage.getItem("jwt")).user.role === 2
+    : false;
+
 export const loginReq = async ({ email, password }) => {
   const data = { email, password };
   try {

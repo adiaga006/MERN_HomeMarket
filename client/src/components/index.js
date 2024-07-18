@@ -5,6 +5,7 @@ import {
   WishList,
   ProtectedRoute,
   AdminProtectedRoute,
+  ShipperProtectedRoute,
   CartProtectedRoute,
   PageNotFound,
   ProductDetails,
@@ -13,7 +14,7 @@ import {
 } from "./shop";
 import { DashboardAdmin, Categories, Products, Orders, Users, RedeemPoints, Discounts, ProductStatistics, UserStatistics } from "./admin";
 import { UserProfile, UserOrders, UserDiscount, RedeemPoint, SettingUser } from "./shop/dashboardUser";
-
+import { DashboardShipper, Order} from "./shipper"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ConfirmSignup from "./shop/auth/ConfirmSignup";
 
@@ -39,6 +40,11 @@ const Routes = (props) => {
           component={CheckoutPage}
         />
         {/* Shop & Public Routes End */}
+        
+        {/* Shipper Routes */}
+        <ShipperProtectedRoute exact={true} path="/shipper/dashboard" component={DashboardShipper} />
+        <ShipperProtectedRoute exact={true} path="/shipper/dashboard/orders" component={Order} />
+        {/* Shipper Routes End*/}
 
         {/* Admin Routes */}
         <AdminProtectedRoute

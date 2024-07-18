@@ -9,7 +9,7 @@ class Order {
         .populate("allProduct.id", "pName pImages pPrice pOffer pQuantity")
         .populate("allDiscount.id", "_id dName dMethod dAmount dPercent dApply dCategory")
         .populate("user", "name email")
-        .populate("shipper", "name email")
+        .populate("shipper", "_id name")
         .sort({ _id: -1 });
       if (Orders) {
         return res.json({ Orders });

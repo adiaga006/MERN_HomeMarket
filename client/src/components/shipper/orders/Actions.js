@@ -7,7 +7,7 @@ export const fetchData = async (dispatch) => {
     if (responseData && responseData.Orders) {
       dispatch({
         type: "fetchOrderAndChangeState",
-        payload: responseData.Orders,
+        payload: responseData.Orders.filter(order => order.shipper !== undefined && order.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id)),
       });
       dispatch({ type: "loading", payload: false });
     }
@@ -99,11 +99,11 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch, setError) 
             new Date(item.deliveryDateTime).setHours(0, 0, 0, 0) >=
             new Date(startDate).setHours(0, 0, 0, 0) &&
             new Date(item.deliveryDateTime).setHours(23, 59, 59, 999) <=
-            new Date(endDate).setHours(23, 59, 59, 999)
-        );
+            new Date(endDate).setHours(23, 59, 59, 999) && item.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id))
+        ;
       } else {
         // If start or end date is not provided, return all orders
-        filteredOrders = responseData.Orders;
+        filteredOrders = responseData.Orders.filter(item => item.shipper !== undefined && item.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id));
       }
       dispatch({
         type: "fetchOrderAndChangeState",
@@ -127,11 +127,11 @@ export const fetchOrdersByTransactionId = async (transactionId, dispatch, setErr
       if (transactionId) {
         // Filter orders based on timestamps (createdAt) between start and end dates
         filteredOrders = responseData.Orders.filter(
-          (item) => item.transactionId.startsWith(transactionId)
+          (item) => item.transactionId.startsWith(transactionId) && item.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id)
         );
       } else {
         // If start or end date is not provided, return all orders
-        filteredOrders = responseData.Orders;
+        filteredOrders = responseData.Orders.filter(item => item.shipper !== undefined && item.shipper._id === (JSON.parse(localStorage.getItem("jwt")).user._id));
       }
       dispatch({
         type: "fetchOrderAndChangeState",
