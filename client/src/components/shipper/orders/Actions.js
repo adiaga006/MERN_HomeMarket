@@ -7,7 +7,8 @@ export const fetchData = async (dispatch) => {
     if (responseData && responseData.Orders) {
       dispatch({
         type: "fetchOrderAndChangeState",
-        payload: responseData.Orders.filter(order => order.shipper !== undefined && order.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id)),
+        payload: responseData.Orders.filter(order => order.shipper && 
+          order.shipper._id && order.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id)),
       });
       dispatch({ type: "loading", payload: false });
     }
@@ -103,7 +104,8 @@ export const fetchOrdersByDate = async (startDate, endDate, dispatch, setError) 
         ;
       } else {
         // If start or end date is not provided, return all orders
-        filteredOrders = responseData.Orders.filter(item => item.shipper !== undefined && item.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id));
+        filteredOrders = responseData.Orders.filter(item => item.shipper && 
+          item.shipper._id && item.shipper._id ===  (JSON.parse(localStorage.getItem("jwt")).user._id));
       }
       dispatch({
         type: "fetchOrderAndChangeState",
@@ -131,7 +133,8 @@ export const fetchOrdersByTransactionId = async (transactionId, dispatch, setErr
         );
       } else {
         // If start or end date is not provided, return all orders
-        filteredOrders = responseData.Orders.filter(item => item.shipper !== undefined && item.shipper._id === (JSON.parse(localStorage.getItem("jwt")).user._id));
+        filteredOrders = responseData.Orders.filter(item => item.shipper && 
+          item.shipper._id && item.shipper._id === (JSON.parse(localStorage.getItem("jwt")).user._id));
       }
       dispatch({
         type: "fetchOrderAndChangeState",
