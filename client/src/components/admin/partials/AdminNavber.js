@@ -105,7 +105,7 @@ const AdminNavber = (props) => {
           {/* Logout Button Dropdown */}
           <div
             className="userDropdownBtn hover:bg-gray-200 px-2 py-2 rounded-lg relative"
-            title="Logout"
+            title=""
           >
             <svg
               className="cursor-pointer w-8 h-8 text-gray-600 hover:text-gray-800"

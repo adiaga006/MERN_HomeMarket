@@ -141,7 +141,7 @@ export const handleChangePassword = async (fData, setFdata, dispatch) => {
   if (!fData.newPassword || !fData.oldPassword || !fData.confirmPassword) {
     setFdata({
       ...fData,
-      error: "Please provide your all password and a new password",
+      error: "Vui lòng cung cấp mật khẩu cũ và mật khẩu mới",
     });
   } else if (fData.newPassword !== fData.confirmPassword) {
     setFdata({ ...fData, error: "Password does't match" });

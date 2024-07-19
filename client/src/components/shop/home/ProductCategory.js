@@ -5,7 +5,7 @@ import FilterForm from './FilterForm';
 import { getAllProduct } from "../../admin/products/FetchApi";
 import { filterAdvance } from "../../admin/products/FetchApi";
 
-const brands = ["All Categories", "Biên Hòa", "Visaco", "Ajinomoto", "Chinsu", "Guyumi", "Basalco", "Knorr", "Nam Ngư", "Bạc Liêu", "Happi Koki", "Đầu Bếp Tôm", "Simply", "Tường An", "Việt Hàn", "Trần Gia", "NT Pearly Food"];
+const brands = ["Tất cả", "Biên Hòa", "Visaco", "Ajinomoto", "Chinsu", "Guyumi", "Basalco", "Knorr", "Nam Ngư", "Bạc Liêu", "Happi Koki", "Đầu Bếp Tôm", "Simply", "Tường An", "Việt Hàn", "Trần Gia", "NT Pearly Food"];
 
 const ProductCategory = (props) => {
   const { data, dispatch } = useContext(HomeContext);
@@ -29,7 +29,7 @@ const ProductCategory = (props) => {
 
   const fetchData = async (brand) => {
     dispatch({ type: "loading", payload: true });
-    const filters = brand === "All Categories" ? {} : { brand };
+    const filters = brand === "Tất cả" ? {} : { brand };
     try {
       const data = await filterAdvance(filters);
       if (data.Products && data.Products.length > 0) {
@@ -46,7 +46,7 @@ const ProductCategory = (props) => {
 
   const selectBrand = (brand) => {
     setSelectedBrand(brand);
-    if (brand === "All Categories") {
+    if (brand === "Tất cả") {
       window.location.reload();
     } else {
       fetchData(brand);
@@ -97,7 +97,7 @@ const ProductCategory = (props) => {
           {/* Brand Dropdown */}
           <div className={`brand-dropdown ${showFilterForm || data.filterListDropdown || data.searchDropdown ? "hidden" : ""}`} onMouseEnter={toggleBrands} onMouseLeave={toggleBrands}>
             <span className="dropdown-label" style={{ display: 'flex', alignItems: 'center' }}>
-              Brand
+              Thương hiệu
               <svg
                 className="w-4 h-4 text-yellow-700 ml-1"
                 fill="none"
@@ -112,7 +112,7 @@ const ProductCategory = (props) => {
               <div className="dropdown-content">
                 {brands.map((brand, index) => (
                   <div key={index} onClick={() => selectBrand(brand)} className="dropdown-item"
-                    style={brand === "All Categories" ? { backgroundColor: '#7ABA78', color: 'black' } : null}>
+                    style={brand === "Tất cả" ? { backgroundColor: '#7ABA78', color: 'black' } : null}>
                     {brand}
                   </div>
                 ))}
@@ -123,7 +123,7 @@ const ProductCategory = (props) => {
         <div className="flex space-x-2">
           {/* Toggle Filter Form Button */}
           <div onClick={toggleFilterForm} className={`flex items-center space-x-2 cursor-pointer ${data.filterListDropdown || data.searchDropdown ? "opacity-50 cursor-not-allowed" : ""}`}>
-            <span className="text-md md:text-lg hover:text-green-700">{showFilterForm ? 'Hide Advanced Filters' : 'Show Advanced Filters'}</span>
+            <span className="text-md md:text-lg hover:text-green-700">{showFilterForm ? 'Ẩn tìm kiếm nâng cao' : 'Tìm kiếm nâng cao'}</span>
             <span>/</span>
           </div>
           <div
@@ -131,7 +131,7 @@ const ProductCategory = (props) => {
             className={`flex items-center space-x-1 cursor-pointer ${data.filterListDropdown && !showFilterForm ? "text-green-700" : ""
               } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-green-700"}`}
           >
-            <span className="text-md md:text-lg">Filter Price</span>
+            <span className="text-md md:text-lg">Tìm kiếm theo giá</span>
             <span>
               <svg
                 className="w-4 h-4 text-gray-700 text-green-700"
@@ -155,7 +155,7 @@ const ProductCategory = (props) => {
             className={`flex items-center space-x-1 cursor-pointer ${data.searchDropdown && !showFilterForm ? "text-green-700" : ""
               } ${showFilterForm ? "opacity-50 cursor-not-allowed" : "hover:text-green-700"}`}
           >
-            <span className="text-md md:text-lg">Search</span>
+            <span className="text-md md:text-lg">Tìm kiếm theo tên</span>
             <span>
               <svg
                 className="w-4 h-4 text-gray-700 text-green-700"

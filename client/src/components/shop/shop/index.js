@@ -69,7 +69,7 @@ const ShopComponent = () => {
         {/* Sidebar Section */}
         <div className="sidebar" style={{ backgroundColor: "#f3f3f3", padding: '0rem' }}>
           <div style={{ backgroundColor: '#8DECB4', color: 'Black', padding: '1rem', display: 'flex', alignItems: 'center', fontWeight: "bold" }}>
-            <h3>Categories</h3>
+            <h3>Danh mục sản phẩm</h3>
           </div>
           <ul>
             {/* Parent Categories */}

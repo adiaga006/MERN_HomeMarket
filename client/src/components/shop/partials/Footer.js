@@ -71,7 +71,7 @@ const Footer = (props) => {
                   </li>
                   <li className="mb-4">
                     <a href="#" className="hover:underline">
-                      Contact Us
+                      Liên hệ với chúng tôi
                     </a>
                   </li>
                 </ul>

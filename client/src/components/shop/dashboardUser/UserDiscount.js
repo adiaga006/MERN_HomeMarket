@@ -10,11 +10,11 @@ const TableHeader = () => {
     <Fragment>
       <thead>
         <tr>
-          <th className="px-4 py-2 border">Code</th>
-          <th className="px-4 py-2 border">Category</th>
-          <th className="px-4 py-2 border">Method</th>
-          <th className="px-4 py-2 border">Amount</th>
-          <th className="px-4 py-2 border">Percent</th>
+          <th className="px-4 py-2 border">Mã khuyến mãi</th>
+          <th className="px-4 py-2 border">Danh mục sản phẩm</th>
+          <th className="px-4 py-2 border">Phương thức</th>
+          <th className="px-4 py-2 border">Tiền được giảm</th>
+          <th className="px-4 py-2 border">Phần trăm được giảm</th>
         </tr>
       </thead>
     </Fragment>
@@ -69,7 +69,7 @@ const OrdersComponent = () => {
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
         <div className="border">
           <div className="py-4 px-4 text-lg font-semibold border-t-2 border-yellow-700">
-            Discount Code
+           Mã khuyến mãi
           </div>
           <hr />
           <div className="overflow-auto bg-white shadow-lg p-4">
@@ -86,14 +86,14 @@ const OrdersComponent = () => {
                       colSpan="8"
                       className="text-xl text-center font-semibold py-8"
                     >
-                      No discount found
+                      Không có mã giảm giá nào
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
             <div className="text-sm text-gray-600 mt-2">
-              Total {orders && orders.length} discount found
+              Tổng cộng có {orders && orders.length} mã khuyến mãi được tìm thấy
             </div>
           </div>
         </div>

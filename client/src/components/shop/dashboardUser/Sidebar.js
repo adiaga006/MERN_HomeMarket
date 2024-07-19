@@ -22,7 +22,7 @@ const Sidebar = (props) => {
               <img className="rounded-circle img-fluid" src={data.userDetails ? data.userDetails.userImage.url : ""} alt={data.userDetails ? data.userDetails.name : ""} />
             </figure>
             <div className="flex flex-col w-full">
-              <span className="text-sm">Hello,               <span className="text-lg">
+              <span className="text-sm">Xin chào,               <span className="text-lg">
                 {data.userDetails ? data.userDetails.name : ""}
               </span></span>
             </div>
@@ -36,7 +36,7 @@ const Sidebar = (props) => {
                 : ""
               }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
-            My Orders
+            Đơn hàng của tôi
           </div>
           <hr />
           <div
@@ -46,7 +46,7 @@ const Sidebar = (props) => {
                 : ""
               }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
-            My Accounts
+            Tài khoản của tôi
           </div>
           <hr />
           {/* <div
@@ -63,7 +63,7 @@ const Sidebar = (props) => {
                 : ""
               }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
-            Redeem Point
+             Đổi điểm thưởng
           </div>
           <hr />
           <div
@@ -73,7 +73,7 @@ const Sidebar = (props) => {
                 : ""
               }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
-            Discount Code
+            Mã khuyến mãi
           </div>
           <hr />
           <div
@@ -93,7 +93,7 @@ const Sidebar = (props) => {
                 : ""
               }  px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
-            Logout
+           Đăng xuất
           </div>
         </div>
       </div>

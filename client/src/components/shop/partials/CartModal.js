@@ -150,7 +150,7 @@ const CartModal = () => {
         >
           <div className="overflow-y-auto">
             <div className="border-b border-gray-700 flex justify-between">
-              <div className="p-4 text-white text-lg font-semibold">Cart</div>
+              <div className="p-4 text-white text-lg font-semibold">Giỏ hàng</div>
               {/* Cart Modal Close Button */}
               <div className="p-4 text-white">
                 <svg
@@ -185,7 +185,7 @@ const CartModal = () => {
                           <div className="my-2">{item.pName}</div>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center justify-between space-x-2">
-                              Quantity:
+                              Số lượng:
                               <div className="stockCounter d-inline space-x-2">
                                 <button
                                   className="rounded btn-danger minus ml-2"
@@ -209,7 +209,7 @@ const CartModal = () => {
                             <div>
                               {" "}
                               <span className="text-sm text-gray-400">
-                                Subtotal :
+                              Tổng giá :
                               </span>{" "}
                               {subTotal(item._id, Math.round(item.pPrice - (item.pPrice * item.pOffer) / 100))}.000 VND
                             </div>{" "}
@@ -242,7 +242,7 @@ const CartModal = () => {
 
               {products === null && (
                 <div className="m-4 flex-col text-white text-xl text-center">
-                  No product in cart
+                  Không có sản phẩm nào trong giỏ hàng
                 </div>
               )}
             </div>
@@ -252,7 +252,7 @@ const CartModal = () => {
             <form className="w-full" onSubmit={(e) => submitForm(e)}>
               <div className="flex space-x-1 py-4">
                 <input
-                  placeholder="Discount code"
+                  placeholder="Mã khuyến mãi"
                   onChange={(e) =>
                     setFdata({
                       ...fData,
@@ -268,7 +268,7 @@ const CartModal = () => {
                   type="submit"
                   className="w-1/3 flex flex-col space-y-1"
                 >
-                  Confirm
+                  Xác nhận
                 </button>
               </div>
             </form>
@@ -289,7 +289,7 @@ const CartModal = () => {
                       cartModalOpen();
                     }}
                   >
-                    Checkout {data.cartTotalCost}.000 VND
+                    Thanh toán {data.cartTotalCost}.000 VND
                   </div>
                 ) : (
                   <div
@@ -307,13 +307,13 @@ const CartModal = () => {
                       });
                     }}
                   >
-                    Checkout {data.cartTotalCost}.000 VND
+                  Thanh toán {data.cartTotalCost}.000 VND
                   </div>
                 )}
               </Fragment>
             ) : (
               <div className="px-4 py-2 bg-black text-white text-center cursor-not-allowed">
-                Checkout
+              Thanh toán
               </div>
             )}
           </div>

@@ -43,7 +43,7 @@ export const CheckoutComponent = (props) => {
       setState({
         ...state,
         deliveryDate: "",
-        error: "Delivery date cannot be in the past",
+        error: "Ngày nhận đã qua đi",
       });
     } else {
       setState({
@@ -73,7 +73,7 @@ export const CheckoutComponent = (props) => {
       setState({
         ...state,
         deliveryTime: "",
-        error: "Delivery time must be between 08:00 and 20:00",
+        error: "Giờ nhận phải từ 08:00 đến 20:00",
       });
     } else {
       // Apply constraints based on the current time
@@ -82,7 +82,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Delivery time must be between 10:00 and 20:00",
+            error: "Giờ nhận phải từ 08:00 đến 20:00",
           });
           return;
         }
@@ -91,7 +91,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Delivery time must be between 12:00 and 20:00",
+            error: "Giờ nhận phải từ 08:00 đến 20:00",
           });
           return;
         }
@@ -100,7 +100,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Delivery time must be between 14:00 and 20:00",
+            error: "Giờ nhận phải từ 08:00 đến 20:00",
           });
           return;
         }
@@ -109,7 +109,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Delivery time must be between 16:00 and 20:00",
+            error: "Giờ nhận phải từ 08:00 đến 20:00",
           });
           return;
         }
@@ -118,7 +118,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Delivery time must be between 18:00 and 20:00",
+            error: "Giờ nhận phải từ 08:00 đến 20:00",
           });
           return;
         }
@@ -126,7 +126,7 @@ export const CheckoutComponent = (props) => {
         setState({
           ...state,
           deliveryTime: "",
-          error: "Current time is past 20:00, delivery cannot be scheduled today",
+          error: "Hiện tại đã qua 20:00, dịch vụ giao hàng không thể thực hiện trong hôm nay",
         });
         return;
       }
@@ -156,7 +156,7 @@ export const CheckoutComponent = (props) => {
             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
           ></path>
         </svg>
-        Please wait untill finish
+        Vui lòng đợi 
       </div>
     );
   }
@@ -164,7 +164,7 @@ export const CheckoutComponent = (props) => {
   return (
     <Fragment>
       <section className="mx-4 mt-20 md:mx-12 md:mt-32 lg:mt-24">
-        <div className="text-2xl mx-2">Order</div>
+        <div className="text-2xl mx-2">Đơn hàng</div>
         {/* Product List */}
         <div className="flex flex-col md:flex md:space-x-2 md:flex-row">
           <div className="md:w-1/2">
@@ -186,7 +186,7 @@ export const CheckoutComponent = (props) => {
                   )}
                   <div className="flex flex-col py-2">
                     <label htmlFor="address" className="pb-2">
-                      Delivery Address
+                      Địa chỉ giao hàng
                     </label>
                     <input
                       value={state.address}
@@ -200,12 +200,12 @@ export const CheckoutComponent = (props) => {
                       type="text"
                       id="address"
                       className="border px-4 py-2"
-                      placeholder="Address..."
+                      placeholder="Nhập địa chỉ..."
                     />
                   </div>
                   <div className="flex flex-col py-2 mb-2">
                     <label htmlFor="phone" className="pb-2">
-                      Phone
+                      Số điện thoại
                     </label>
                     <input
                       value={state.phone}
@@ -219,12 +219,12 @@ export const CheckoutComponent = (props) => {
                       type="number"
                       id="phone"
                       className="border px-4 py-2"
-                      placeholder="+880"
+                      placeholder="+84"
                     />
                   </div>
                   <div className="flex flex-col py-2 mb-2">
                     <label htmlFor="deliveryDate" className="pb-2">
-                      Delivery Date
+                      Chọn ngày nhận hàng dự kiến
                     </label>
                     <input
                       value={state.deliveryDate}
@@ -236,7 +236,7 @@ export const CheckoutComponent = (props) => {
                   </div>
                   <div className="flex flex-col py-2 mb-2">
                     <label htmlFor="deliveryTime" className="pb-2">
-                      Delivery Time
+                      Chọn giờ nhận hàng dự kiến
                     </label>
                     <input
                       value={state.deliveryTime}
@@ -256,7 +256,7 @@ export const CheckoutComponent = (props) => {
                     onInstance={(instance) => (state.instance = instance)}
                   />
                   <div className="font-semibold text-gray-600 text-sm mb-4">
-                    Total Cost: {totalCost()}.000 VND
+                    Tống giá: {totalCost()}.000 VND
                   </div>
                   {paymentError && (
                     <div className="bg-red-200 py-2 px-4 rounded mb-4">
@@ -278,7 +278,7 @@ export const CheckoutComponent = (props) => {
                     className="w-full px-4 py-2 text-center text-white font-semibold cursor-pointer"
                     style={{ background: "#303031" }}
                   >
-                    Pay now
+                    Thanh toán ngay
                   </div>
                 </div>
               </Fragment>
@@ -337,7 +337,7 @@ const CheckoutProducts = ({ products }) => {
                     Quantitiy : {quantity(product._id)}
                   </div>
                   <div className="font-semibold text-gray-600 text-sm">
-                    Subtotal : {subTotal(product._id, Math.round(product.pPrice - (product.pPrice * product.pOffer) / 100))}.000 VND
+                    Tổng giá : {subTotal(product._id, Math.round(product.pPrice - (product.pPrice * product.pOffer) / 100))}.000 VND
                   </div>
                 </div>
               </div>

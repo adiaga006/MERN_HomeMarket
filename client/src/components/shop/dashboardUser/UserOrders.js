@@ -10,14 +10,14 @@ const TableHeader = () => {
     <Fragment>
       <thead>
         <tr>
-          <th className="px-4 py-2 border">Products</th>
-          <th className="px-4 py-2 border">Status</th>
-          <th className="px-4 py-2 border">Total</th>
-          <th className="px-4 py-2 border">Phone</th>
-          <th className="px-4 py-2 border">Address</th>
+          <th className="px-4 py-2 border">Sản phẩm</th>
+          <th className="px-4 py-2 border">Trạng thái</th>
+          <th className="px-4 py-2 border">Tổng giá</th>
+          <th className="px-4 py-2 border">Số điện thoại</th>
+          <th className="px-4 py-2 border">Địa chỉ</th>
           <th className="px-4 py-2 border">Transaction Id</th>
-          <th className="px-4 py-2 border">Checkout</th>
-          <th className="px-4 py-2 border">Discount</th>
+          <th className="px-4 py-2 border">Shipper</th>
+          <th className="px-4 py-2 border">Mã khuyến mãi</th>
         </tr>
       </thead>
     </Fragment>
@@ -79,8 +79,8 @@ const TableBody = ({ order }) => {
           {order.transactionId}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {order.deliveryDateTime ? moment(order.deliveryDateTime).format("lll") : "Không có thông tin"}
-        </td>
+        {order.shipper ? order.shipper.name : "Không có thông tin"}
+      </td>
         <td className="hover:bg-gray-200 p-2 text-center">
   {order.allDiscount && order.allDiscount.length > 0 ? (
     order.allDiscount.map((discount, i) => (
@@ -133,7 +133,7 @@ const OrdersComponent = () => {
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
         <div className="border">
           <div className="py-4 px-4 text-lg font-semibold border-t-2 border-yellow-700">
-            Orders
+            Đơn hàng
           </div>
           <hr />
           <div className="overflow-auto bg-white shadow-lg p-4">

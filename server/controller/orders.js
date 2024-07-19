@@ -29,6 +29,7 @@ class Order {
           .find({ user: uId })
           .populate("allProduct.id", "pName pImages pPrice")
           .populate("user", "name email")
+          .populate("shipper", "_id name")
           .sort({ _id: -1 });
         if (Order) {
           return res.json({ Order });

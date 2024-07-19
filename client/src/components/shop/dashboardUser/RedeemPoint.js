@@ -11,12 +11,12 @@ const TableHeader = () => {
     <Fragment>
       <thead>
         <tr>
-          <th className="px-4 py-2 border">Point</th>
-          <th className="px-4 py-2 border">Category</th>
-          <th className="px-4 py-2 border">Method</th>
-          <th className="px-4 py-2 border">Amount</th>
-          <th className="px-4 py-2 border">Percent</th>
-          <th className="px-4 py-2 border">Redeem</th>
+          <th className="px-4 py-2 border">Điểm</th>
+          <th className="px-4 py-2 border">Danh mục sản phẩm</th>
+          <th className="px-4 py-2 border">Phương thức</th>
+          <th className="px-4 py-2 border">Tiền được giảm</th>
+          <th className="px-4 py-2 border">Phần trăm được giảm</th>
+          <th className="px-4 py-2 border">Đổi thưởng</th>
         </tr>
       </thead>
     </Fragment>
@@ -27,7 +27,7 @@ const TableBody = ({ order, points, spendPoints }) => {
 
   const handleDiscountClick = async () => {
     if (points >= order.rPoint) {
-      const confirmRedeem = window.confirm("Are you sure you want to redeem points?");
+      const confirmRedeem = window.confirm("Bạn chắc chắn dùng điểm thưởng để đổi mã khuyến mãi?");
       if (confirmRedeem) {
         try {
           let dName = generateRandomCode(10)
@@ -66,7 +66,7 @@ const TableBody = ({ order, points, spendPoints }) => {
               style={{ background: "#303031" }}
               className={`px-4 py-2 text-white text-center cursor-pointer uppercase`}
             >
-              Redeem Now
+              Đổi điểm ngay
             </div>
           </Fragment>
         ) : (
@@ -105,7 +105,6 @@ const OrdersComponent = () => {
   }
 
   let points = totalPoints - spendPoints;
-
   if (data.loading) {
     return (
       <div className="w-full md:w-9/12 flex items-center justify-center py-24">
@@ -132,7 +131,7 @@ const OrdersComponent = () => {
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
         <div className="border">
           <div className="py-4 px-4 text-lg font-semibold border-t-2 border-yellow-700">
-            Your Point: {points}
+            Điểm của bạn: {points}
           </div>
           <hr />
           <div className="overflow-auto bg-white shadow-lg p-4">
@@ -149,7 +148,7 @@ const OrdersComponent = () => {
                       colSpan="8"
                       className="text-xl text-center font-semibold py-8"
                     >
-                      No redeem point found
+                      Không tìm thấy mã đổi thưởng
                     </td>
                   </tr>
                 )}

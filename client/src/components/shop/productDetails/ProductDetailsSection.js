@@ -169,7 +169,7 @@ const ProductDetailsSection = (props) => {
           <div className="col-span-2 mt-8 md:mt-0 md:col-span-4 md:ml-6 lg:ml-12">
             <div className="flex flex-col leading-8">
               <div className="text-2xl tracking-wider">{sProduct.pName}</div>
-              <div className="text-md my-1">Brand: {sProduct.pBrand || 'No brand specified'}</div>
+              <div className="text-md my-1">Thương hiệu: {sProduct.pBrand || 'No brand specified'}</div>
                       <div className="ratings mt-auto">
                           <div className="rating-outer">
                               <div
@@ -177,7 +177,7 @@ const ProductDetailsSection = (props) => {
                                   style={{ width: `${(sProduct.pRatings / 5) * 100}%` }}
                               ></div>
                           </div>
-                          <span id="no_of_reviews">({sProduct.pNumOfReviews} Reviews)</span>
+                          <span id="no_of_reviews">({sProduct.pNumOfReviews} Đánh giá)</span>
                       </div>
               
               <div className="flex justify-between items-center">
@@ -194,7 +194,7 @@ const ProductDetailsSection = (props) => {
                 )}
                 { /*Hiển thị số lượng sản phẩm đã bán */}
                 {<div className="my-4 md:my-6">
-                  <span className="font-semibold">Sold:</span> {sProduct.pSold}
+                  <span className="font-semibold">Đã bán:</span> {sProduct.pSold}
                 </div>}
                 <span >
                   <svg
@@ -233,7 +233,7 @@ const ProductDetailsSection = (props) => {
             {/* <div className="my-4 md:my-6 text-gray-600">
               {sProduct.pDescription}
             </div> */}
-            <p>Status: <span id="stock_status" className={sProduct.pQuantity > 0 ? 'greenColor' : 'redColor'} >{sProduct.pQuantity > 0 ? 'In Stock' : 'Out of Stock'}</span></p>
+            <p>Trạng thái: <span id="stock_status" className={sProduct.pQuantity > 0 ? 'greenColor' : 'redColor'} >{sProduct.pQuantity > 0 ? 'In Stock' : 'Out of Stock'}</span></p>
             <div className="my-4 md:my-6">
               {+quantitiy === +sProduct.pQuantity ? (
                 <span className="text-xs text-red-500">Stock limited</span>
@@ -248,7 +248,7 @@ const ProductDetailsSection = (props) => {
                   className={`${quantitiy === sProduct.pQuantity && "text-red-500"
                     }`}
                 >
-                  Quantity
+                  Số lượng
                 </div>
                 {/* Quantity Button */}
                 {sProduct.pQuantity !== 0 ? (
@@ -385,7 +385,7 @@ const ProductDetailsSection = (props) => {
                       style={{ background: "#303031" }}
                       className={`px-4 py-2 text-white text-center cursor-not-allowed uppercase opacity-75`}
                     >
-                      In cart
+                      Đã có trong giỏ hàng 
                     </div>
 
                   ) : (
@@ -408,7 +408,7 @@ const ProductDetailsSection = (props) => {
                       style={{ background: "#303031" }}
                       className={`px-4 py-2 text-white text-center cursor-pointer uppercase`}
                     >
-                      Add to cart
+                    Thêm vào giỏ hàng
                     </div>)}
                 </Fragment>
               ) : (

@@ -64,7 +64,7 @@ const ProfileComponent = () => {
       <div className="flex flex-col w-full my-4 md:my-0 md:w-9/12 md:px-8">
         <div className="shadow-lg border">
           <div className="py-4 px-4 text-lg font-semibold border-t-2 border-yellow-700">
-            Personal Information
+            Thông tin cá nhân
           </div>
           <hr />
           <div className="py-4 px-4 md:px-8 lg:px-16 flex flex-col space-y-4">
@@ -76,7 +76,7 @@ const ProfileComponent = () => {
               ""
             )}
             <div className="flex flex-col space-y-2">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">Họ và tên</label>
               <input
                 onChange={(e) => setEditformdata({ ...editformData, name: e.target.value })}
                 value={editformData.name}
@@ -95,11 +95,11 @@ const ProfileComponent = () => {
                 className="cursor-not-allowed border px-4 py-2 bg-gray-200 w-full focus:outline-none focus:cursor-not-allowed"
               />
               <span className="text-xs text-gray-500">
-                You can't change your email
+                Bạn không thể thay đổi email của mình
               </span>
             </div>
             <div className="flex flex-col space-y-2">
-              <label htmlFor="number">Phone Number</label>
+              <label htmlFor="number">Số điện thoại</label>
               <input
                 onChange={(e) => setEditformdata({ ...editformData, phone: e.target.value })}
                 value={editformData.phone}
@@ -109,7 +109,7 @@ const ProfileComponent = () => {
               />
             </div>
             <div className='flex flex-col space-y-2'>
-              <label htmlFor='avatar_upload'>Avatar</label>
+              <label htmlFor='avatar_upload'>Ảnh đại diện</label>
               <div className='d-flex align-items-center'>
                 <div className='custom-file'>
                   <input
@@ -121,7 +121,7 @@ const ProfileComponent = () => {
                     onChange={(e) => setEditformdata({ ...editformData, editAvatar: e.target.files[0] })}
                   />
                   <label className='custom-file-label' htmlFor='customFile'>
-                    Choose Avatar
+                    Chọn ảnh đại diện
                   </label>
                 </div>
               </div>
@@ -131,7 +131,7 @@ const ProfileComponent = () => {
               style={{ background: "#303031" }}
               className="w-full text-center cursor-pointer px-4 py-2 text-gray-100"
             >
-              Update Information
+              Cập nhật thông tin tài khoản
             </div>
           </div>
         </div>

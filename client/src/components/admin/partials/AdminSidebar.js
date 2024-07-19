@@ -126,7 +126,7 @@ const AdminSidebar = (props) => {
           <span>
             <i className="fa fa-users" style={{ fontSize: "24px" }}></i>
           </span>
-          <span className="hover:text-gray-800">Người dùng</span>
+          <span className="hover:text-gray-800">Quản lý người dùng</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div
@@ -178,7 +178,7 @@ const AdminSidebar = (props) => {
               />
             </svg>
           </span>
-          <span className="hover:text-gray-800">Thống kê sản phẩm</span>
+          <span className="hover:text-gray-800">Top sản phẩm bán chạy</span>
         </div>
         <hr className="border-b border-gray-200" />
         <div

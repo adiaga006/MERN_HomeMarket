@@ -30,7 +30,7 @@ const Menu = () => {
           className={`${!data.menu ? "border-b-2 border-yellow-700" : ""
             } px-4 py-3 relative flex cursor-pointer`}
         >
-          <span>Reviews</span>
+          <span>Đánh giá</span>
           <span className="absolute text-xs top-0 right-0 mt-2 bg-yellow-700 text-white rounded px-1">
             {layoutData.singleProductDetail.pRatingsReviews.length}
           </span>

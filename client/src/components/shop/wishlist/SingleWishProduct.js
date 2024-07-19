@@ -38,7 +38,7 @@ const Product = () => {
   if (loading) {
     return (
       <div className="my-32 text-2xl text-center">
-        No product found in wishList
+      Không tìm thấy sản phẩm nào để thanh toán
       </div>
     );
   }
@@ -112,7 +112,7 @@ const Product = () => {
             );
           })
         ) : (
-          <div>No product found in wishList</div>
+          <div>Không có sản phẩm nào</div>
         )}
       </div>
     </Fragment>
@@ -123,7 +123,7 @@ const SingleWishProduct = (props) => {
   return (
     <Fragment>
       <section className="mx-4 mt-20 md:mx-12 md:mt-32 lg:mt-24">
-        <div className="text-2xl mx-2 mb-6">Wishlist</div>
+        <div className="text-2xl mx-2 mb-6">Sản phẩm yêu thích</div>
         {/* Product List */}
         <Product />
       </section>

@@ -1,7 +1,11 @@
 import { getAllOrder } from "../../admin/orders/FetchApi";
 import { getAllDiscount_Admin } from "../../admin/discounts/FetchApi";
-import { addToCart } from "./Mixins"
-import { Alert } from "react-bootstrap";
+import { addToCart } from "./Mixins";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Initialize React Toastify
+toast.configure();
 
 export const logout = () => {
   localStorage.removeItem("jwt");
@@ -10,10 +14,7 @@ export const logout = () => {
   window.location.href = "/";
 };
 
-export const addDiscount = async ({
-  dName,
-  setError
-}) => {
+export const addDiscount = async ({ dName }) => {
   try {
     let responseData = await getAllDiscount_Admin();
     let checkDiscount;
@@ -24,23 +25,24 @@ export const addDiscount = async ({
     if (responseData && responseData.Discounts) {
       if (dName) {
         checkDiscount = responseData.Discounts.filter(
-          (item) => item.dName === (dName)
+          (item) => item.dName === dName
         );
         if (checkDiscount.length > 0) {
           for (const discount of checkDiscount) {
-            // Kiem tra discount con su dung duoc khong
+            // Check if discount is still applicable
             if (discount.dApply === "Yes") {
-              // Kiem tra discount đã được user xài qua chưa
+              // Check if the user has used the discount before
               let responseOrderData = await getAllOrder();
               checkOrderDiscount = responseOrderData.Orders.filter(
-                (item) => item.user._id === (JSON.parse(localStorage.getItem("jwt")).user._id)
+                (item) =>
+                  item.user._id === JSON.parse(localStorage.getItem("jwt")).user._id
               );
               if (checkOrderDiscount.length > 0) {
                 for (const order of checkOrderDiscount) {
                   if (order.allDiscount != null) {
                     for (const orderDiscount of order.allDiscount) {
                       if (orderDiscount.id._id === discount._id) {
-                        setError("Users have used this discount before")
+                        toast.error("Người dùng đã sử dụng giảm giá này trước đây");
                         return false;
                       }
                     }
@@ -49,40 +51,55 @@ export const addDiscount = async ({
                 if (discounts != null) {
                   discounts.forEach((dis) => {
                     if (dis.id === discount._id) {
-                      setError("Discount was applied successfully")
+                      toast.success("Mã giảm giá đã được áp dụng thành công");
                       return false;
                     }
                   });
                 }
                 let discountApplied = false;
-                // Kiem tra xem co san pham nao trong cart ap dung duoc discount khong
+                // Check if there are any products in the cart that can be discounted
                 carts.forEach((item) => {
                   if (item.category._id === discount.dCategory._id) {
-                    addToCart(discount._id, discount.dName, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent, discount.dUser)
+                    addToCart(
+                      discount._id,
+                      discount.dName,
+                      discount.dCategory._id,
+                      discount.dMethod,
+                      discount.dAmount,
+                      discount.dPercent,
+                      discount.dUser
+                    );
                     discountApplied = true;
                     return true;
                   }
                 });
                 if (!discountApplied) {
-                  setError("There are no products in the cart that can be discounted")
+                  toast.error("Không có sản phẩm nào trong giỏ hàng có thể giảm giá");
                   return false;
                 }
-              }
-              else {
-                addToCart(discount._id, discount.dName, discount.dCategory._id, discount.dMethod, discount.dAmount, discount.dPercent, discount.dUser)
+              } else {
+                addToCart(
+                  discount._id,
+                  discount.dName,
+                  discount.dCategory._id,
+                  discount.dMethod,
+                  discount.dAmount,
+                  discount.dPercent,
+                  discount.dUser
+                );
                 return true;
               }
             } else {
-              setError("Discount expires")
+              toast.error("Mã khuyến mãi hết hạn");
               return false;
             }
           }
         } else {
-          setError("Discount does not exist")
+          toast.error("Mã khuyến mãi không hợp lệ");
           return false;
         }
       } else {
-        setError("There is no discount")
+        toast.error("Không có mã khuyến mãi nào được sử dụng");
         return false;
       }
     }
@@ -90,4 +107,3 @@ export const addDiscount = async ({
     console.log(error);
   }
 };
-

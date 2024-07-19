@@ -10,7 +10,7 @@ const OrderSuccessMessage = (props) => {
           } fixed bottom-0 flex justify-between items-center z-30 w-full bg-gray-800 text-white text-lg py-8 md:py-16 md:text-xl px-4 text-center`}
       >
         <span className="w-10/12 md:w-full">
-        Đơn hàng của bạn đã thành công.
+        Đơn hàng của bạn đã được thanh toán thành công.
         </span>
         <span
           onClick={(e) => dispatch({ type: "orderSuccess", payload: false })}

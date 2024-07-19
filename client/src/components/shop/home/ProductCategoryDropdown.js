@@ -59,7 +59,7 @@ const FilterList = () => {
         <div className="flex justify-between items-center">
           <div className="flex flex-col space-y-2 w-2/3 lg:w-2/4">
             <label htmlFor="points" className="text-sm">
-              Price (between 0 and 1 000 000):{" "}
+              Giá (từ 0 and 1 000 000 VND):{" "}
               <span className="font-semibold text-yellow-700">{range}.000 VND</span>{" "}
             </label>
             <input
@@ -153,7 +153,7 @@ const Search = () => {
         onChange={(e) => searchHandle(e)}
         className="px-4 text-xl py-4 focus:outline-none"
         type="text"
-        placeholder="Search products..."
+        placeholder="Nhập tên sản phẩm..."
       />
       <div onClick={(e) => closeSearchBar()} className="cursor-pointer">
         <svg

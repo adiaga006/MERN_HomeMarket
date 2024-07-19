@@ -41,13 +41,13 @@ export const pay = async (
 ) => {
   console.log(state);
   if (!state.address) {
-    setState({ ...state, error: "Please provide your address" });
+    setState({ ...state, error: "Vui lòng cung cấp địa chỉ giao hàng" });
   } else if (!state.phone) {
-    setState({ ...state, error: "Please provide your phone number" });
+    setState({ ...state, error: "Vui lòng cung cấp số điện thoại" });
   } else if (!state.deliveryDate) {
-    setState({ ...state, error: "Please provide delivery date" });
+    setState({ ...state, error: "Vui lòng cung cấp ngày nhận dự kiến" });
   } else if (!state.deliveryTime) {
-    setState({ ...state, error: "Please provide delivery time" });
+    setState({ ...state, error: "Vui lòng cung cấp giờ nhận dự kiến" });
   } else {
     let nonce;
     state.instance
