@@ -201,7 +201,7 @@ const AddCategryDetail = ({ categories }) => {
                   id="status"
                 >
                   <option disabled value="">
-                    Select a category
+                    Tất cả danh mục
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {

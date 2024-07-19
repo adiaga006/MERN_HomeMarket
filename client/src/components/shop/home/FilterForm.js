@@ -54,38 +54,38 @@ const FilterForm = () => {
   return (
     <div className="advanced-filter-form">
       <select name="category" value={filters.category} onChange={handleInputChange}>
-        <option value="">Select Category</option>
+        <option value="">Tất cả danh mục</option>
         {categories.map(category => (
           <option key={category._id} value={category._id}>{category.cName}</option>
         ))}
       </select>
 
       <select name="brand" value={filters.brand} onChange={handleInputChange}>
-        <option value="">Select Brand</option>
+        <option value="">Thương hiệu</option>
         {brands.map((brand, index) => (
           <option key={index} value={brand}>{brand}</option>
         ))}
       </select>
 
       <select name="priceSort" value={filters.priceSort} onChange={handleInputChange} disabled={filters.offerSort || filters.soldSort}>
-        <option value="">Sort by Price</option>
-        <option value="asc"> Low to High</option>
-        <option value="desc"> High to Low</option>
+        <option value="">Giá</option>
+        <option value="asc"> Thấp đến cao</option>
+        <option value="desc"> Cao đến thấp</option>
       </select>
 
       <select name="offerSort" value={filters.offerSort} onChange={handleInputChange} disabled={filters.priceSort || filters.soldSort}>
-        <option value="">Sort by Offer</option>
-        <option value="asc">Low to High</option>
-        <option value="desc">High to Low</option>
+        <option value="">Khuyến mãi</option>
+        <option value="asc">Thấp đến cao</option>
+        <option value="desc">Cao đến thấp</option>
       </select>
 
       <select name="soldSort" value={filters.soldSort} onChange={handleInputChange} disabled={filters.priceSort || filters.offerSort}>
-        <option value="">Sort by Sold</option>
-        <option value="asc">Low to High</option>
-        <option value="desc">High to Low</option>
+        <option value="">Số lượng đã bán</option>
+        <option value="asc">Thấp đến cao</option>
+        <option value="desc">Cao đến thấp</option>
       </select>
 
-      <button onClick={applyAdvancedFilters}>Apply Filters</button>
+      <button onClick={applyAdvancedFilters}>Áp dụng tìm kiếm</button>
     </div>
   );
 };
