@@ -15,9 +15,9 @@ const TableHeader = () => {
           <th className="px-4 py-2 border">Tổng giá</th>
           <th className="px-4 py-2 border">Số điện thoại</th>
           <th className="px-4 py-2 border">Địa chỉ</th>
-          <th className="px-4 py-2 border">Transaction Id</th>
+          <th className="px-4 py-2 border">Ngày đặt hàng</th>
           <th className="px-4 py-2 border">Shipper</th>
-          <th className="px-4 py-2 border">Mã khuyến mãi</th>
+          <th className="px-4 py-2 border">Đã giảm</th>
         </tr>
       </thead>
     </Fragment>
@@ -76,7 +76,7 @@ const TableBody = ({ order }) => {
         <td className="hover:bg-gray-200 p-2 text-center">{order.phone}</td>
         <td className="hover:bg-gray-200 p-2 text-center">{order.address}</td>
         <td className="hover:bg-gray-200 p-2 text-center">
-          {order.transactionId}
+        {moment(order.createdAt).format("lll")}
         </td>
         <td className="hover:bg-gray-200 p-2 text-center">
         {order.shipper ? order.shipper.name : "Không có thông tin"}
@@ -89,7 +89,7 @@ const TableBody = ({ order }) => {
       </span>
     ))
   ) : (
-    <span>None</span>
+    <span>Không có mã khuyến mãi</span>
   )}
 </td>
 
