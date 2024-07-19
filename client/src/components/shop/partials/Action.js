@@ -51,7 +51,6 @@ export const addDiscount = async ({ dName }) => {
                 if (discounts != null) {
                   discounts.forEach((dis) => {
                     if (dis.id === discount._id) {
-                      toast.success("Mã giảm giá đã được áp dụng thành công");
                       return false;
                     }
                   });
@@ -70,6 +69,7 @@ export const addDiscount = async ({ dName }) => {
                       discount.dUser
                     );
                     discountApplied = true;
+                    toast.success("Mã giảm giá đã được áp dụng thành công");
                     return true;
                   }
                 });

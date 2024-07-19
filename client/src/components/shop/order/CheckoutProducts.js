@@ -82,7 +82,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Giờ nhận phải từ 08:00 đến 20:00",
+            error: "Giờ nhận phải từ 10:00 đến 20:00",
           });
           return;
         }
@@ -91,7 +91,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Giờ nhận phải từ 08:00 đến 20:00",
+            error: "Giờ nhận phải từ 12:00 đến 20:00",
           });
           return;
         }
@@ -100,7 +100,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Giờ nhận phải từ 08:00 đến 20:00",
+            error: "Giờ nhận phải từ 14:00 đến 20:00",
           });
           return;
         }
@@ -109,7 +109,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Giờ nhận phải từ 08:00 đến 20:00",
+            error: "Giờ nhận phải từ 16:00 đến 20:00",
           });
           return;
         }
@@ -118,7 +118,7 @@ export const CheckoutComponent = (props) => {
           setState({
             ...state,
             deliveryTime: "",
-            error: "Giờ nhận phải từ 08:00 đến 20:00",
+            error: "Giờ nhận phải từ 18:00 đến 20:00",
           });
           return;
         }
